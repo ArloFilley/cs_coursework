@@ -7,6 +7,7 @@ const data = {
     quote_id: 0,
     wpm: 60,
     accuracy: 100,
+    user_id: 0
 }
 const xhr = new XMLHttpRequest();
 const button = document.getElementById("button");
