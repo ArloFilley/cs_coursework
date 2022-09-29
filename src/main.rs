@@ -1,5 +1,5 @@
 #[macro_use] extern crate rocket;
-use rocket::{Rocket, Build};
+use rocket::{Rocket, Build, fs::FileServer};
 
 #[get("/")]
 fn index() -> String {
@@ -10,4 +10,5 @@ fn index() -> String {
 fn rocket() -> Rocket<Build> {
     rocket::build()
     .mount("/", routes![index])
+    .mount("/", FileServer::from("/Users/arlo/Desktop/p5stuff/cs_coursework/website"))
 }
