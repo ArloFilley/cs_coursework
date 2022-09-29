@@ -7,7 +7,6 @@ fn test() -> String {
     format!("Hello world")
 }
 
-
 #[derive(Deserialize)]
 #[serde(crate = "rocket::serde")]
 struct PostTest<'r> {
@@ -34,7 +33,6 @@ fn post_test(test: Json<PostTest<'_>>) {
         test.accuracy, 
         test.user_id
     )
-
 }
 
 #[launch]
