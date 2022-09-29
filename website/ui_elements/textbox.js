@@ -13,7 +13,11 @@ class Textbox {
 
         this.letters = [];
         this.words = "";
-        this.allowedLetters = []
+        this.allowedLetters = [
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+            'l', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+            'x', 'y', 'z', 'enter', '\'', '"', ',', '.', ' '
+        ]
     }
 
     getX() {
@@ -105,18 +109,18 @@ class Textbox {
     }
 
     letterTyped(pKey) {
-        if (pkey == "backspace" && letters.length) {
-           letters.pop()
-           return
+        console.log(pKey);
+        if (pKey === "Backspace" && this.letters.length > 1) {
+           this.letters.pop();
+           return;
         }
- 
-       for (i in allowedLetters.length - 1) {
-           if (pkey == i) {
-               letters.push(pKey)
+        
+       for (let i = 0; i < this.allowedLetters.length; i++) {
+           if (pKey.toLowerCase() === this.allowedLetters[i]) {
+               this.letters.push(pKey);
                return;
             }    
         }
-
     }
 
     getWords() {
@@ -133,5 +137,27 @@ class Textbox {
 
     setAllowedLetters(pAllowedLetters) {
         this.allowedLetters = pAllowedLetters;
+    }
+
+    draw() {
+        // sets the default characteristics these should be replaced with attributes
+        color(0);
+        textSize(23);
+        textFont('monospace');
+        
+        // these variables allow me to use the values of x and y while updating them
+        let i = this.x;
+        let j = this.y;
+
+        // currently this loop just prints out every letter in the array, including any enter characters
+        for (let x = 0; x < this.letters.length; x++) {
+            if (i > this.x + this.width) i = this.x, j += 30;
+            if (this.letters[x] === "Enter") { 
+                i = this.x, j+= 30;
+            } else {
+                text(this.letters[x], i, j);
+                i += 13
+            }
+        }
     }
 }
