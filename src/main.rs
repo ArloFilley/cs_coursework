@@ -9,6 +9,6 @@ fn index() -> String {
 #[launch]
 fn rocket() -> Rocket<Build> {
     rocket::build()
-    .mount("/", routes![index])
+    // .mount("/", routes![index])
     .mount("/", FileServer::from(relative!("website")))
 }
