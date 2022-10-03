@@ -10,13 +10,13 @@ function setup() {
     frameRate(60);
 
     textbox = new Textbox(400, 200, 700);
-    timer = new Timer(100,100,100,100,0,true,0,false,0,0,30,true);
+    timer = new Timer(0, 0, 100, 100, 0, true, '#000', true, '#000','#F3C969', 30, true);
     timer.start();
 }
 
 // this function is called once per frame and draws all other elements
 function draw() {
-    background(255,100,100);
+    background(200);
     textbox.draw();
     timer.tick();
     timer.draw();

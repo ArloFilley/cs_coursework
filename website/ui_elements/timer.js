@@ -113,16 +113,24 @@ class Timer {
         this.backgroundColor = pBackgroundColor;
     }
 
-    // time is the amount of seconds that the test should take
+    /**
+     * gets the amount of time the timer will run for
+     */
     getTime() {
         return this.time;
     }
 
+    /**
+     * sets the amount of time the timer will run for
+     * @param {int} pTime 
+     */
     setTime(pTime) {
         this.time = pTime;
     }
 
-    // when the timer needs to be started this method is called
+    /**
+     * This method is called to start the timer
+     */
     start() {
         this.startTime = frameCount; 
         // framecount is a special p5 value that counts the number of frames that have passed
@@ -131,7 +139,10 @@ class Timer {
         this.timeElapsed = 0;
     }
 
-    // this function should be called once per frame
+    /**
+     * This method should be called once per frame
+     * it keeps track of the amount of time passed
+     */
     tick() {
         this.timeElapsed = frameCount - this.startTime;
         if (this.timeElapsed == this.time * 60) this.end();
@@ -139,8 +150,7 @@ class Timer {
 
     /**
      * this function is called at the end of the timer
-     * @returns
-    */
+     */
     end() {
         this.timeElapsed = 0;
         this.time = 0;
@@ -149,22 +159,33 @@ class Timer {
         // this will likely including changing the screen and interacting with the api
     }
 
-    // currently just displays the amount of time left in seconds, also draws the bar if option
-    // been enabled
     /**
      * Draws the timer, uses the attributes of the class as options
-     * @returns 
      */
     draw() {
+        // if the time shouldn't be rendered it quickly exits out of this method
         if (!this.visible) return;
 
-        if (this.bar) {
-            fill(100);
-            rect(0, 0, windowWidth, this.height);
+        // adds a border for the bar if one is needed
+        if (this.border && this.bar) {
+            strokeWeight(1);
+            stroke(this.borderColor); 
+            // this doesn't use the fill function like other drawings
+            // but this adds the necessary color to the border
+        } else {
+            noStroke();
         }
 
-        fill(0);
+        // draws a bar that move across the screen to show the time left
+        if (this.bar) {
+            fill(this.backgroundColor);
+            rect(this.y, this.x, windowWidth - windowWidth / (this.time * 60) * this.timeElapsed , this.height);
+        }
+
+        // draws the text in the corner of the screen
+        noStroke();
+        fill(this.textColor);
         let time = (this.time * 60 - this.timeElapsed) / 60
-        text(Math.round(time), this.x, this.y)
+        text(Math.ceil(time), this.x + this.width / 6, this.y + this.height / 2)
     }
 }
