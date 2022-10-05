@@ -1,6 +1,6 @@
 let canvas;
 let api;
-let textbox, timer;
+let textbox, timer, button;
 
 function setup() {
     // Creating the canvas
@@ -14,6 +14,7 @@ function setup() {
     timer = new Timer(0, 0, 100, 100, 0, true, '#000', true, '#000','#F3C969', 10, true);
     timer.start();
     api = new API();
+    button = new Button(300, 300, 100, 50, 0, true, '#fff', false, '#000', '#666', 'button');
 }
 
 // this function is called once per frame and draws all other elements
@@ -22,6 +23,8 @@ function draw() {
     textbox.draw();
     timer.tick();
     timer.draw();
+    button.draw(); 
+    button.isPressed();
 }
 
 

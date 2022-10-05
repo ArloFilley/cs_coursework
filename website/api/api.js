@@ -18,16 +18,16 @@ class API {
      * @param {int} accuracy 
      * @param {int} userId 
      */
-    postTest(testType, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId) {
+    postTest(pTestType, pTestLength, pTestTime, pTestSeed, pQuoteId, pWpm, pAccuracy, pUserId) {
         const data = {
-            'test_type': testType,
-            'test_length': testLength,
-            'test_time': testTime,
-            'test_seed': testSeed,
-            'quote_id': quoteId,
-            'wpm': wpm,
-            'accuracy': accuracy,
-            'user_id': userId
+            'test_type': pTestType,
+            'test_length': pTestLength,
+            'test_time': pTestTime,
+            'test_seed': pTestSeed,
+            'quote_id': pQuoteId,
+            'wpm': pWpm,
+            'accuracy': pAccuracy,
+            'user_id': pUserId
         }
 
         const xhr = new XMLHttpRequest();
