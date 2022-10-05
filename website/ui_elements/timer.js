@@ -152,9 +152,10 @@ class Timer {
      * this function is called at the end of the timer
      */
     end() {
+        this.visible = false;
+        api.validateTest();
         this.timeElapsed = 0;
         this.time = 0;
-        this.visible = false;
         // Then this function will call all other functions necessary to complete the test
         // this will likely including changing the screen and interacting with the api
     }

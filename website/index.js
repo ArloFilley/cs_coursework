@@ -1,4 +1,5 @@
 let canvas;
+let api;
 let textbox, timer;
 
 function setup() {
@@ -10,8 +11,9 @@ function setup() {
     frameRate(60);
 
     textbox = new Textbox(400, 200, 700);
-    timer = new Timer(0, 0, 100, 100, 0, true, '#000', true, '#000','#F3C969', 30, true);
+    timer = new Timer(0, 0, 100, 100, 0, true, '#000', true, '#000','#F3C969', 10, true);
     timer.start();
+    api = new API();
 }
 
 // this function is called once per frame and draws all other elements
