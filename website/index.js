@@ -1,6 +1,4 @@
-let canvas;
-let api;
-let textbox, timer, button;
+let canvas, api, screenManager;
 
 function setup() {
     // Creating the canvas
@@ -10,27 +8,20 @@ function setup() {
 
     frameRate(60);
 
-    textbox = new Textbox(400, 200, 700);
-    timer = new Timer(0, 0, 100, 100, 0, true, '#000', true, '#000','#F3C969', 10, true);
-    timer.start();
     api = new API();
-    button = new Button(300, 300, 100, 50, 0, true, '#fff', false, '#000', '#666', 'button');
+    screenManager = new ScreenManager();
 }
 
 // this function is called once per frame and draws all other elements
 function draw() {
     background(200);
-    textbox.draw();
-    timer.tick();
-    timer.draw();
-    button.draw(); 
-    button.isPressed();
+    screenManager.draw();
 }
 
 
 // whenever a key is pressed this function is called
 function keyPressed() {
-    textbox.letterTyped(key);
+    screenManager.textbox.letterTyped(key);
 }
 
 // This ensures that the canvas is always the correct size and at the center
