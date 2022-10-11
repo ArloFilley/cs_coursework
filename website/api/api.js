@@ -39,10 +39,10 @@ class API {
      * Validates all the parameters used for the postTest function which it then calls
      */
     validateTest() {
-        const test = textbox.getLetters();
+        const test = screenManager.textbox.getLetters();
         const testType = "words";
         let testLength = test.length;
-        let testTime = timer.getTime();
+        let testTime = screenManager.timer.getTime();
         const testSeed = 0;
         const quoteId = 0;
         let wpm;

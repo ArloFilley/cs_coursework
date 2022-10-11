@@ -109,8 +109,7 @@ class Textbox {
     }
 
     letterTyped(pKey) {
-        console.log(pKey);
-        if (pKey === "Enter" && screenManager.screen.constructor.name === "StartScreen") {
+        if (pKey === "Enter" && (screenManager.screen.constructor.name === "StartScreen" || screenManager.screen.constructor.name === "EndScreen")) {
             screenManager.setScreen(new TestScreen());
             return;
         }
@@ -146,12 +145,19 @@ class Textbox {
 
     draw() {
         // doesn't render the textbox if it should not be visible to the user.
-        if (this.visible === false) {
+        if (!this.visible) {
             return;
+        }
+
+        noStroke();
+        // sets a border if there should be one
+        if (this.border) {
+            stroke(this.borderColor);
+            strokeWeight(1);
         }
         
         // sets the parameters of what the text should look like;
-        color(this.textColor);
+        fill(this.textColor);
         textSize(23);
         textAlign(LEFT);
         // font needs to be monospaced for outputting text to the screen like I do
