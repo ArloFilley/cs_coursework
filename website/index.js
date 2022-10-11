@@ -10,11 +10,11 @@ function setup() {
 
     api = new API();
     screenManager = new ScreenManager();
+    screenManager.setScreen(new StartScreen());
 }
 
 // this function is called once per frame and draws all other elements
 function draw() {
-    background(200);
     screenManager.draw();
 }
 

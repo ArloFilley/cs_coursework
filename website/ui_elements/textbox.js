@@ -110,6 +110,11 @@ class Textbox {
 
     letterTyped(pKey) {
         console.log(pKey);
+        if (pKey === "Enter" && screenManager.screen.constructor.name === "StartScreen") {
+            screenManager.setScreen(new TestScreen());
+            return;
+        }
+
         if (pKey === "Backspace" && this.letters.length > 1) {
            this.letters.pop();
            return;
@@ -140,9 +145,16 @@ class Textbox {
     }
 
     draw() {
-        // sets the default characteristics these should be replaced with attributes
-        color(0);
+        // doesn't render the textbox if it should not be visible to the user.
+        if (this.visible === false) {
+            return;
+        }
+        
+        // sets the parameters of what the text should look like;
+        color(this.textColor);
         textSize(23);
+        textAlign(LEFT);
+        // font needs to be monospaced for outputting text to the screen like I do
         textFont('monospace');
         
         // these variables allow me to use the values of x and y while updating them

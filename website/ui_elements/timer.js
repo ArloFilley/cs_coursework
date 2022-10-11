@@ -166,6 +166,7 @@ class Timer {
     draw() {
         // if the time shouldn't be rendered it quickly exits out of this method
         if (!this.visible) return;
+        textAlign(LEFT);
 
         // adds a border for the bar if one is needed
         if (this.border && this.bar) {
