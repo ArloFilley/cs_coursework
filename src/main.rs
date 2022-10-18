@@ -5,6 +5,8 @@ pub mod sql;
 
 #[get("/")]
 fn test() -> String {
+    sql::delete_database()
+        .expect("couldn't delete database");
     sql::create_database()
         .expect(&format!("couldn't create database"));
     format!("Hello world")
@@ -14,6 +16,7 @@ fn test() -> String {
 #[serde(crate = "rocket::serde")]
 struct PostTest<'r> {
     test_type: &'r str,
+    test_words: &'r str,
     test_length: i64,
     test_time: i32,
     test_seed: i64,
@@ -26,8 +29,9 @@ struct PostTest<'r> {
 #[post("/post_test", data = "<test>")]
 fn post_test(test: Json<PostTest<'_>>) {
     println!(
-        "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}", 
+        "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}", 
         test.test_type, 
+        test.test_words,
         test.test_length, 
         test.test_time, 
         test.test_seed, 
@@ -36,7 +40,7 @@ fn post_test(test: Json<PostTest<'_>>) {
         test.accuracy, 
         test.user_id
     );
-    sql::post_test(test.test_type, test.test_length, test.test_time, test.test_seed, test.quote_id, test.wpm, test.accuracy, test.user_id)
+    sql::post_test(test.test_type, test.test_words, test.test_length, test.test_time, test.test_seed, test.quote_id, test.wpm, test.accuracy, test.user_id)
         .expect("error in posting test to tests table");
 }
 

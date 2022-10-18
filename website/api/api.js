@@ -18,9 +18,10 @@ class API {
      * @param {int} accuracy 
      * @param {int} userId 
      */
-    postTest(pTestType, pTestLength, pTestTime, pTestSeed, pQuoteId, pWpm, pAccuracy, pUserId) {
+    postTest(pTestType, pTestWords, pTestLength, pTestTime, pTestSeed, pQuoteId, pWpm, pAccuracy, pUserId) {
         const data = {
             'test_type': pTestType,
+            'test_words': pTestWords,
             'test_length': pTestLength,
             'test_time': pTestTime,
             'test_seed': pTestSeed,
@@ -53,6 +54,11 @@ class API {
         // it assumes that all words are 5 characters long because on average
         // they are
         wpm = Math.round((testLength / 5) * (60 / testTime));
+
+        let string = "";
+        for (let letter = 0; letter < test.length; letter++) {
+            string += test[letter];
+        }
 
         // the following code is a series of if statements that checks the
         // types of the variables is correct if not it errors it and returns
@@ -130,6 +136,6 @@ class API {
 
         // there will be other tests here in later iterations but for now these tests should suffice
 
-        this.postTest(testType, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
+        this.postTest(testType, string, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
     }
 }
