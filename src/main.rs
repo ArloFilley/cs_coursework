@@ -7,7 +7,7 @@ pub mod sql;
 fn test() -> String {
     sql::create_database()
         .expect(&format!("couldn't create database"));
-    format!("Hello world")
+    format!("Successfully created database")
 }
 
 #[derive(Deserialize)]
