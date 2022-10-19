@@ -1,4 +1,5 @@
 get();
+setInterval(get, 5000);
 function get() {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://127.0.0.1:8000/leaderboard');
@@ -11,12 +12,16 @@ function get() {
 }
 
 function createElements(pJson) {
+    let list = document.getElementById(`list`);
+    while (list.firstChild) {
+        list.removeChild(list.firstChild)
+    }
+
     console.log(pJson.length);
     for (let i = 0; i < pJson.length; i++) {
-        console.log(i);
         let li = document.createElement('LI');
-        let text = document.createTextNode(`${pJson[i].user_nickname} - ${pJson[i].wpm}`);
+        let text = document.createTextNode(`${pJson[i].user_nickname} | ${pJson[i].wpm} wpm`);
         li.appendChild(text);
-        document.getElementById(`list`).appendChild(li);
+        list.appendChild(li);
     }
 }

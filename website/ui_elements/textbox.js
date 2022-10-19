@@ -18,6 +18,9 @@ class Textbox {
             'l', 'm','n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
             'x', 'y', 'z', '\'', '"', ',', '.', ' '
         ]
+
+        this.testContent =
+        `never which however are where all part person can late high head turn man tell first stand begin thing real course here must set they a get through about school fact of stand late who any of find change very they present day each much must she would follow help go think so`
     }
 
     getX() {
@@ -110,7 +113,7 @@ class Textbox {
 
     letterTyped(pKey) {
         if (pKey === "Enter" && screenManager.screen.constructor.name === "StartScreen") {
-            if (screenManager.name === '') {
+            if (screenManager.textbox.getLetters().length === 0) {
                 alert(`please enter a name before starting the test`);
                 return;
             }
@@ -152,7 +155,7 @@ class Textbox {
         this.allowedLetters = pAllowedLetters;
     }
 
-    draw() {
+    draw(testcontent) {
         // doesn't render the textbox if it should not be visible to the user.
         if (!this.visible) {
             return;
@@ -176,15 +179,47 @@ class Textbox {
         let i = this.x;
         let j = this.y;
 
-        // currently this loop just prints out every letter in the array, including any enter characters
-        for (let x = 0; x < this.letters.length; x++) {
-            if (i > this.x + this.width) i = this.x, j += 30;
-            if (this.letters[x] === "Enter") { 
-                i = this.x, j+= 30;
-            } else {
-                text(this.letters[x], i, j);
-                i += 13
+        if (testcontent) {
+            // currently this loop just prints out every letter in the array, including any enter characters
+            for (let x = 0; x < this.testContent.length; x++) {
+                if (i > this.x + this.width) i = this.x, j += 30;
+                if (this.testContent[x] === "Enter") { 
+                    i = this.x, j+= 30;
+                } else {
+                    text(this.testContent[x], i, j);
+                    i += 13
+                }
+            }
+
+            i = this.x;
+            j = this.y;
+
+            // currently this loop just prints out every letter in the array, including any enter characters
+            for (let x = 0; x < this.letters.length; x++) {
+                if (i > this.x + this.width) i = this.x, j += 30;
+                if (this.letters[x] === "Enter") { 
+                    i = this.x, j+= 30;
+                } else {
+                    if (this.letters[x] == this.testContent[x]) {
+                        fill("green");
+                    } else {
+                        fill("red");
+                    }
+                    text(this.letters[x], i, j);
+                    i += 13
+                }
+            }
+        } else {
+            for (let x = 0; x < this.letters.length; x++) {
+                if (i > this.x + this.width) i = this.x, j += 30;
+                if (this.letters[x] === "Enter") { 
+                    i = this.x, j+= 30;
+                } else {
+                    text(this.letters[x], i, j);
+                    i += 13
+                }
             }
         }
+        
     }
 }

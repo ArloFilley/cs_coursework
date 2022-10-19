@@ -8,6 +8,6 @@ class StartScreen {
         textSize(50);
         textAlign(CENTER, CENTER);
         text("Type a nickname then\nPress enter to start a typing test", 0, 0, windowWidth, windowHeight / 2);
-        screenManager.textbox.draw();
+        screenManager.textbox.draw(false);
     }
 }
