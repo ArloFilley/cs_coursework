@@ -109,8 +109,17 @@ class Textbox {
     }
 
     letterTyped(pKey) {
-        if (pKey === "Enter" && (screenManager.screen.constructor.name === "StartScreen" || screenManager.screen.constructor.name === "EndScreen")) {
+        if (pKey === "Enter" && screenManager.screen.constructor.name === "StartScreen") {
+            if (screenManager.name === '') {
+                alert(`please enter a name before starting the test`);
+                return;
+            }
+            screenManager.name = screenManager.textbox.getLetters();
             screenManager.setScreen(new TestScreen());
+            return;
+        } else if (pKey === "Enter" && screenManager.screen.constructor.name === "EndScreen") {
+            screenManager.name = "";
+            screenManager.setScreen(new StartScreen());
             return;
         }
 

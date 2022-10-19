@@ -18,8 +18,9 @@ class API {
      * @param {int} accuracy 
      * @param {int} userId 
      */
-    postTest(pTestType, pTestWords, pTestLength, pTestTime, pTestSeed, pQuoteId, pWpm, pAccuracy, pUserId) {
+    postTest(pUserNickname, pTestType, pTestWords, pTestLength, pTestTime, pTestSeed, pQuoteId, pWpm, pAccuracy, pUserId) {
         const data = {
+            'user_nickname': pUserNickname,
             'test_type': pTestType,
             'test_words': pTestWords,
             'test_length': pTestLength,
@@ -49,6 +50,7 @@ class API {
         let wpm;
         const accuracy = 0;
         const userId = 0;
+        let name = screenManager.name;
 
         // this is the wpm calculation factoring in the time of test
         // it assumes that all words are 5 characters long because on average
@@ -58,6 +60,11 @@ class API {
         let string = "";
         for (let letter = 0; letter < test.length; letter++) {
             string += test[letter];
+        }
+
+        let stringName = "";
+        for (let letter = 0; letter < name.length; letter++) {
+            stringName += name[letter];
         }
 
         // the following code is a series of if statements that checks the
@@ -136,6 +143,6 @@ class API {
 
         // there will be other tests here in later iterations but for now these tests should suffice
 
-        this.postTest(testType, string, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
+        this.postTest(stringName, testType, string, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
     }
 }

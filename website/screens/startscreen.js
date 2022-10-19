@@ -1,12 +1,13 @@
 class StartScreen {
     constructor() {
-        screenManager.textbox = new Textbox(0,0,0,0,0,false,"#000", false, "#000", "#000");
+        screenManager.textbox = new Textbox(windowWidth / 3,windowHeight / 2, windowWidth / 3, windowHeight / 2,0, true,"#000", true, "#000", "#000");
     }
     
     draw() {
         background("#eeeee4");
-        textSize(100);
+        textSize(50);
         textAlign(CENTER, CENTER);
-        text("Press enter to start test", 0, 0, windowWidth - 100, windowHeight - 100);
+        text("Type a nickname then\nPress enter to start a typing test", 0, 0, windowWidth, windowHeight / 2);
+        screenManager.textbox.draw();
     }
 }
