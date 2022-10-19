@@ -9,7 +9,7 @@ log_level = "normal"
 temp_dir = "/tmp"
 cli_colors = true
 ## NOTE: Don't (!) use this key! Generate your own!
-secret_key = "123cgGonteBBetonSSeh"
+secret_key = "abcdefghijklmnop"
 
 [default.limits]
 form = "64 kB"
