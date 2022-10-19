@@ -1,7 +1,7 @@
 class API {
     
     constructor() {
-        this.url = "http://127.0.0.1:8000/api/";
+        this.url = "http://172.25.4.64:8000/api/";
         // this is the url of the server
         // this may have to change later on
     }
