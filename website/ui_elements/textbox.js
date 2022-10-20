@@ -170,7 +170,7 @@ class Textbox {
         
         // sets the parameters of what the text should look like;
         fill(this.textColor);
-        textSize(23);
+        textSize(30);
         textAlign(LEFT);
         // font needs to be monospaced for outputting text to the screen like I do
         textFont('monospace');
@@ -197,17 +197,14 @@ class Textbox {
             // currently this loop just prints out every letter in the array, including any enter characters
             for (let x = 0; x < this.letters.length; x++) {
                 if (i > this.x + this.width) i = this.x, j += 30;
-                if (this.letters[x] === "Enter") { 
-                    i = this.x, j+= 30;
-                } else {
-                    if (this.letters[x] == this.testContent[x]) {
-                        fill("green");
-                    } else {
-                        fill("red");
-                    }
+                if (this.letters[x] == this.testContent[x]) {
+                    fill("green");
                     text(this.letters[x], i, j);
-                    i += 13
+                } else {
+                    fill("red");
+                    text(this.testContent[x], i, j);
                 }
+                i += 15
             }
         } else {
             for (let x = 0; x < this.letters.length; x++) {
@@ -216,7 +213,7 @@ class Textbox {
                     i = this.x, j+= 30;
                 } else {
                     text(this.letters[x], i, j);
-                    i += 13
+                    i += 15
                 }
             }
         }
