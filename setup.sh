@@ -4,6 +4,7 @@ chmod 777 ./startserver.sh
 chmod 777 ./open_browsers.sh
 mkdir ./database
 touch ./database/database.sqlite
-xterm -e ./startserver.sh
-xterm -e ./open_browsers.sh
+./startserver.sh &
+./openbrowsers.sh &
+./testserver.sh &
 exit

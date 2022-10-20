@@ -11,10 +11,15 @@ pub mod tests;
 
 #[get("/")]
 fn test() -> String {
-    sql::delete_data()
-        .expect("couldn't delete database");
     sql::create_database()
         .expect(&format!("couldn't create database"));
+    format!("created database sucessfully")
+}
+
+#[get("/")]
+fn delete() -> String {
+    sql::delete_data()
+        .expect("couldn't delete database");
     format!("removed data sucessfully")
 }
 
@@ -63,6 +68,7 @@ fn post_test(test: Json<PostTest<'_>>) {
 fn rocket() -> Rocket<Build> {
     rocket::build()
     .mount("/test", routes![test]) // testing only, should return "Hello world"
+    .mount("/delete", routes![delete])
     .mount("/leaderboard", routes![leaderboard])
     .mount("/api", routes![post_test])
     .mount("/", FileServer::from(relative!("website"))) // hosts the fileserver
