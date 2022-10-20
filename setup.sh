@@ -4,6 +4,4 @@ source "$HOME/.cargo/env"
 mkdir ./database && touch ./database/database.sqlite
 chmod 777 ./openbrowsers.sh ./startserver.sh ./testserver.sh
 ./startserver.sh &
-./testserver.sh &
-./openbrowsers.sh &
 exit
