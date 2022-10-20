@@ -1,4 +1,3 @@
-sleep 20
+sleep 60
 curl "https://127.0.0.1:8000/test"
-sleep 1
-curl "https://127.0.0.1:8000/test"
+curl "https://127.0.0.1:8000/delete"
