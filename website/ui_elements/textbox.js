@@ -187,7 +187,7 @@ class Textbox {
                     i = this.x, j+= 30;
                 } else {
                     text(this.testContent[x], i, j);
-                    i += 13
+                    i += 15
                 }
             }
 
@@ -203,6 +203,10 @@ class Textbox {
                 } else {
                     fill("red");
                     text(this.testContent[x], i, j);
+                }
+                if (x == this.letters.length - 1 || this.letters.length == 0) {
+                    fill("black");
+                    rect(i+15, j-15, 2, 30);
                 }
                 i += 15
             }

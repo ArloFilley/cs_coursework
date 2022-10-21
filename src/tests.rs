@@ -4,5 +4,5 @@ use rocket::serde::Serialize;
 #[serde(crate = "rocket::serde")]
 pub struct Tests {
     pub user_nickname: String,
-    pub wpm: i16
+    pub wpm: i64
 }

@@ -18,8 +18,7 @@ fn test() -> String {
 
 #[get("/")]
 fn delete() -> String {
-    sql::delete_data()
-        .expect("couldn't delete database");
+    sql::delete_data().expect("couldn't delete database");
     format!("removed data sucessfully")
 }
 
@@ -28,6 +27,12 @@ fn leaderboard() -> Json<Vec<Tests>> {
     let hi = sql::get_tests()
         .expect("error getting tests");
     Json(hi)
+}
+
+#[get("/")]
+fn delete_cheater() -> String {
+    sql::delete_cheater_data().expect("error getting tests");
+    String::from("deleted cheaters")
 }
 
 #[derive(Deserialize)]
@@ -40,7 +45,7 @@ struct PostTest<'r> {
     test_time: i32,
     test_seed: i64,
     quote_id: i32,
-    wpm: i16,
+    wpm: i64,
     accuracy: i8,
     user_id: i32
 }
@@ -69,6 +74,7 @@ fn rocket() -> Rocket<Build> {
     rocket::build()
     .mount("/test", routes![test]) // testing only, should return "Hello world"
     .mount("/delete", routes![delete])
+    .mount("/delete_cheaters", routes![delete_cheater])
     .mount("/leaderboard", routes![leaderboard])
     .mount("/api", routes![post_test])
     .mount("/", FileServer::from(relative!("website"))) // hosts the fileserver

@@ -2,7 +2,7 @@ get();
 setInterval(get, 5000);
 function get() {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://172.25.25.191:8000/leaderboard');
+    xhr.open('GET', 'http://82.14.241.42:8000/leaderboard');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.responseType = 'json';
     xhr.send();

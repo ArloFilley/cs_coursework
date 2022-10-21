@@ -29,7 +29,7 @@ pub fn create_database() -> Result<()> {
     Ok(())
 }
 
-pub fn post_test(user_nickname: &str,test_type: &str, test_words: &str, test_length: i64, test_time: i32, test_seed: i64, quote_id: i32, wpm: i16, accuracy: i8, user_id: i32) 
+pub fn post_test(user_nickname: &str,test_type: &str, test_words: &str, test_length: i64, test_time: i32, test_seed: i64, quote_id: i32, wpm: i64, accuracy: i8, user_id: i32) 
 -> Result<()> {
     let connection = get_connection();
 
@@ -75,7 +75,7 @@ pub fn get_tests() -> Result<Vec<Tests>, rusqlite::Error> {
     let person_iter = stmt
         .query_map([], |row| {
             Ok(Tests { 
-                user_nickname: row.get(0)?, 
+            user_nickname: row.get(0)?, 
                 wpm: row.get(1)? 
             })
         })
@@ -88,3 +88,15 @@ pub fn get_tests() -> Result<Vec<Tests>, rusqlite::Error> {
 
     Ok(tests)
 }
+pub fn delete_cheater_data() -> Result<(), rusqlite::Error>{
+    get_connection().prepare(
+    "DELETE
+        FROM tests
+        WHERE wpm > 200",
+    )
+    .expect("Couldn't prepare sql delete statetment for errors")
+    .execute([])
+    .expect("couldn't execute sql delete statement");
+    Ok(())
+}
+

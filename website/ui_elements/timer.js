@@ -134,7 +134,7 @@ class Timer {
     start() {
         this.startTime = frameCount; 
         // framecount is a special p5 value that counts the number of frames that have passed
-        // I am using the amount of frames passed to calculate the time, assuming that the website is running at 60q frames
+        // I am using the amount of frames passed to calculate the time, assuming that the website is running at 30q frames
         // per second
         this.timeElapsed = 0;
     }

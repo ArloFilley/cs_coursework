@@ -7,7 +7,12 @@ class StartScreen {
         background("#eeeee4");
         textSize(50);
         textAlign(CENTER, CENTER);
-        text("Type a nickname then\nPress enter to start a typing test", 0, 0, windowWidth, windowHeight / 2);
+        noStroke();
+        fill("#be4d25");
+        text("See how fast you are at typing",0, 0, windowWidth, 200);
+        textSize(30);
+        fill("black");
+        text("Type a nickname then\nPress enter to start the typing test", 0, 0, windowWidth, windowHeight / 2);
         screenManager.textbox.draw(false);
     }
 }
