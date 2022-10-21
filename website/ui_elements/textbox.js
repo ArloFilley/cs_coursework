@@ -126,7 +126,7 @@ class Textbox {
             return;
         }
 
-        if (pKey === "Backspace" && this.letters.length > 1) {
+        if (pKey === "Backspace" && this.letters.length >= 1) {
            this.letters.pop();
            return;
         }
