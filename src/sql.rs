@@ -1,13 +1,13 @@
 use rusqlite::{Connection, Result};
 use crate::tests::Tests;
 
-fn get_connection() -> rusqlite::Connection {
-    Connection::open("database/database.sqlite")
-        .expect("Error creating database connection")
+fn get_connection() -> Result<rusqlite::Connection, rusqlite::Error> {
+    let connection = Connection::open("database/database.sqlite")?;
+    Ok(connection)
 }
 
 pub fn create_database() -> Result<()> {
-    let connection = get_connection();
+    let connection = get_connection()?;
     
     connection.execute(
         "CREATE TABLE IF NOT EXISTS tests (
@@ -31,7 +31,7 @@ pub fn create_database() -> Result<()> {
 
 pub fn post_test(user_nickname: &str,test_type: &str, test_words: &str, test_length: i64, test_time: i32, test_seed: i64, quote_id: i32, wpm: i64, accuracy: i8, user_id: i32) 
 -> Result<()> {
-    let connection = get_connection();
+    let connection = get_connection()?;
 
     connection.execute(
         "INSERT INTO tests (
@@ -55,18 +55,16 @@ pub fn post_test(user_nickname: &str,test_type: &str, test_words: &str, test_len
 }
 
 pub fn delete_data() -> Result<()> {
-    get_connection().prepare(
+    get_connection()?.prepare(
          "DELETE 
          FROM tests",
-     )
-     .expect("Couldn't prepare sql delete statetment for errors")
-     .execute([])
-     .expect("couldn't execute sql delete statement");
+     )?
+     .execute([])?;
      Ok(())
 }
 
 pub fn get_tests() -> Result<Vec<Tests>, rusqlite::Error> {
-    let connection = get_connection();
+    let connection = get_connection()?;
     let mut stmt = connection.prepare(
         "SELECT user_nickname, wpm
         FROM tests
@@ -78,25 +76,22 @@ pub fn get_tests() -> Result<Vec<Tests>, rusqlite::Error> {
             user_nickname: row.get(0)?, 
                 wpm: row.get(1)? 
             })
-        })
-        .expect("error selecting data");
+        })?;
 
     let mut tests: Vec<Tests> = vec![];
     for test in person_iter {
-        tests.push(test.unwrap());
+        tests.push(test?);
     }
 
     Ok(tests)
 }
 pub fn delete_cheater_data() -> Result<(), rusqlite::Error>{
-    get_connection().prepare(
+    get_connection()?.prepare(
     "DELETE
         FROM tests
         WHERE wpm > 200",
-    )
-    .expect("Couldn't prepare sql delete statetment for errors")
-    .execute([])
-    .expect("couldn't execute sql delete statement");
+    )?
+    .execute([])?;
     Ok(())
 }
 

@@ -51,16 +51,20 @@ class API {
         const accuracy = 0;
         const userId = 0;
         let name = screenManager.name;
+        let test_content = screenManager.textbox.testContent;
 
         // this is the wpm calculation factoring in the time of test
         // it assumes that all words are 5 characters long because on average
         // they are
-        wpm = Math.round((testLength / 5) * (60 / testTime));
 
         let string = "";
         for (let letter = 0; letter < test.length; letter++) {
-            string += test[letter];
+            if (test[letter] == test_content[letter]) {
+                string += test[letter];
+            }
         }
+
+        wpm = Math.round((string.length / 5) * (60 / testTime));
 
         let stringName = "";
         for (let letter = 0; letter < name.length; letter++) {

@@ -11,9 +11,8 @@ pub mod tests;
 
 #[get("/")]
 fn test() -> String {
-    sql::create_database()
-        .expect(&format!("couldn't create database"));
-    format!("created database sucessfully")
+    sql::create_database().expect("error creating database");
+    String::from("created database sucessfully")
 }
 
 #[get("/")]
@@ -24,10 +23,10 @@ fn delete() -> String {
 
 #[get("/")]
 fn leaderboard() -> Json<Vec<Tests>> {
-    let hi = sql::get_tests()
-        .expect("error getting tests");
+    let hi = sql::get_tests().expect("error getting tests");
     Json(hi)
 }
+
 
 #[get("/")]
 fn delete_cheater() -> String {
@@ -73,7 +72,7 @@ fn post_test(test: Json<PostTest<'_>>) {
 fn rocket() -> Rocket<Build> {
     rocket::build()
     .mount("/test", routes![test]) // testing only, should return "Hello world"
-    .mount("/delete", routes![delete])
+    // .mount("/delete", routes![delete])
     .mount("/delete_cheaters", routes![delete_cheater])
     .mount("/leaderboard", routes![leaderboard])
     .mount("/api", routes![post_test])
