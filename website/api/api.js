@@ -18,11 +18,10 @@ class API {
      * @param {int} accuracy 
      * @param {int} userId 
      */
-    postTest(pUserNickname, pTestType, pTestWords, pTestLength, pTestTime, pTestSeed, pQuoteId, pWpm, pAccuracy, pUserId) {
+    postTest(pUserNickname, pTestType, pTestLength, pTestTime, pTestSeed, pQuoteId, pWpm, pAccuracy, pUserId) {
         const data = {
             'user_nickname': pUserNickname,
             'test_type': pTestType,
-            'test_words': pTestWords,
             'test_length': pTestLength,
             'test_time': pTestTime,
             'test_seed': pTestSeed,
@@ -147,6 +146,6 @@ class API {
 
         // there will be other tests here in later iterations but for now these tests should suffice
 
-        this.postTest(stringName, testType, string, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
+        this.postTest(stringName, testType, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
     }
 }

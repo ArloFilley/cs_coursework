@@ -14,7 +14,6 @@ pub fn create_database() -> Result<()> {
             test_id INTEGER PRIMARY KEY,
             user_nickname TEXT NOT NULL,
             test_type TEXT NOT NULL,
-            test_words TEXT,
             test_length INTEGER,
             test_time INTEGER,
             test_seed INTEGER,
@@ -29,7 +28,7 @@ pub fn create_database() -> Result<()> {
     Ok(())
 }
 
-pub fn post_test(user_nickname: &str,test_type: &str, test_words: &str, test_length: i64, test_time: i32, test_seed: i64, quote_id: i32, wpm: i64, accuracy: i8, user_id: i32) 
+pub fn post_test(user_nickname: &str,test_type: &str, test_length: u64, test_time: u32, test_seed: i64, quote_id: i32, wpm: u8, accuracy: u8, user_id: u32) 
 -> Result<()> {
     let connection = get_connection()?;
 
@@ -37,7 +36,6 @@ pub fn post_test(user_nickname: &str,test_type: &str, test_words: &str, test_len
         "INSERT INTO tests (
         user_nickname,
         test_type,
-        test_words,
         test_length,
         test_time,
         test_seed,
@@ -47,8 +45,8 @@ pub fn post_test(user_nickname: &str,test_type: &str, test_words: &str, test_len
         user_id
         )
         VALUES
-        (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)
-        ", (user_nickname, test_type, test_words, test_length, test_time, test_seed, quote_id,
+        (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?8]9)
+        ", (user_nickname, test_type, test_length, test_time, test_seed, quote_id,
             wpm, accuracy,user_id))?;
 
     Ok(())
@@ -85,6 +83,7 @@ pub fn get_tests() -> Result<Vec<Tests>, rusqlite::Error> {
 
     Ok(tests)
 }
+
 pub fn delete_cheater_data() -> Result<(), rusqlite::Error>{
     get_connection()?.prepare(
     "DELETE

@@ -3,8 +3,8 @@
 use rocket::{
     Rocket, Build, 
     fs::{FileServer, relative}, 
-    serde::{Deserialize, json::Json
-}};
+    serde::{Deserialize, json::Json}
+};
 use tests::Tests;
 pub mod sql;
 pub mod tests;
@@ -23,8 +23,8 @@ fn delete() -> String {
 
 #[get("/")]
 fn leaderboard() -> Json<Vec<Tests>> {
-    let hi = sql::get_tests().expect("error getting tests");
-    Json(hi)
+    let response = sql::get_tests().expect("error getting tests");
+    Json(response)
 }
 
 
@@ -39,23 +39,21 @@ fn delete_cheater() -> String {
 struct PostTest<'r> {
     user_nickname: &'r str,
     test_type: &'r str,
-    test_words: &'r str,
-    test_length: i64,
-    test_time: i32,
+    test_length: u64,
+    test_time: u32,
     test_seed: i64,
     quote_id: i32,
-    wpm: i64,
-    accuracy: i8,
-    user_id: i32
+    wpm: u8,
+    accuracy: u8,
+    user_id: u32
 }
 
 #[post("/post_test", data = "<test>")]
 fn post_test(test: Json<PostTest<'_>>) {
     println!(
-        "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}", 
+        "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}", 
         test.user_nickname,
         test.test_type, 
-        test.test_words,
         test.test_length, 
         test.test_time, 
         test.test_seed, 
@@ -64,7 +62,7 @@ fn post_test(test: Json<PostTest<'_>>) {
         test.accuracy, 
         test.user_id
     );
-    sql::post_test(test.user_nickname, test.test_type, test.test_words, test.test_length, test.test_time, test.test_seed, test.quote_id, test.wpm, test.accuracy, test.user_id)
+    sql::post_test(test.user_nickname, test.test_type, test.test_length, test.test_time, test.test_seed, test.quote_id, test.wpm, test.accuracy, test.user_id)
         .expect("error in posting test to tests table");
 }
 
