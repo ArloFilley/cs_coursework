@@ -14,13 +14,13 @@ fn test() -> String {
 #[serde(crate = "rocket::serde")]
 struct PostTest<'r> {
     test_type: &'r str,
-    test_length: i64,
-    test_time: i32,
+    test_length: u32,
+    test_time: u32,
     test_seed: i64,
     quote_id: i32,
-    wpm: i16,
-    accuracy: i8,
-    user_id: i32
+    wpm: u8,
+    accuracy: u8,
+    user_id: u32
 }
 
 #[post("/post_test", data = "<test>")]
