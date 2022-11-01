@@ -3,6 +3,7 @@ class ScreenManager {
         this.textbox;
         this.timer;
         this.screen;
+        this.loginButton;
     }
 
     draw() {

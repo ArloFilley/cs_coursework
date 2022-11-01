@@ -16,7 +16,7 @@ class Textbox {
         this.allowedLetters = [
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
             'l', 'm','n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-            'x', 'y', 'z', '\'', '"', ',', '.', ' '
+            'x', 'y', 'z', '\'', '"', ',', '.', ' ', '|'
         ]
 
         this.testContent = `unknown column user_id in foreign key definition`;
@@ -117,14 +117,16 @@ class Textbox {
             return;
         }
 
-        if (pKey === "Backspace" && this.letters.length > 1) {
+        if (pKey === "Backspace" && this.letters.length > 0) {
            this.letters.pop();
+           this.words.substring(0, this.words.length-1);
            return;
         }
         
        for (let i = 0; i < this.allowedLetters.length; i++) {
            if (pKey.toLowerCase() === this.allowedLetters[i]) {
                this.letters.push(pKey);
+               this.words += pKey;
                return;
             }    
         }
@@ -160,7 +162,7 @@ class Textbox {
         }
         
         // sets the parameters of what the text should look like;
-        fill("#000");
+        fill(this.textColor);
         textSize(23);
         textAlign(LEFT);
         // font needs to be monospaced for outputting text to the screen like I do
@@ -196,6 +198,7 @@ class Textbox {
                     i += 13
                 }
             }
+            console.log("hi");
         }
 
     }

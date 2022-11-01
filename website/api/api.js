@@ -132,4 +132,15 @@ class API {
 
         this.postTest(testType, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
     }
+
+    login() {
+        let text = screenManager.textbox.getWords().split("|");
+        let username = text[0];
+        let password = text[2];
+        this.getUserId(username, password);
+    }
+
+    getUserId(pUsername, pPassword) {
+
+    }
 }

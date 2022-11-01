@@ -129,7 +129,6 @@ class Button {
 
         // if the mouse is within the bounds of the return that the button has been pressed
         if (mouseX > this.x && mouseX < this.x + this.width && mouseY > this.y && mouseY < this.y + this.height) {
-            console.log("button has been pressed");
             return true;
         }
         return false;
