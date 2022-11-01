@@ -137,7 +137,7 @@ class API {
         let text = screenManager.textbox.getWords().split("|");
         let username = text[0];
         let password = text[2];
-        this.getUserId(username, password);
+        this.getUserId(username,password)
     }
 
     getUserId(pUsername, pPassword) {
