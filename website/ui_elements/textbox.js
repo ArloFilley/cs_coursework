@@ -18,6 +18,8 @@ class Textbox {
             'l', 'm','n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
             'x', 'y', 'z', '\'', '"', ',', '.', ' '
         ]
+
+        this.testContent = `unknown column user_id in foreign key definition`;
     }
 
     getX() {
@@ -109,6 +111,7 @@ class Textbox {
     }
 
     letterTyped(pKey) {
+        console.log(pKey);
         if (pKey === "Enter" && (screenManager.screen.constructor.name === "StartScreen" || screenManager.screen.constructor.name === "EndScreen")) {
             screenManager.setScreen(new TestScreen());
             return;
@@ -157,25 +160,43 @@ class Textbox {
         }
         
         // sets the parameters of what the text should look like;
-        fill(this.textColor);
+        fill("#000");
         textSize(23);
         textAlign(LEFT);
         // font needs to be monospaced for outputting text to the screen like I do
         textFont('monospace');
         
-        // these variables allow me to use the values of x and y while updating them
-        let i = this.x;
-        let j = this.y;
+        if (this.testContent != '') {
+            // these variables allow me to use the values of x and y while updating them
+            let i = this.x;
+            let j = this.y;
 
-        // currently this loop just prints out every letter in the array, including any enter characters
-        for (let x = 0; x < this.letters.length; x++) {
-            if (i > this.x + this.width) i = this.x, j += 30;
-            if (this.letters[x] === "Enter") { 
-                i = this.x, j+= 30;
-            } else {
-                text(this.letters[x], i, j);
-                i += 13
+            // currently this loop just prints out every letter in the array, including any enter characters
+            for (let x = 0; x < this.letters.length; x++) {
+                if (i > this.x + this.width) i = this.x, j += 30;
+                if (this.letters[x] === "Enter") { 
+                    i = this.x, j+= 30;
+                } else {
+                    text(this.letters[x], i, j);
+                    i += 13
+                }
+            }
+        } else {
+            // these variables allow me to use the values of x and y while updating them
+            let i = this.x;
+            let j = this.y;
+
+            // currently this loop just prints out every letter in the array, including any enter characters
+            for (let x = 0; x < this.letters.length; x++) {
+                if (i > this.x + this.width) i = this.x, j += 30;
+                if (this.letters[x] === "Enter") { 
+                    i = this.x, j+= 30;
+                } else {
+                    text(this.letters[x], i, j);
+                    i += 13
+                }
             }
         }
+
     }
 }
