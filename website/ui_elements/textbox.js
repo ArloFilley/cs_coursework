@@ -111,7 +111,6 @@ class Textbox {
     }
 
     letterTyped(pKey) {
-        console.log(pKey);
         if (pKey === "Enter" && (screenManager.screen.constructor.name === "StartScreen" || screenManager.screen.constructor.name === "EndScreen")) {
             screenManager.setScreen(new TestScreen());
             return;

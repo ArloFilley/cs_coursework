@@ -136,11 +136,16 @@ class API {
     login() {
         let text = screenManager.textbox.getWords().split("|");
         let username = text[0];
-        let password = text[2];
+        let password = text[1];
         this.getUserId(username,password)
     }
 
     getUserId(pUsername, pPassword) {
-
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `http://127.0.0.1:8000/login/${pUsername}/${pPassword}`);
+        xhr.send();
+        xhr.onload = () => {
+            console.log(xhr.response);
+        };
     }
 }

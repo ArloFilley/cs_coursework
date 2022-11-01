@@ -7,7 +7,15 @@ pub mod sql;
 fn test() -> String {
     sql::create_database()
         .expect("couldn't create database");
+    sql::create_user()
+        .expect("couldn't create database");
     String::from("Successfully created database")
+}
+
+#[get("/<username>/<password>")]
+fn login(username: &str, password: &str) -> String {
+    println!("{} | {}", username, password);
+    String::from("Hi There")
 }
 
 #[derive(Deserialize)]
@@ -44,6 +52,7 @@ fn post_test(test: Json<PostTest<'_>>) {
 fn rocket() -> Rocket<Build> {
     rocket::build()
     .mount("/test", routes![test]) // testing only, should return "Hello world"
+    .mount("/login", routes![login])
     .mount("/api", routes![post_test])
     .mount("/", FileServer::from(relative!("website"))) // hosts the fileserver
 }

@@ -56,3 +56,22 @@ pub fn post_test(test_type: &str, test_length: i64, test_time: i32, test_seed: i
 
     Ok(())
 }
+
+pub fn create_user() -> Result<(), rusqlite::Error> {
+    let connection = get_connection().expect("error");
+
+    connection.execute(
+        "INSERT INTO users (
+        user_name,
+        user_password
+        )
+        VALUES
+        (?1, ?2)
+        ", (&"arlo", &"filley"))?;
+
+    Ok(())
+}
+
+pub fn get_user_id() -> Result<u32, rusqlite::Error> {
+    
+}
