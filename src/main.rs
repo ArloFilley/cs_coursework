@@ -1,6 +1,6 @@
 // relevant macros and imports for rocket.rs
 #[macro_use] extern crate rocket;
-use rocket::{Rocket, Build, fs::{FileServer, relative}, serde::{Deserialize, json::Json}};
+use rocket::{Rocket, Build, fs::{FileServer, relative}, serde::{Deserialize, json::Json}, Error, Response};
 pub mod sql;
 
 #[get("/")]
@@ -25,17 +25,6 @@ struct PostTest<'r> {
 
 #[post("/post_test", data = "<test>")]
 fn post_test(test: Json<PostTest<'_>>) {
-    println!(
-        "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}", 
-        test.test_type, 
-        test.test_length, 
-        test.test_time, 
-        test.test_seed, 
-        test.quote_id, 
-        test.wpm, 
-        test.accuracy, 
-        test.user_id
-    );
     sql::post_test(test.test_type, test.test_length, test.test_time, test.test_seed, test.quote_id, test.wpm, test.accuracy, test.user_id)
         .expect("error in posting test to tests table");
 }
