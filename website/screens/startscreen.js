@@ -1,6 +1,6 @@
 class StartScreen {
     constructor() {
-        screenManager.textbox = new Textbox(100,100,400,400,0,true,"#000", false, "#000", "#000");
+        screenManager.textbox = new Textbox(100,100,400,400,0,true,"#000", false, "#000", "#000", false);
         screenManager.loginButton = new Button(0,0,70,30,0,true,"#fff", false, "#000", "#000", "Login");
         screenManager.signupButton = new Button(75,0,85,30,0,true,"#fff", false, "#000", "#000", "signup");
         screenManager.profileButton = new Button(165,0,100,30,0,true,"#fff", false, "#000", "#000", "profile");

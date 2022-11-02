@@ -1,7 +1,7 @@
 class SignupScreen { 
     constructor() {
-        screenManager.textbox = new Textbox(100,400,400,200,0,true,"#000", false, "#000", "#000");
-        screenManager.textbox2 = new Textbox(100,600,400,400,0,true,"#000", false, "#000", "#000");
+        screenManager.textbox = new Textbox(100,400,400,200,0,true,"#000", false, "#000", "#000", false);
+        screenManager.textbox2 = new Textbox(100,600,400,400,0,true,"#000", false, "#000", "#000", false);
         screenManager.loginButton = new Button(windowWidth-70,0,70,30,0,true,"#fff", false, "#000", "#000", "SignUp");
         this.pressedLast = 0;
         this.buttons = [
