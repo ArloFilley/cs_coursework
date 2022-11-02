@@ -15,7 +15,8 @@ fn test() -> String {
 #[get("/<username>/<password>")]
 fn login(username: &str, password: &str) -> String {
     println!("{} | {}", username, password);
-    String::from("Hi There")
+    let user_id = sql::get_user_id(username, password).expect("error finding user_id");
+    user_id.to_string()
 }
 
 #[derive(Deserialize)]

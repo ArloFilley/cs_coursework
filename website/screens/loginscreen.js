@@ -16,6 +16,7 @@ class LoginScreen {
         screenManager.loginButton.draw();
         if (screenManager.loginButton.isPressed()) {
             api.login();
+            screenManager.setScreen(new StartScreen());
         }
     }
 }

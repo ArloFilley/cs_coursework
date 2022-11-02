@@ -1,5 +1,10 @@
 use rusqlite::{Connection, Result};
 
+#[derive(Debug)]
+pub struct User {
+    user_id: u32,
+}
+
 fn get_connection() -> Result<rusqlite::Connection, rusqlite::Connection> {
     let conn = Connection::open("database/database.sqlite")
         .expect("error getting database connection");
@@ -67,11 +72,31 @@ pub fn create_user() -> Result<(), rusqlite::Error> {
         )
         VALUES
         (?1, ?2)
-        ", (&"arlo", &"filley"))?;
+        ", (&"hello", &"world"))?;
 
     Ok(())
 }
 
-pub fn get_user_id() -> Result<u32, rusqlite::Error> {
-    
+pub fn get_user_id(user_name: &str, user_password: &str) -> Result<u32, rusqlite::Error> {
+    let connection = get_connection().expect("error getting connection");
+    let mut stmt = connection.prepare(
+        "SELECT user_id
+        FROM users
+        WHERE user_name=:user_name AND user_password=:user_password",
+    )?;
+
+    let mut user_id: u32 = 0;
+
+    let person_iter = stmt
+        .query_map(&[(":user_name", user_name), (":user_password", user_password)], |row| {
+            Ok( User {
+                user_id: row.get(0)?,
+            })
+        })?;
+
+    for user in person_iter {
+        user_id = user.unwrap().user_id;
+    }
+
+    Ok(user_id)
 }

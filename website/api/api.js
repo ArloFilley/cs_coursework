@@ -4,6 +4,7 @@ class API {
         this.url = "http://127.0.0.1:8000/api/";
         // this is the url of the server
         // this may have to change later on
+        this.userId = 0;
     }
 
     /**
@@ -47,7 +48,7 @@ class API {
         const quoteId = 0;
         let wpm;
         const accuracy = 0;
-        const userId = 0;
+        const userId = this.userId;
 
         // this is the wpm calculation factoring in the time of test
         // it assumes that all words are 5 characters long because on average
@@ -145,7 +146,8 @@ class API {
         xhr.open('GET', `http://127.0.0.1:8000/login/${pUsername}/${pPassword}`);
         xhr.send();
         xhr.onload = () => {
-            console.log(xhr.response);
+            this.userId = Number(xhr.response);
+            console.log(this.userId);
         };
     }
 }
