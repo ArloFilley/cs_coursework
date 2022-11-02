@@ -1,5 +1,5 @@
 class Textbox {
-    constructor(pX, pY, pWidth, pHeight, pLayer, pVisible, pTextColor, pBorder, pBorderColor, pBackgroundColor) {
+    constructor(pX, pY, pWidth, pHeight, pLayer, pVisible, pTextColor, pBorder, pBorderColor, pBackgroundColor, pIsTest) {
         this.x = pX;
         this.y = pY;
         this.width = pWidth;
@@ -19,6 +19,7 @@ class Textbox {
             'x', 'y', 'z', '\'', '"', ',', '.', ' ', '|'
         ]
 
+        this.isTest = pIsTest;
         this.testContent = `unknown column user_id in foreign key definition`;
     }
 
@@ -111,14 +112,17 @@ class Textbox {
     }
 
     letterTyped(pKey) {
-        if (pKey === "Enter" && (screenManager.screen.constructor.name === "StartScreen" || screenManager.screen.constructor.name === "EndScreen")) {
-            screenManager.setScreen(new TestScreen());
-            return;
+        if (pKey === "Enter") {
+            if (screenManager.screen.constructor.name === "StartScreen") {
+                screenManager.setScreen(new TestScreen());
+            } else if (screenManager.screen.constructor.name === "EndScreen") {
+                screenManager.setScreen(new StartScreen());
+            }
         }
 
         if (pKey === "Backspace" && this.letters.length > 0) {
            this.letters.pop();
-           this.words.substring(0, this.words.length-1);
+           this.words = this.words.substring(0, this.words.length-1);
            return;
         }
         
@@ -197,7 +201,6 @@ class Textbox {
                     i += 13
                 }
             }
-            console.log("hi");
         }
 
     }

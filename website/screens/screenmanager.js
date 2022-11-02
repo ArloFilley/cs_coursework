@@ -1,9 +1,12 @@
 class ScreenManager {
     constructor() {
         this.textbox;
+        this.textbox2;
         this.timer;
         this.screen;
         this.loginButton;
+        this.signupButton;
+        this.profileButton;
     }
 
     draw() {
@@ -16,5 +19,9 @@ class ScreenManager {
 
     getScreen() {
         return this.screen;
+    }
+    
+    letterTyped(key) {
+        this.screen.letterTyped(key);
     }
 }

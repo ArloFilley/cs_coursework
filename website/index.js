@@ -21,7 +21,7 @@ function draw() {
 
 // whenever a key is pressed this function is called
 function keyPressed() {
-    screenManager.textbox.letterTyped(key);
+    screenManager.letterTyped(key);
 }
 
 // This ensures that the canvas is always the correct size and at the center

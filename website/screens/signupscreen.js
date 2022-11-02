@@ -1,8 +1,8 @@
-class LoginScreen { 
+class SignupScreen { 
     constructor() {
         screenManager.textbox = new Textbox(100,400,400,200,0,true,"#000", false, "#000", "#000");
         screenManager.textbox2 = new Textbox(100,600,400,400,0,true,"#000", false, "#000", "#000");
-        screenManager.loginButton = new Button(windowWidth-70,0,70,30,0,true,"#fff", false, "#000", "#000", "Login");
+        screenManager.loginButton = new Button(windowWidth-70,0,70,30,0,true,"#fff", false, "#000", "#000", "SignUp");
         this.pressedLast = 0;
         this.buttons = [
             new Button(80,350,400,100,0,true,"#000", false, "#fff", "#fff", ""), 
@@ -15,18 +15,18 @@ class LoginScreen {
         textSize(100);
         textAlign(CENTER, CENTER);
         fill("#000")
-        text("Login Screen", 0, 0, windowWidth - 600, windowHeight/5);
+        text("Signup Screen", 0, 0, windowWidth - 600, windowHeight/5);
         textSize(20);
         text("Please Enter Your Username And Password", 0, 150, windowWidth-600, windowHeight-700)
+        screenManager.loginButton.draw();
         this.buttons[0].draw();
         this.buttons[1].draw();
         text("Username", 150, 325);
         text("Password", 150, 525);
         screenManager.textbox.draw();
         screenManager.textbox2.draw();
-        screenManager.loginButton.draw();
         if (screenManager.loginButton.isPressed()) {
-            api.login();
+            api.signup();
             screenManager.setScreen(new StartScreen());
         } else if (this.buttons[0].isPressed()) {
             this.pressedLast = 0;

@@ -138,6 +138,7 @@ class Button {
      * This function draws the button with the label
      */
     draw() {
+        textSize(20);
         fill(this.backgroundColor);
         rect(this.x, this.y, this.width, this.height);
 

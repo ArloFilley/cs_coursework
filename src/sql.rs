@@ -1,8 +1,16 @@
+use rocket::serde::Serialize;
 use rusqlite::{Connection, Result};
 
 #[derive(Debug)]
 pub struct User {
     user_id: u32,
+}
+
+#[derive(Debug)]
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct Test {
+    wpm: u8,
 }
 
 fn get_connection() -> Result<rusqlite::Connection, rusqlite::Connection> {
@@ -62,7 +70,7 @@ pub fn post_test(test_type: &str, test_length: i64, test_time: i32, test_seed: i
     Ok(())
 }
 
-pub fn create_user() -> Result<(), rusqlite::Error> {
+pub fn create_user(user_name: &str, password: &str) -> Result<(), rusqlite::Error> {
     let connection = get_connection().expect("error");
 
     connection.execute(
@@ -72,7 +80,7 @@ pub fn create_user() -> Result<(), rusqlite::Error> {
         )
         VALUES
         (?1, ?2)
-        ", (&"hello", &"world"))?;
+        ", (user_name, password))?;
 
     Ok(())
 }
@@ -99,4 +107,29 @@ pub fn get_user_id(user_name: &str, user_password: &str) -> Result<u32, rusqlite
     }
 
     Ok(user_id)
+}
+
+pub fn get_user_tests(_user_id: u32) -> Result<Vec<Test>, rusqlite::Error> {
+    let connection = get_connection().expect("error getting connection");
+    let mut stmt = connection.prepare(
+        "SELECT wpm
+        FROM tests
+        WHERE user_id=:user_id",
+    )?;
+
+    let mut user_id: u32 = 0;
+
+    let test_iter = stmt
+        .query_map(&[(":user_id", &_user_id.to_string())], |row| {
+            Ok( Test {
+                wpm: row.get(0)?,
+            })
+        })?;
+
+    let mut tests: Vec<Test> = vec![];
+    for test in test_iter {
+        tests.push(test.unwrap());
+    }
+
+    Ok(tests)
 }

@@ -135,19 +135,43 @@ class API {
     }
 
     login() {
-        let text = screenManager.textbox.getWords().split("|");
-        let username = text[0];
-        let password = text[1];
+        let username = screenManager.textbox.getWords();
+        let password = screenManager.textbox2.getWords();
+        
         this.getUserId(username,password)
     }
 
     getUserId(pUsername, pPassword) {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `http://127.0.0.1:8000/login/${pUsername}/${pPassword}`);
+        xhr.open('GET', `${this.url}/login/${pUsername}/${pPassword}`);
         xhr.send();
         xhr.onload = () => {
             this.userId = Number(xhr.response);
             console.log(this.userId);
+        };
+    }
+
+    signup() {
+        let username = screenManager.textbox.getWords();
+        let password = screenManager.textbox2.getWords();
+
+        const data = {
+            'user_name': username,
+            'password': password
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", this.url+"user_signup");
+        xhr.send(JSON.stringify(data));
+    }
+
+    getUserTests() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${this.url}/get_user_tests/${this.userId}`);
+        xhr.send();
+        let res;
+        xhr.onload = () => {
+            screenManager.screen.tests = JSON.parse(xhr.response);
         };
     }
 }
