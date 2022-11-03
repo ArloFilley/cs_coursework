@@ -15,7 +15,7 @@ class Button {
     * @param {bool} pBar 
     * @param {string} Label
     */
-     constructor(pX, pY, pWidth, pHeight, pLayer, pVisible, pTextColor, pBorder, pBorderColor, pBackgroundColor, pLabel) {
+     constructor(pX, pY, pWidth, pHeight, pLayer, pVisible, pTextColor, pBorder, pBorderColor, pBackgroundColor, pLabel, pTextSize) {
         this.x = pX;
         this.y = pY;
         this.width = pWidth;
@@ -27,6 +27,7 @@ class Button {
         this.borderColor = pBorderColor;
         this.backgroundColor = pBackgroundColor;
         this.label = pLabel;
+        this.textSize = pTextSize;
     }
 
     getX() {
@@ -138,12 +139,13 @@ class Button {
      * This function draws the button with the label
      */
     draw() {
-        textSize(20);
+        textAlign(CENTER, CENTER);
+        textSize(this.textSize);
         fill(this.backgroundColor);
         rect(this.x, this.y, this.width, this.height);
 
         fill(this.textColor);
-        text(this.label, this.x, this.y, this.x + this.width, this.y + this.height); 
+        text(this.label, this.x, this.y, this.width, this.height); 
         // passing 4 arguments to this function means the text will wrap within this box
     }
 }

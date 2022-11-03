@@ -163,6 +163,7 @@ class API {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", this.url+"user_signup");
         xhr.send(JSON.stringify(data));
+        this.getUserId(username, password);
     }
 
     getUserTests() {

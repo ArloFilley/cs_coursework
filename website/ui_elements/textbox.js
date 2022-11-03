@@ -19,6 +19,8 @@ class Textbox {
             'x', 'y', 'z', '\'', '"', ',', '.', ' ', '|'
         ]
 
+        this.line = false;
+
         this.isTest = pIsTest;
         this.testContent = `unknown column user_id in foreign key definition`;
     }
@@ -170,6 +172,10 @@ class Textbox {
         textAlign(LEFT);
         // font needs to be monospaced for outputting text to the screen like I do
         textFont('monospace');
+        if (this.words.length == 0 && this.line) {
+            fill("#000")
+            rect(this.x, this.y-15, 1, 30)
+        }
         
         if (this.isTest) {
             let i = this.x;
@@ -204,6 +210,9 @@ class Textbox {
                     text(this.testContent[x], i, j);
                     i += 13
                 }
+                if (this.letters.length > 0 && x == this.letters.length) {
+                    rect(i, j-15, 1, 30)
+                }
             }
         } else {
             // these variables allow me to use the values of x and y while updating them
@@ -218,6 +227,10 @@ class Textbox {
                 } else {
                     text(this.letters[x], i, j);
                     i += 13
+                }
+                if (this.letters.length > 0 && x == this.letters.length-1) {
+                    fill("black")
+                    rect(i, j-15, 1, 30)
                 }
             }
         }
