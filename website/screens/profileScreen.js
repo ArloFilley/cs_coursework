@@ -8,6 +8,7 @@ class ProfileScreen {
         if (api.userId > 0) {
             api.getUserTests();
         }
+        this.message = `Tests for ${api.username}`;
     }
 
     draw() {
@@ -17,7 +18,8 @@ class ProfileScreen {
         fill("#000")
         text("Profile Screen", 0, 0, windowWidth, windowHeight/5);
         textSize(40);
-        text("Tests", 0, 150, 150, 46)
+        textAlign(LEFT)
+        text(this.message, 20, 125, 800, 50)
         screenManager.textbox.draw();
         screenManager.loginButton.draw();
         if (screenManager.loginButton.isPressed()) {

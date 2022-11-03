@@ -22,7 +22,7 @@ class Textbox {
         this.line = false;
 
         this.isTest = pIsTest;
-        this.testContent = `unknown column user_id in foreign key definition`;
+        this.testContent = `satisfy powerful pleasant bells disastrous mean kited is gusted romantic past taste immolate productive leak close show crabby awake handsails finicky betray long-term incompetent wander show manage toys convey hop constitute number send like off ice aboard well-made vast vacuous tramp seed force divergent flower porter fire untidy soggy fetch`;
     }
 
     getX() {
@@ -210,7 +210,8 @@ class Textbox {
                     text(this.testContent[x], i, j);
                     i += 13
                 }
-                if (this.letters.length > 0 && x == this.letters.length) {
+                if (this.letters.length > 0 && x == this.letters.length-1 && this.line) {
+                    fill("black")
                     rect(i, j-15, 1, 30)
                 }
             }
@@ -228,7 +229,7 @@ class Textbox {
                     text(this.letters[x], i, j);
                     i += 13
                 }
-                if (this.letters.length > 0 && x == this.letters.length-1) {
+                if (this.letters.length > 0 && x == this.letters.length-1 && this.line) {
                     fill("black")
                     rect(i, j-15, 1, 30)
                 }

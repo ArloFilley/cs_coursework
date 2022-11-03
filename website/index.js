@@ -11,6 +11,7 @@ function setup() {
     api = new API();
     screenManager = new ScreenManager();
     screenManager.setScreen(new StartScreen());
+    api.getUserId();
 }
 
 // this function is called once per frame and draws all other elements

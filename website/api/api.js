@@ -5,6 +5,7 @@ class API {
         // this is the url of the server
         // this may have to change later on
         this.userId = 0;
+        this.username = "";
     }
 
     /**
@@ -142,13 +143,22 @@ class API {
     }
 
     getUserId(pUsername, pPassword) {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${this.url}/login/${pUsername}/${pPassword}`);
-        xhr.send();
-        xhr.onload = () => {
-            this.userId = Number(xhr.response);
-            console.log(this.userId);
-        };
+        if (localStorage.getItem("userId") === null) {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', `${this.url}/login/${pUsername}/${pPassword}`);
+            xhr.send();
+            xhr.onload = () => {
+                this.userId = Number(xhr.response);
+                if (this.userId > 0) {
+                    this.username = pUsername
+                }
+                localStorage.setItem("userId", this.userId);
+                localStorage.setItem("username", pUsername);
+            };
+        } else {
+            this.userId = localStorage.getItem("userId");
+            this.username = localStorage.getItem("username");
+        }
     }
 
     signup() {
