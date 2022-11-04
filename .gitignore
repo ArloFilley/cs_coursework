@@ -2,3 +2,4 @@
 Cargo.lock
 /database/database.sqlite
 /NEA_Screenshots
+.DS_Store
