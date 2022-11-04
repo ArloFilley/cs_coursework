@@ -6,8 +6,8 @@ pub mod sql;
 #[get("/")]
 fn test() -> String {
     sql::create_database()
-        .expect(&format!("couldn't create database"));
-    format!("Hello world")
+        .expect("couldn't create database");
+    String::from("Hello World!")
 }
 
 #[derive(Deserialize)]
@@ -45,5 +45,5 @@ fn rocket() -> Rocket<Build> {
     rocket::build()
     .mount("/test", routes![test]) // testing only, should return "Hello world"
     .mount("/api", routes![post_test])
-    .mount("/", FileServer::from(relative!("website"))) // hosts the fileserver
+    .mount("/typing", FileServer::from(relative!("website"))) // hosts the fileserver
 }

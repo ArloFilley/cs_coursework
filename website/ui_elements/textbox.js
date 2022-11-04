@@ -1,4 +1,17 @@
 class Textbox {
+    /**
+     * Creates a new instance of the Textbox class
+     * @param {int} pX 
+     * @param {int} pY 
+     * @param {int} pWidth 
+     * @param {int} pHeight 
+     * @param {int} pLayer 
+     * @param {bool} pVisible 
+     * @param {hexcode} pTextColor 
+     * @param {bool} pBorder 
+     * @param {hexcode} pBorderColor 
+     * @param {hexcode} pBackgroundColor 
+     */
     constructor(pX, pY, pWidth, pHeight, pLayer, pVisible, pTextColor, pBorder, pBorderColor, pBackgroundColor) {
         this.x = pX;
         this.y = pY;
@@ -108,13 +121,22 @@ class Textbox {
         this.letters = pLetters;
     }
 
+    /**
+     * takes a key and handles it in the textbox
+     * @param {String} pKey 
+     * @returns 
+     */
     letterTyped(pKey) {
-        if (pKey === "Enter" && (screenManager.screen.constructor.name === "StartScreen" || screenManager.screen.constructor.name === "EndScreen")) {
+        if (pKey === "Enter" && (screenManager.screen.constructor.name === "StartScreen" /* || screenManager.screen.constructor.name === "EndScreen" */)) {
             screenManager.setScreen(new TestScreen());
             return;
         }
 
-        if (pKey === "Backspace" && this.letters.length > 1) {
+        if (screenManager.timer.time === 0) {
+            return;
+        }
+
+        if (pKey === "Backspace" && this.letters.length > 0) {
            this.letters.pop();
            return;
         }
@@ -143,6 +165,10 @@ class Textbox {
         this.allowedLetters = pAllowedLetters;
     }
 
+    /**
+     * draws a Textbox
+     * @returns 
+     */
     draw() {
         // doesn't render the textbox if it should not be visible to the user.
         if (!this.visible) {
