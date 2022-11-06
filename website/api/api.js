@@ -18,7 +18,16 @@ class API {
      * @param {int} accuracy 
      * @param {int} userId 
      */
-    postTest(pTestType, pTestLength, pTestTime, pTestSeed, pQuoteId, pWpm, pAccuracy, pUserId) {
+    postTest(
+        pTestType, 
+        pTestLength, 
+        pTestTime, 
+        pTestSeed, 
+        pQuoteId, 
+        pWpm, 
+        pAccuracy, 
+        pUserId
+    ) {
         const data = {
             'test_type': pTestType,
             'test_length': pTestLength,
@@ -31,8 +40,14 @@ class API {
         }
 
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", this.url+"post_test");
-        xhr.send(JSON.stringify(data));
+        xhr.open(
+            "POST", 
+            this.url+"post_test"
+        );
+
+        xhr.send(
+            JSON.stringify(data)
+        );
     }
 
     /**
@@ -131,5 +146,33 @@ class API {
         // there will be other tests here in later iterations but for now these tests should suffice
 
         this.postTest(testType, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
+    }
+
+    /**
+     * takes a validated name and password and sends
+     * a post request to make a user with the given
+     * username and password
+     * @param {String} username 
+     * @param {String} password 
+     * @returns
+     */
+    createUser(
+        username,
+        password
+    ) {
+        const user = {
+            username: username,
+            password: password
+        };
+
+        const xhr = new XMLHttpRequest(); 
+        xhr.open(
+            "POST",
+            `${this.url}create_user/`
+        )
+
+        xhr.send(
+            JSON.stringify(user)
+        );
     }
 }

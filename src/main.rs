@@ -1,18 +1,30 @@
+pub mod sql;
+
 // relevant macros and imports for rocket.rs
 #[macro_use] extern crate rocket;
 use rocket::{
     Rocket, 
     Build, 
-    fs::{FileServer, relative}, 
-    serde::{Deserialize, json::Json}
+    fs::{
+        FileServer, 
+        relative
+    }, 
+    serde::{
+        Deserialize, 
+        json::Json
+    }
 };
-
-pub mod sql;
 
 #[get("/")]
 fn test() -> String {
     sql::create_database()
         .expect("couldn't create database");
+
+    sql::create_user("arlo", "passwod123")
+        .expect("couldn't create user");
+    
+    sql::create_user("arlo","password123")
+        .expect("couldn't create user");
     String::from("Hello World!")
 }
 
@@ -30,7 +42,9 @@ struct PostTest<'r> {
 }
 
 #[post("/post_test", data = "<test>")]
-fn post_test(test: Json<PostTest<'_>>) {
+fn post_test(
+    test: Json<PostTest<'_>>
+) {
     sql::post_test(
         test.test_type, 
         test.test_length, 
@@ -43,10 +57,27 @@ fn post_test(test: Json<PostTest<'_>>) {
     ).expect("error in posting test to tests table");
 }
 
+#[derive(Deserialize)]
+#[serde(crate = "rocket::serde")]
+struct User<'r> {
+    username: &'r str,
+    password: &'r str
+}
+
+#[post("/create_user", data = "<user>")]
+fn create_user(
+    user: Json<User<'_>>
+) {
+    sql::create_user(
+        user.username, 
+        user.password
+    ).expect("Error: Couldn't create new user");
+}
+
 #[launch]
 fn rocket() -> Rocket<Build> {
     rocket::build()
     .mount("/test", routes![test]) // testing only, should return "Hello world"
-    .mount("/api", routes![post_test])
+    .mount("/api", routes![post_test, create_user])
     .mount("/typing", FileServer::from(relative!("website"))) // hosts the fileserver
 }

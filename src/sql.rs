@@ -11,7 +11,7 @@ pub fn create_database() -> Result<()> {
     connection.execute(
         "CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY,
-            username UNIQUE TEXT NOT NULL,
+            username TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL
         )", 
         ()
@@ -36,25 +36,77 @@ pub fn create_database() -> Result<()> {
     Ok(())
 }
 
-pub fn post_test(test_type: &str, test_length: u32, test_time: u32, test_seed: i64, quote_id: i32, wpm: u8, accuracy: u8, user_id: u32) 
--> Result<()> {
+pub fn post_test(
+    test_type: &str, 
+    test_length: u32, 
+    test_time: u32, 
+    test_seed: i64, 
+    quote_id: i32, 
+    wpm: u8, 
+    accuracy: u8, 
+    user_id: u32
+) -> Result<()> {
     let connection = get_connection();
 
     connection.execute(
         "INSERT INTO tests (
-        test_type,
-        test_length,
-        test_time,
-        test_seed,
-        quote_id,
-        wpm,
-        accuracy,
-        user_id
+            test_type,
+            test_length,
+            test_time,
+            test_seed,
+            quote_id,
+            wpm,
+            accuracy,
+            user_id
         )
-        VALUES
-        (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)
-        ", (test_type, test_length, test_time, test_seed, quote_id,
-            wpm, accuracy,user_id))?;
+        VALUES(
+            ?1, 
+            ?2, 
+            ?3, 
+            ?4, 
+            ?5, 
+            ?6, 
+            ?7, 
+            ?8
+        )
+        ", 
+        (
+            test_type, 
+            test_length, 
+            test_time, 
+            test_seed, 
+            quote_id,
+            wpm, 
+            accuracy,
+            user_id
+        )
+    )?;
+
+    Ok(())
+}
+
+pub fn create_user(
+    username: &str,
+    password: &str 
+) -> Result<()> {
+    let connection = get_connection();
+
+    connection.execute(
+        "
+        INSERT INTO users (
+            username,
+            password
+        )
+        VALUES (
+            ?1, 
+            ?2
+        )
+        ",
+ (
+            username, 
+            password
+        )
+    )?;
 
     Ok(())
 }
