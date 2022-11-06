@@ -25,8 +25,16 @@ struct PostTest<'r> {
 
 #[post("/post_test", data = "<test>")]
 fn post_test(test: Json<PostTest<'_>>) {
-    sql::post_test(test.test_type, test.test_length, test.test_time, test.test_seed, test.quote_id, test.wpm, test.accuracy, test.user_id)
-        .expect("error in posting test to tests table");
+    sql::post_test(
+        test.test_type, 
+        test.test_length, 
+        test.test_time, 
+        test.test_seed, 
+        test.quote_id, 
+        test.wpm, 
+        test.accuracy, 
+        test.user_id
+    ).expect("error in posting test to tests table");
 }
 
 #[launch]
