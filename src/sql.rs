@@ -7,6 +7,15 @@ fn get_connection() -> rusqlite::Connection {
 
 pub fn create_database() -> Result<()> {
     let connection = get_connection();
+
+    connection.execute(
+        "CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY,
+            username UNIQUE TEXT NOT NULL,
+            password TEXT NOT NULL
+        )", 
+        ()
+    )?;
     
     connection.execute(
         "CREATE TABLE IF NOT EXISTS tests (
@@ -18,9 +27,10 @@ pub fn create_database() -> Result<()> {
             quote_id INTEGER,
             wpm INTEGER,
             accuracy INTEGER,
-            user_id INTEGER
+            user_id INTEGER,
+            FOREIGN KEY(user_id) REFERENCES users(user_id)
         )",
-        (), // empty parameters list
+        ()
     )?;
 
     Ok(())
