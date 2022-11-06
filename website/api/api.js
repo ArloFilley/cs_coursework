@@ -1,7 +1,7 @@
 class API {
     
     constructor() {
-        this.url = "http://127.0.0.1:8000/api/";
+        this.url = "http://192.168.0.131:8000/api/";
         // this is the url of the server
         // this may have to change later on
     }
@@ -145,7 +145,16 @@ class API {
 
         // there will be other tests here in later iterations but for now these tests should suffice
 
-        this.postTest(testType, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
+        this.postTest(
+            testType, 
+            testLength, 
+            testTime, 
+            testSeed, 
+            quoteId, 
+            wpm, 
+            accuracy, 
+            userId
+        );
     }
 
     /**
@@ -169,7 +178,7 @@ class API {
         xhr.open(
             "POST",
             `${this.url}create_user/`
-        )
+        );
 
         xhr.send(
             JSON.stringify(user)
