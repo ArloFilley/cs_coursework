@@ -1,6 +1,12 @@
 // relevant macros and imports for rocket.rs
 #[macro_use] extern crate rocket;
-use rocket::{Rocket, Build, fs::{FileServer, relative}, serde::{Deserialize, json::Json}, Error, Response};
+use rocket::{
+    Rocket, 
+    Build, 
+    fs::{FileServer, relative}, 
+    serde::{Deserialize, json::Json}
+};
+
 pub mod sql;
 
 #[get("/")]
