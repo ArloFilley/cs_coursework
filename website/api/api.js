@@ -1,7 +1,7 @@
 class API {
     
     constructor() {
-        this.url = "http://192.168.0.131:8000/api/";
+        this.url = "http://arlofilley.com/api/";
         // this is the url of the server
         // this may have to change later on
     }
@@ -169,6 +169,7 @@ class API {
         username,
         password
     ) {
+        console.log(username, password);
         const user = {
             username: username,
             password: password
@@ -183,5 +184,26 @@ class API {
         xhr.send(
             JSON.stringify(user)
         );
+    }
+
+    login(pUsername, pPassword) {
+        if (localStorage.getItem("userId") === null) {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', `${this.url}/login/${pUsername}/${pPassword}`);
+            xhr.send();
+            xhr.onload = () => {
+                user.userId = Number(xhr.response);
+                if (user.userId > 0) {
+                    user.username = pUsername
+                    localStorage.setItem("userId", user.userId);
+                localStorage.setItem("username", pUsername);
+                localStorage.setItem("password", pPassword);
+                }
+
+            };
+        } else {
+            this.userId = localStorage.getItem("userId");
+            this.username = localStorage.getItem("username");
+        }
     }
 }

@@ -129,7 +129,6 @@ class Button {
 
         // if the mouse is within the bounds of the return that the button has been pressed
         if (mouseX > this.x && mouseX < this.x + this.width && mouseY > this.y && mouseY < this.y + this.height) {
-            console.log("button has been pressed");
             return true;
         }
         return false;
@@ -139,11 +138,12 @@ class Button {
      * This function draws the button with the label
      */
     draw() {
+        textSize(20);
         fill(this.backgroundColor);
         rect(this.x, this.y, this.width, this.height);
 
         fill(this.textColor);
-        text(this.label, this.x, this.y, this.x + this.width, this.y + this.height); 
+        text(this.label, this.x, this.y, this.width, this.height); 
         // passing 4 arguments to this function means the text will wrap within this box
     }
 }

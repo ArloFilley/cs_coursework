@@ -127,23 +127,20 @@ class Textbox {
      * @returns 
      */
     letterTyped(pKey) {
-        if (pKey === "Enter" && (screenManager.screen.constructor.name === "StartScreen" /* || screenManager.screen.constructor.name === "EndScreen" */)) {
-            screenManager.setScreen(new TestScreen());
-            return;
-        }
-
-        if (screenManager.timer.time === 0) {
+        if (screenManager.screen.constructor.name === "TestScreen" && screenManager.timer.time === 0) {
             return;
         }
 
         if (pKey === "Backspace" && this.letters.length > 0) {
            this.letters.pop();
+           this.words.substring(0, this.words.length-1)
            return;
         }
         
-       for (let i = 0; i < this.allowedLetters.length; i++) {
+        for (let i = 0; i < this.allowedLetters.length; i++) {
            if (pKey.toLowerCase() === this.allowedLetters[i]) {
                this.letters.push(pKey);
+               this.words += pKey;
                return;
             }    
         }

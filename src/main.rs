@@ -74,10 +74,16 @@ fn create_user(
     ).expect("Error: Couldn't create new user");
 }
 
+#[get("/login/<username>/<password>")]
+fn login(username: &str, password: &str) -> String {
+    let user_id = sql::find_user(username, password).expect("error finding user_id");
+    user_id.to_string()
+}
+
 #[launch]
 fn rocket() -> Rocket<Build> {
     rocket::build()
     .mount("/test", routes![test]) // testing only, should return "Hello world"
-    .mount("/api", routes![post_test, create_user])
+    .mount("/api", routes![post_test, create_user, login])
     .mount("/typing", FileServer::from(relative!("website"))) // hosts the fileserver
 }

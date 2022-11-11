@@ -1,24 +1,61 @@
 class SignUpScreen {
     constructor() {
-        textboxes = [
+        this.textboxes = [
             new Textbox(
-            0,0,
-            0,0,
-            true,
-            "#000",
-            false, "#000",
-            "#000"
+                120,250,
+                500,100,
+                0,
+                true,
+                "#000",
+                false, "#000",
+                "#000"
             ),
 
             new Textbox(
-                0,0,
-                0,0,
+                120,400,
+                500,100,
+                0,
                 true,
                 "#000",
                 false,"000",
                 "#000"
             )
         ]
+
+        this.buttons = [
+            new Button(
+                100,200,
+                500,100,
+                0,
+                true,
+                "#000",
+                false,"#000",
+                "#fff",""
+            ),
+
+            new Button(
+                100,350,
+                500,100,
+                0,
+                true,
+                "#000",
+                false,"#000",
+                "#fff",""
+            ),
+
+            new Button(
+                700,300,
+                100,50,
+                0,
+                true,
+                "#000",
+                false,"#000",
+                "#00ff00","Sign Up"
+            ),
+        ]
+
+        this.activeTextBox = 0 
+        // keeps track of which textbox the user last clicked on
     }
 
     /**
@@ -27,8 +64,27 @@ class SignUpScreen {
      */
     draw() {
         background("#eeeee4");
-        for (texbox in this.textboxes) {
-            textbox.draw();
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.buttons[i].draw();
+        }
+
+        for (let i = 0; i < this.textboxes.length; i++) {
+            this.textboxes[i].draw();
+        }
+
+        text("Username", 110, 175);
+        text("Password", 110, 325);
+
+        if (this.buttons[0].isPressed()) {
+            this.activeTextBox=0;
+        } else if (this.buttons[1].isPressed()) {
+            this.activeTextBox=1;
+        } else if (this.buttons[2].isPressed()) {
+            api.createUser(
+                this.textboxes[0].getWords(),
+                this.textboxes[1].getWords()
+            )
+            screenManager.setScreen(new StartScreen());
         }
     }
 
@@ -37,6 +93,6 @@ class SignUpScreen {
      * @param {key} key 
      */
     letterTyped(key) {
-        this.textboxes[0].letterTyped();
+        this.textboxes[this.activeTextBox].letterTyped(key);
     }
 }

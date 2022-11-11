@@ -89,6 +89,7 @@ pub fn create_user(
     username: &str,
     password: &str 
 ) -> Result<()> {
+    println!("{} {}",username, password);
     let connection = get_connection();
 
     connection.execute(
@@ -109,4 +110,37 @@ pub fn create_user(
     )?;
 
     Ok(())
+}
+
+#[derive(Debug)]
+pub struct User {
+    user_id: u32,
+}
+
+pub fn find_user(
+    username: &str,
+    password: &str
+) -> Result<u32> {
+    let mut user_id: u32 = 0;
+    let connection = get_connection();
+    let mut statement = connection.prepare(
+        "SELECT user_id
+        FROM users
+        WHERE username=:username AND password=:password",
+    )?;
+
+    let iter = statement
+    .query_map(
+        &[(":username", username), (":password", password)], |row| {
+            Ok( User {
+                user_id: row.get(0)?
+            })
+        }
+    )?;
+
+    for i in iter {
+        user_id = i.unwrap().user_id;
+    }
+
+    Ok(user_id)
 }
