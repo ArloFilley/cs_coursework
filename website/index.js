@@ -1,4 +1,4 @@
-let canvas, api, screenManager;
+let canvas, api, screenManager, user;
 
 function setup() {
     // Creating the canvas
@@ -11,6 +11,10 @@ function setup() {
     api = new API();
     screenManager = new ScreenManager();
     screenManager.setScreen(new StartScreen());
+    user = new User();
+
+    // will log the user in if there details are in local storage
+    api.login();
 }
 
 // this function is called once per frame and draws all other elements

@@ -1,4 +1,5 @@
 use rusqlite::{Connection, Result};
+use rocket::serde::Serialize;
 
 fn get_connection() -> rusqlite::Connection {
     Connection::open("database/database.sqlite")
@@ -143,4 +144,49 @@ pub fn find_user(
     }
 
     Ok(user_id)
+}
+
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct Test {
+    test_type: String,
+    test_length: u32,
+    test_time: u32,
+    test_seed: i64,
+    quote_id: i32,
+    wpm: u8,
+    accuracy: u8,
+}
+
+pub fn get_user_tests(
+    user_id: u32
+) -> Result<Vec<Test>> {
+    let connection = get_connection();
+    let mut statement = connection.prepare(
+        "SELECT test_type, test_length, test_time, test_seed, quote_id, wpm, accuracy
+        FROM tests
+        WHERE user_id=:user_id",
+    )?;
+
+    let mut user_id: u32 = 0;
+
+    let test_iter = statement
+        .query_map(&[(":user_id", &user_id.to_string())], |row| {
+            Ok( Test {
+                test_type: row.get(0)?,
+                test_length: row.get(1)?,
+                test_time: row.get(2)?,
+                test_seed: row.get(3)?,
+                quote_id: row.get(4)?,
+                wpm: row.get(5)?,
+                accuracy: row.get(6)?
+            })
+        })?;
+
+    let mut tests: Vec<Test> = vec![];
+    for test in test_iter {
+        tests.push(test.unwrap());
+    }
+
+    Ok(tests)
 }

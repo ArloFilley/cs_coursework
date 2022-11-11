@@ -1,6 +1,10 @@
 class StartScreen {
     constructor() {
-        this.buttons = [new Button(0,0,100,30,0,true,"#fff",false,"#000","#000","Sign Up")]
+        this.buttons = [
+            new Button(0,0,100,30,0,true,"#fff",false,"#000","#000","Sign Up"),
+            new Button(110,0,100,30,0,true,"#fff",false,"#000","#000","Login"),
+            new Button(220,0,100,30,0,true,"#fff",false,"#000","#000","Logout"),
+        ]
     }
     
     draw() {
@@ -10,9 +14,17 @@ class StartScreen {
         fill("#000");
         text("Press enter to start test", 0, 0, windowWidth - 100, windowHeight - 100);
         this.buttons[0].draw();
+        this.buttons[1].draw();
+        this.buttons[2].draw();
         if (this.buttons[0].isPressed()) {
             screenManager.setScreen(new SignUpScreen());
-        }
+        } else if (this.buttons[1].isPressed()) {
+            screenManager.setScreen(new LoginScreen());
+        } else if (this.buttons[2].isPressed()) {
+            api.logout();
+        } 
+        fill("#000");
+        text(`${user.username}`, windowWidth-100, 15);
     }
 
     letterTyped(key) {

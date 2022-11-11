@@ -10,4 +10,8 @@ class EndScreen {
         fill(0);
         text("Test Complete\nPress enter to start another test", 0, 0, windowWidth - 100, windowHeight - 100);
     }
+
+    letterTyped() {
+        screenManager.setScreen(new StartScreen());
+    }
 }

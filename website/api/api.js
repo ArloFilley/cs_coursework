@@ -54,7 +54,7 @@ class API {
      * Validates all the parameters used for the postTest function which it then calls
      */
     validateTest() {
-        const test = screenManager.textbox.getLetters();
+        const test = screenManager.screen.textbox.getLetters();
         const testType = "words";
         let testLength = test.length;
         let testTime = screenManager.timer.getTime();
@@ -62,7 +62,7 @@ class API {
         const quoteId = 0;
         let wpm;
         const accuracy = 0;
-        const userId = 0;
+        const userId = Number(user.userId);
 
         // this is the wpm calculation factoring in the time of test
         // it assumes that all words are 5 characters long because on average
@@ -184,26 +184,33 @@ class API {
         xhr.send(
             JSON.stringify(user)
         );
+
+        this.login(username, password);
     }
 
     login(pUsername, pPassword) {
-        if (localStorage.getItem("userId") === null) {
+        if (localStorage.userId === null || localStorage.userId === 0 || localStorage.userId === undefined) {
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', `${this.url}/login/${pUsername}/${pPassword}`);
-            xhr.send();
-            xhr.onload = () => {
-                user.userId = Number(xhr.response);
-                if (user.userId > 0) {
-                    user.username = pUsername
-                    localStorage.setItem("userId", user.userId);
-                localStorage.setItem("username", pUsername);
-                localStorage.setItem("password", pPassword);
-                }
-
-            };
-        } else {
-            this.userId = localStorage.getItem("userId");
-            this.username = localStorage.getItem("username");
+                xhr.open('GET', `${this.url}login/${pUsername}/${pPassword}`);
+                xhr.send();
+                xhr.onload = () => {
+                    user.userId = Number(xhr.response);
+                    if (user.userId > 0) {
+                        user.username = pUsername
+                        localStorage.setItem("userId", user.userId);
+                        localStorage.setItem("username", pUsername);
+                        localStorage.setItem("password", pPassword);
+                    }
+                };
+        } else if (localStorage.userId > 0) {
+            user.userId = localStorage.userId;
+            user.username = localStorage.username;
+            user.password = localStorage.password;
         }
+    }
+
+    logout() {
+        user = new User();
+        localStorage.clear();
     }
 }

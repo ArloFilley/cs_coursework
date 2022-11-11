@@ -133,7 +133,7 @@ class Textbox {
 
         if (pKey === "Backspace" && this.letters.length > 0) {
            this.letters.pop();
-           this.words.substring(0, this.words.length-1)
+           this.words = this.words.substring(0, this.words.length-1)
            return;
         }
         
