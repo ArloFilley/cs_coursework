@@ -3,5 +3,6 @@ class User {
         this.username = "not logged in";
         this.password = "there";
         this.userId = 0;
+        this.tests;
     }
 }

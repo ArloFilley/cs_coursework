@@ -168,8 +168,6 @@ pub fn get_user_tests(
         WHERE user_id=:user_id",
     )?;
 
-    let mut user_id: u32 = 0;
-
     let test_iter = statement
         .query_map(&[(":user_id", &user_id.to_string())], |row| {
             Ok( Test {

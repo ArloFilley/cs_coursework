@@ -183,8 +183,6 @@ class Textbox {
         fill(this.textColor);
         textSize(23);
         textAlign(LEFT);
-        // font needs to be monospaced for outputting text to the screen like I do
-        textFont('monospace');
         
         // these variables allow me to use the values of x and y while updating them
         let i = this.x;

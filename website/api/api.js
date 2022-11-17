@@ -211,6 +211,20 @@ class API {
 
     logout() {
         user = new User();
+        user.username = "no one";
+        user.password = "none";
+        user.userId = 0;
+        user.tests = [];
         localStorage.clear();
+    }
+
+    getUserTests() {
+        let xhr = new XMLHttpRequest();
+        let userId = Number(user.userId);
+        xhr.open('GET', `${this.url}get_user_tests/${userId}/`);
+        xhr.send();
+        xhr.onload = () => {
+            user.tests = JSON.parse(xhr.response);
+        };
     }
 }

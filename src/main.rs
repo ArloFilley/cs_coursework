@@ -20,12 +20,6 @@ use crate::sql::Test;
 fn test() -> String {
     sql::create_database()
         .expect("couldn't create database");
-
-    sql::create_user("arlo", "passwod123")
-        .expect("couldn't create user");
-    
-    sql::create_user("arlo","password123")
-        .expect("couldn't create user");
     String::from("Hello World!")
 }
 

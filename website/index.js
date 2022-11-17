@@ -1,5 +1,9 @@
 let canvas, api, screenManager, user;
 
+function preload() {
+    roboto = loadFont('./assets/fonts/RobotoMono-Medium.ttf');
+} 
+
 function setup() {
     // Creating the canvas
     canvas = new Canvas();
@@ -15,6 +19,7 @@ function setup() {
 
     // will log the user in if there details are in local storage
     api.login();
+    textFont(roboto);
 }
 
 // this function is called once per frame and draws all other elements
