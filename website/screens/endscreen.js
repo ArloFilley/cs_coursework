@@ -4,7 +4,8 @@ class EndScreen {
             new Button(0,0,100,30,0,true,"#fff",false,"#000","#000","Sign Up"),
             new Button(110,0,100,30,0,true,"#fff",false,"#000","#000","Login"),
             new Button(220,0,100,30,0,true,"#fff",false,"#000","#000","Logout"),
-            new Button(330,0,100,30,0,true,"#fff",false,"#000","#000","Profile")
+            new Button(330,0,100,30,0,true,"#fff",false,"#000","#000","Profile"),
+            new Button(440,0,100,30,0,true,"#fff",false,"#000","#000","Test")
         ]
     }
     

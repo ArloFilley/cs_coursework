@@ -15,7 +15,7 @@ class ProfileScreen {
         textSize(100);
         textAlign(CENTER, CENTER);
         fill("#000");
-        text("Profile", 0, 100, windowWidth - 100, 120);
+        text("Profile", 0, 100, windowWidth, 120);
         this.buttons[0].draw();
         this.buttons[1].draw();
         this.buttons[2].draw();

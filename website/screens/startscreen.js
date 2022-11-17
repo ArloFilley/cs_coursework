@@ -4,7 +4,8 @@ class StartScreen {
             new Button(0,0,100,30,0,true,"#fff",false,"#000","#000","Sign Up"),
             new Button(110,0,100,30,0,true,"#fff",false,"#000","#000","Login"),
             new Button(220,0,100,30,0,true,"#fff",false,"#000","#000","Logout"),
-            new Button(330,0,100,30,0,true,"#fff",false,"#000","#000","Profile")
+            new Button(330,0,100,30,0,true,"#fff",false,"#000","#000","Profile"),
+            new Button(440,0,100,30,0,true,"#fff",false,"#000","#000","Test"),
         ]
     }
     
@@ -18,6 +19,7 @@ class StartScreen {
         this.buttons[1].draw();
         this.buttons[2].draw();
         this.buttons[3].draw();
+        this.buttons[4].draw();
         if (this.buttons[0].isPressed()) {
             screenManager.setScreen(new SignUpScreen());
         } else if (this.buttons[1].isPressed()) {
@@ -26,6 +28,8 @@ class StartScreen {
             api.logout();
         } else if (this.buttons[3].isPressed()) {
             screenManager.setScreen(new ProfileScreen());
+        } else if (this.buttons[4].isPressed()) {
+            screenManager.setScreen(new TestScreen());
         }
         fill("#000");
         text(`${user.username}`, windowWidth-100, 15);
