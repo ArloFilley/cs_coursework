@@ -1,4 +1,4 @@
-class ProfileScreen {
+class LeaderboardScreen {
     constructor() {
         this.buttons = [
             new Button(0,0,100,30,0,true,"#fff",false,"#000","#000","Sign Up"),
@@ -8,7 +8,7 @@ class ProfileScreen {
             new Button(440,0,100,30,0,true,"#fff",false,"#000","#000","Test"),
             new Button(550,0,140,30,0,true,"#fff",false,"#000","#000","Leaderboard"),
         ];
-        api.getUserTests();
+        api.getLeaderBoard()
     }
 
     draw() {
@@ -16,11 +16,11 @@ class ProfileScreen {
         textSize(100);
         textAlign(CENTER, CENTER);
         fill("#000");
-        text("Profile", 0, 100, windowWidth, 120);
-
+        text("Leaderboard", 0, 100, windowWidth, 120);
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].draw()
         }
+
         if (this.buttons[0].isPressed()) {
             screenManager.setScreen(new SignUpScreen());
         } else if (this.buttons[1].isPressed()) {
@@ -37,9 +37,9 @@ class ProfileScreen {
 
         textSize(20);
         fill("#000");
-        if (user.tests != undefined) {
-            for (let i = 0; i < user.tests.length; i++) {
-                text(`Tests ${i+1}: ${user.tests[i].wpm}wpm | Type: ${user.tests[i].test_type} | Time: ${user.tests[i].test_time} | Characters Typed: ${user.tests[i].test_length}`, 0, i*30+300, windowWidth, 30);
+        if (user.leaderboard != undefined) {
+            for (let i = 0; i < user.leaderboard.length; i++) {
+                text(`#${i+1}: ${user.leaderboard[i].username} : ${user.leaderboard[i].wpm}wpm`, 0, i*30+300, windowWidth, 30);
             }
         }
         fill("#000");

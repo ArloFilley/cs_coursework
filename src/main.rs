@@ -14,7 +14,8 @@ use rocket::{
         json::Json
     }
 };
-use crate::sql::Test;
+use sql::LeaderBoardTest;
+use crate::sql::*;
 
 #[get("/")]
 fn test() -> String {
@@ -81,10 +82,16 @@ fn get_user_tests(user_id: u32) -> Json<Vec<Test>> {
     Json(tests)
 }
 
+#[get("/leaderboard")]
+fn leaderboard() -> Json<Vec<LeaderBoardTest>> {
+    let leaderboard = sql::get_leaderboard(0).expect("error finding user_id");
+    Json(leaderboard)
+}
+
 #[launch]
 fn rocket() -> Rocket<Build> {
     rocket::build()
     .mount("/test", routes![test]) // testing only, should return "Hello world"
-    .mount("/api", routes![post_test, create_user, login, get_user_tests])
+    .mount("/api", routes![post_test, create_user, login, get_user_tests, leaderboard])
     .mount("/typing", FileServer::from(relative!("website"))) // hosts the fileserver
 }

@@ -4,5 +4,6 @@ class User {
         this.password = "there";
         this.userId = 0;
         this.tests;
+        this.leaderboard;
     }
 }

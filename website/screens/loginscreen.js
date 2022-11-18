@@ -58,6 +58,7 @@ class LoginScreen {
             new Button(220,0,100,30,0,true,"#fff",false,"#000","#000","Logout"),
             new Button(330,0,100,30,0,true,"#fff",false,"#000","#000","Profile"),
             new Button(440,0,100,30,0,true,"#fff",false,"#000","#000","Test"),
+            new Button(550,0,140,30,0,true,"#fff",false,"#000","#000","Leaderboard"),
         ]
 
         this.activeTextBox = 0 
@@ -93,11 +94,6 @@ class LoginScreen {
             screenManager.setScreen(new StartScreen());
         }
 
-        this.buttons[3].draw();
-        this.buttons[4].draw();
-        this.buttons[5].draw();
-        this.buttons[6].draw();
-        this.buttons[7].draw();
         if (this.buttons[3].isPressed()) {
             screenManager.setScreen(new SignUpScreen());
         } else if (this.buttons[4].isPressed()) {
@@ -108,6 +104,8 @@ class LoginScreen {
             screenManager.setScreen(new ProfileScreen());
         } else if (this.buttons[7].isPressed()) {
             screenManager.setScreen(new TestScreen())
+        } else if (this.buttons[8].isPressed()) {
+            screenManager.setScreen(new LeaderboardScreen())
         }
     }
 

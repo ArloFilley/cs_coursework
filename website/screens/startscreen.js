@@ -6,6 +6,7 @@ class StartScreen {
             new Button(220,0,100,30,0,true,"#fff",false,"#000","#000","Logout"),
             new Button(330,0,100,30,0,true,"#fff",false,"#000","#000","Profile"),
             new Button(440,0,100,30,0,true,"#fff",false,"#000","#000","Test"),
+            new Button(550,0,140,30,0,true,"#fff",false,"#000","#000","Leaderboard"),
         ]
     }
     
@@ -15,11 +16,10 @@ class StartScreen {
         textAlign(CENTER, CENTER);
         fill("#000");
         text("Press enter to start test", 0, 0, windowWidth - 100, windowHeight - 100);
-        this.buttons[0].draw();
-        this.buttons[1].draw();
-        this.buttons[2].draw();
-        this.buttons[3].draw();
-        this.buttons[4].draw();
+        
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.buttons[i].draw()
+        }
         if (this.buttons[0].isPressed()) {
             screenManager.setScreen(new SignUpScreen());
         } else if (this.buttons[1].isPressed()) {
@@ -30,7 +30,10 @@ class StartScreen {
             screenManager.setScreen(new ProfileScreen());
         } else if (this.buttons[4].isPressed()) {
             screenManager.setScreen(new TestScreen());
+        } else if (this.buttons[5].isPressed()) {
+            screenManager.setScreen(new LeaderboardScreen())
         }
+
         fill("#000");
         text(`${user.username}`, windowWidth-100, 15);
     }

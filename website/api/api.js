@@ -185,7 +185,9 @@ class API {
             JSON.stringify(user)
         );
 
-        this.login(username, password);
+        xhr.onload = () => {
+            this.login(username,password);
+        };
     }
 
     login(pUsername, pPassword) {
@@ -225,6 +227,15 @@ class API {
         xhr.send();
         xhr.onload = () => {
             user.tests = JSON.parse(xhr.response);
+        };
+    }
+
+    getLeaderBoard() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${this.url}leaderboard/`);
+        xhr.send();
+        xhr.onload = () => {
+            user.leaderboard = JSON.parse(xhr.response);
         };
     }
 }

@@ -188,3 +188,38 @@ pub fn get_user_tests(
 
     Ok(tests)
 }
+
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct LeaderBoardTest {
+    username: String,
+    wpm: u8,
+}
+
+pub fn get_leaderboard(
+    _user_id: u32
+) -> Result<Vec<LeaderBoardTest>>{
+    let connection = get_connection();
+    let mut statement = connection.prepare(
+        "SELECT users.username, MAX(tests.wpm)
+        FROM tests
+        INNER JOIN users ON users.user_id = tests.user_id
+        GROUP BY users.username
+        ORDER BY tests.wpm DESC",
+    )?;
+
+    let test_iter = statement
+        .query_map((), |row| {
+            Ok( LeaderBoardTest {
+                username: row.get(0)?,
+                wpm: row.get(1)?
+            })
+        })?;
+
+    let mut tests: Vec<LeaderBoardTest> = vec![];
+    for test in test_iter {
+        tests.push(test.unwrap());
+    }
+
+    Ok(tests)
+}
