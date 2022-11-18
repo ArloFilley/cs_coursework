@@ -132,4 +132,4 @@ pub fn get_user_tests(_user_id: u32) -> Result<Vec<Test>, rusqlite::Error> {
     }
 
     Ok(tests)
-}
+} 
