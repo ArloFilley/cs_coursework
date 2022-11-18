@@ -19,6 +19,7 @@ function setup() {
 
     // will log the user in if there details are in local storage
     api.login();
+    api.getTest();
     textFont(roboto);
 }
 

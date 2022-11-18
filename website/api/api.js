@@ -63,11 +63,19 @@ class API {
         let wpm;
         const accuracy = 0;
         const userId = Number(user.userId);
+        let test_content = screenManager.screen.textbox.testContent;
+
+        let string = "";
+        for (let letter = 0; letter < test.length; letter++) {
+            if (test[letter] === test_content[letter]) {
+                string += test[letter];
+            }
+        }
 
         // this is the wpm calculation factoring in the time of test
         // it assumes that all words are 5 characters long because on average
         // they are
-        wpm = Math.round((testLength / 5) * (60 / testTime));
+        wpm = Math.round((string.length / 5) * (60 / testTime));
 
         // the following code is a series of if statements that checks the
         // types of the variables is correct if not it errors it and returns
@@ -236,6 +244,20 @@ class API {
         xhr.send();
         xhr.onload = () => {
             user.leaderboard = JSON.parse(xhr.response);
+        };
+    }
+
+    getTest() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `https://random-word-api.herokuapp.com/word?number=100`);
+        xhr.send();
+        xhr.onload = () => {
+            let textArr = JSON.parse(xhr.response);
+            let text = "";
+            for (let i = 0; i < textArr.length; i++) {
+                text += `${textArr[i]} `
+            }
+            user.nextTest = text;
         };
     }
 }

@@ -8,7 +8,8 @@ class LoginScreen {
                 true,
                 "#000",
                 false, "#000",
-                "#000"
+                "#000",
+                true
             ),
 
             new Textbox(
@@ -18,7 +19,8 @@ class LoginScreen {
                 true,
                 "#000",
                 false,"000",
-                "#000"
+                "#000",
+                false
             )
         ]
 
@@ -83,9 +85,13 @@ class LoginScreen {
         text("Password", 110, 325);
 
         if (this.buttons[0].isPressed()) {
+            this.textboxes[this.activeTextBox].line = false;
             this.activeTextBox=0;
+            this.textboxes[this.activeTextBox].line = true;
         } else if (this.buttons[1].isPressed()) {
+            this.textboxes[this.activeTextBox].line = false;
             this.activeTextBox=1;
+            this.textboxes[this.activeTextBox].line = true;
         } else if (this.buttons[2].isPressed()) {
             api.login(
                 this.textboxes[0].getWords(),
@@ -114,6 +120,22 @@ class LoginScreen {
      * @param {key} key 
      */
     letterTyped(key) {
-        this.textboxes[this.activeTextBox].letterTyped(key);
+        if (key === "Tab" && this.activeTextBox === 0) {
+            this.textboxes[this.activeTextBox].line = false;
+            this.activeTextBox=1;
+            this.textboxes[this.activeTextBox].line = true;
+        } else if (key === "Tab" && this.activeTextBox === 1) {
+            this.textboxes[this.activeTextBox].line = false;
+            this.activeTextBox=0;
+            this.textboxes[this.activeTextBox].line = true;
+        } else if (key === "Enter") {
+            api.login(
+                this.textboxes[0].getWords(),
+                this.textboxes[1].getWords()
+            )
+            screenManager.setScreen(new StartScreen());
+        } else {
+            this.textboxes[this.activeTextBox].letterTyped(key);
+        }
     }
 }

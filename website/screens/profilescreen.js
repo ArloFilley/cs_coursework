@@ -43,6 +43,6 @@ class ProfileScreen {
             }
         }
         fill("#000");
-        text(`Logged in as ${user.username}`, windowWidth-100, 15);
+        text(`Logged in as ${user.username}`, windowWidth-400, 15);
     }
 }

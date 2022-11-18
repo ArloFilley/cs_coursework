@@ -12,7 +12,15 @@ class Textbox {
      * @param {hexcode} pBorderColor 
      * @param {hexcode} pBackgroundColor 
      */
-    constructor(pX, pY, pWidth, pHeight, pLayer, pVisible, pTextColor, pBorder, pBorderColor, pBackgroundColor) {
+    constructor(
+        pX, pY, 
+        pWidth, pHeight, 
+        pLayer, pVisible, 
+        pTextColor, 
+        pBorder, pBorderColor, 
+        pBackgroundColor, 
+        pLine, pIsTest
+    ) {
         this.x = pX;
         this.y = pY;
         this.width = pWidth;
@@ -31,6 +39,13 @@ class Textbox {
             'l', 'm','n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
             'x', 'y', 'z', '\'', '"', ',', '.', ' '
         ]
+
+        this.line = pLine;
+        this.isTest = pIsTest;
+
+        if (this.isTest) {
+            this.testContent = user.nextTest;
+        }
     }
 
     getX() {
@@ -183,19 +198,71 @@ class Textbox {
         fill(this.textColor);
         textSize(23);
         textAlign(LEFT);
+        if (this.words.length == 0 && this.line) {
+            fill("#000")
+            rect(this.x, this.y-15, 1, 30)
+        }
         
         // these variables allow me to use the values of x and y while updating them
         let i = this.x;
         let j = this.y;
 
-        // currently this loop just prints out every letter in the array, including any enter characters
-        for (let x = 0; x < this.letters.length; x++) {
-            if (i > this.x + this.width) i = this.x, j += 30;
-            if (this.letters[x] === "Enter") { 
-                i = this.x, j+= 30;
-            } else {
-                text(this.letters[x], i, j);
-                i += 13
+        if (this.isTest) {
+            let i = this.x;
+            let j = this.y;
+
+            // currently this loop just prints out every letter in the array, including any enter characters
+            for (let x = 0; x < this.testContent.length; x++) {
+                if (i > this.x + this.width) i = this.x, j += 30;
+                if (this.testContent[x] === "Enter") { 
+                    i = this.x, j+= 30;
+                } else {
+                    text(this.testContent[x], i, j);
+                    i += 13
+                }
+            }
+
+            // these variables allow me to use the values of x and y while updating them
+            i = this.x;
+            j = this.y;
+
+            // currently this loop just prints out every letter in the array, including any enter characters
+            for (let x = 0; x < this.letters.length; x++) {
+                if (i > this.x + this.width) i = this.x, j += 30;
+                if (this.letters[x] === "Enter") { 
+                    i = this.x, j+= 30;
+                } else {
+                    if (this.letters[x] === this.testContent[x]) {
+                        fill('green');
+                    } else {
+                        fill('red');
+                    }
+                    text(this.testContent[x], i, j);
+                    i += 13
+                }
+                if (this.letters.length > 0 && x == this.letters.length-1 && this.line) {
+                    fill("black")
+                    rect(i, j-15, 1, 30)
+                }
+            }
+        } else {
+            // these variables allow me to use the values of x and y while updating them
+            let i = this.x;
+            let j = this.y;
+
+            // currently this loop just prints out every letter in the array, including any enter characters
+            for (let x = 0; x < this.letters.length; x++) {
+                if (i > this.x + this.width) i = this.x, j += 30;
+                if (this.letters[x] === "Enter") { 
+                    i = this.x, j+= 30;
+                } else {
+                    text(this.letters[x], i, j);
+                    i += 13
+                }
+                if (this.letters.length > 0 && x == this.letters.length-1 && this.line) {
+                    fill("black")
+                    rect(i, j-15, 1, 30)
+                }
             }
         }
     }

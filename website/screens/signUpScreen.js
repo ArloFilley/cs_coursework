@@ -8,7 +8,8 @@ class SignUpScreen {
                 true,
                 "#000",
                 false, "#000",
-                "#000"
+                "#000",
+                true
             ),
 
             new Textbox(
@@ -18,7 +19,8 @@ class SignUpScreen {
                 true,
                 "#000",
                 false,"000",
-                "#000"
+                "#000",
+                false
             )
         ]
 
@@ -83,9 +85,13 @@ class SignUpScreen {
         text("Password", 110, 325);
 
         if (this.buttons[0].isPressed()) {
+            this.textboxes[this.activeTextBox].line = false;
             this.activeTextBox=0;
+            this.textboxes[this.activeTextBox].line = true;
         } else if (this.buttons[1].isPressed()) {
+            this.textboxes[this.activeTextBox].line = false;
             this.activeTextBox=1;
+            this.textboxes[this.activeTextBox].line = true;
         } else if (this.buttons[2].isPressed()) {
             api.createUser(
                 this.textboxes[0].getWords(),
@@ -102,7 +108,7 @@ class SignUpScreen {
             screenManager.setScreen(new ProfileScreen());
         } else if (this.buttons[7].isPressed()) {
             screenManager.setScreen(new TestScreen())
-        } else if (this.buttons[5].isPressed()) {
+        } else if (this.buttons[8].isPressed()) {
             screenManager.setScreen(new LeaderboardScreen())
         }
     }
@@ -111,7 +117,23 @@ class SignUpScreen {
      * 
      * @param {key} key 
      */
-    letterTyped(key) {
-        this.textboxes[this.activeTextBox].letterTyped(key);
+     letterTyped(key) {
+        if (key === "Tab" && this.activeTextBox === 0) {
+            this.textboxes[this.activeTextBox].line = false;
+            this.activeTextBox=1;
+            this.textboxes[this.activeTextBox].line = true;
+        } else if (key === "Tab" && this.activeTextBox === 1) {
+            this.textboxes[this.activeTextBox].line = false;
+            this.activeTextBox=0;
+            this.textboxes[this.activeTextBox].line = true;
+        } else if (key === "Enter") {
+            api.createUser(
+                this.textboxes[0].getWords(),
+                this.textboxes[1].getWords()
+            )
+            screenManager.setScreen(new StartScreen());
+        } else {
+            this.textboxes[this.activeTextBox].letterTyped(key);
+        }
     }
 }
