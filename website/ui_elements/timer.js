@@ -156,6 +156,7 @@ class Timer {
         api.validateTest();
         this.timeElapsed = 0;
         this.time = 0;
+        api.getTest();
         // Then this function will call all other functions necessary to complete the test
         // this will likely including changing the screen and interacting with the api
         screenManager.setScreen(new EndScreen());

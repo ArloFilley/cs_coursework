@@ -1,6 +1,0 @@
-"filename", "language", "TOML", "Rust", "comment", "blank", "total"
-"/home/arlo/code/cs_coursework/Cargo.toml", "TOML", 9, 0, 0, 2, 11
-"/home/arlo/code/cs_coursework/Rocket.toml", "TOML", 21, 0, 4, 3, 28
-"/home/arlo/code/cs_coursework/src/main.rs", "Rust", 0, 86, 1, 10, 97
-"/home/arlo/code/cs_coursework/src/sql.rs", "Rust", 0, 199, 0, 26, 225
-"Total", "-", 30, 285, 5, 41, 361
