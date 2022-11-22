@@ -1,10 +1,10 @@
 class TimeMenu {
     constructor() {
         this.buttons = [
-            new Button(660,0,100,30,0,true,"#fff",false,"#000","#000","15s"),
-            new Button(660,30,100,30,0,true,"#fff",false,"#000","#000","30s"),
-            new Button(660,60,100,30,0,true,"#fff",false,"#000","#000","45s"),
-            new Button(660,90,100,30,0,true,"#fff",false,"#000","#000","60s"),
+            new Button(700,0,100,30,0,true,"#fff",false,"#000","#000","15s"),
+            new Button(700,30,100,30,0,true,"#fff",false,"#000","#000","30s"),
+            new Button(700,60,100,30,0,true,"#fff",false,"#000","#000","45s"),
+            new Button(700,90,100,30,0,true,"#fff",false,"#000","#000","60s"),
         ];
         this.dropdown = false;
     }

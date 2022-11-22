@@ -210,7 +210,12 @@ class API {
                         localStorage.setItem("userId", user.userId);
                         localStorage.setItem("username", pUsername);
                         localStorage.setItem("password", pPassword);
-                    }
+                    } else {
+                        user.username = "no one";
+                        user.password = "none";
+                        user.userId = 0;
+                        user.tests = [];
+                    } 
                 };
         } else if (localStorage.userId > 0) {
             user.userId = localStorage.userId;
