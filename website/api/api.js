@@ -58,7 +58,7 @@ class API {
 
         let string = "";
         for (let letter = 0; letter < test.length; letter++) {
-            if (test[letter] == test_content[letter]) {
+            if (test[letter] === test_content[letter]) {
                 string += test[letter];
             }
         }
