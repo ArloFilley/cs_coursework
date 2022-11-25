@@ -74,5 +74,5 @@ fn rocket() -> Rocket<Build> {
     .mount("/delete_cheaters", routes![delete_cheater])
     .mount("/leaderboard", routes![leaderboard])
     .mount("/api", routes![post_test])
-    .mount("/", FileServer::from(relative!("website"))) // hosts the fileserver
+    .mount("/typing", FileServer::from(relative!("website"))) // hosts the fileserver
 }
