@@ -1,3 +1,7 @@
+//! src/main.rs
+//! This file launches the web server which hosts the fileserver and the api
+//! 
+
 pub mod sql;
 
 // relevant macros and imports for rocket.rs

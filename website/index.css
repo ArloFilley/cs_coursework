@@ -1,0 +1,25 @@
+/* 
+Index.css 
+Description: This file is the stylesheet for the html that the
+             user will see if they do not have javascript enabled.
+Author: Arlo Filley
+*/
+
+:root {
+    --background-color: #dde83d;
+    --text-color: #000000;
+    --font: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+}
+
+noscript {
+    display: block;
+    text-align: center;
+
+    font-family: var(--font);
+    color: var(--text-color);
+    font-size: large;
+}
