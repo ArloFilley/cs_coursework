@@ -1,5 +1,21 @@
+/**
+ * @file   This file provides a time menu class for editing the length of a test
+ * @author Arlo Filley
+ * 
+ * TODO:
+ *      - implement visual changes (borders, etc)
+ *      - fix the timer number becoming invisible after a
+ *        it drops below a certain amount of time
+ *      - use getters and setters
+ *      - use the millis() p5.js function for if the framerate becomes
+ *        slowed down by the amount being drawn to the screen
+ */
+
+/**
+ *  This class provides the timer, which handles when a test starts and ends as well
+ *  as providing a visual element for the user to see
+ */
 class Timer {
-    // this is the doc comment for the Timer class
     /**
     * @param {int} pX 
     * @param {int} pY 

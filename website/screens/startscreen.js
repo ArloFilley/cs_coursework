@@ -1,3 +1,12 @@
+/**
+ * @file   This file is the base screen when the user visits the site
+ * @author Arlo Filley
+ */
+
+/**
+ * This screen class is the base screen. It provides the user with basic instructions
+ * and a set of menus to navigate the site
+ */
 class StartScreen {
     constructor() {
         this.menu = new Menu();

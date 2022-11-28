@@ -1,3 +1,18 @@
+/**
+ * @file   This file provides abstracted functions to interact with the api
+ * @author Arlo Filley
+ * 
+ * TODO:
+ *      - use localstorage for storing test data
+ *      - allow for test storage without an account
+ *      - validate all inputs that are sent to the server
+ *      - give useful errors to the user if there is an api error
+ *      - split into multiple files to more easily read code
+ */
+
+/**
+ * This class provides all the useful methods to interact with the api.
+ */
 class API {
     
     constructor() {
@@ -48,6 +63,8 @@ class API {
         xhr.send(
             JSON.stringify(data)
         );
+
+        user.lastTest = data;
     }
 
     /**
@@ -57,20 +74,24 @@ class API {
         const test = screenManager.screen.textbox.getLetters();
         const testType = "words";
         let testLength = test.length;
-        let testTime = screenManager.timer.getTime();
+        let testTime = screenManager.screen.timer.getTime();
         const testSeed = 0;
         const quoteId = 0;
         let wpm;
-        const accuracy = 0;
         const userId = Number(user.userId);
         let test_content = screenManager.screen.textbox.testContent;
 
         let string = "";
+        let inaccurateLetters = 0;
         for (let letter = 0; letter < test.length; letter++) {
             if (test[letter] === test_content[letter]) {
                 string += test[letter];
+            } else {
+                inaccurateLetters += 1;
             }
         }
+
+        const accuracy = (test.length - inaccurateLetters) / test.length * 100;
 
         // this is the wpm calculation factoring in the time of test
         // it assumes that all words are 5 characters long because on average

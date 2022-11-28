@@ -1,11 +1,28 @@
+//! src/sql.rs
+//! This file contains all the necessary code to
+//! interact with the sqlite database using functions
+//! it abstracts away the rusqlite necessary to perform
+//! these functions
+//! Author: Arlo Filley
+//! 
+//! TODO: 
+//!     - put necessary structs into a different file
+//!     - create structure for the input of post test 
+
+// Imports for json handling and rusqlite
 use rusqlite::{Connection, Result};
 use rocket::serde::Serialize;
 
+/// gets a connection to the database and returns it as
+/// a rusqlite::connection
 fn get_connection() -> rusqlite::Connection {
     Connection::open("database/database.sqlite")
         .expect("Error creating database connection")
 }
 
+/// Creates the necessary tables inside the database with
+/// correct normalised links between data for later
+/// querying
 pub fn create_database() -> Result<()> {
     let connection = get_connection();
 
@@ -37,6 +54,8 @@ pub fn create_database() -> Result<()> {
     Ok(())
 }
 
+/// takes necessary data about a test and creates
+/// a database record with the data
 pub fn post_test(
     test_type: &str, 
     test_length: u32, 
@@ -86,6 +105,8 @@ pub fn post_test(
     Ok(())
 }
 
+/// takes a username and password and creates a database
+/// entry for a new user
 pub fn create_user(
     username: &str,
     password: &str 
@@ -113,11 +134,15 @@ pub fn create_user(
     Ok(())
 }
 
+/// struct which can be deserialised
+/// from json to get the user_id
 #[derive(Debug)]
 pub struct User {
     user_id: u32,
 }
 
+/// takes a username and password as inputs and returns the
+/// user_id of the user if one exists
 pub fn find_user(
     username: &str,
     password: &str
@@ -146,6 +171,8 @@ pub fn find_user(
     Ok(user_id)
 }
 
+/// struct representing data that needs to be sent
+/// to the user
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Test {
@@ -158,6 +185,8 @@ pub struct Test {
     accuracy: u8,
 }
 
+/// returns all the tests that a given user_id has
+/// completed from the database
 pub fn get_user_tests(
     user_id: u32
 ) -> Result<Vec<Test>> {
@@ -189,6 +218,8 @@ pub fn get_user_tests(
     Ok(tests)
 }
 
+/// struct that represents all the data that gets sent to the user
+/// when they make a leaderboard request
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct LeaderBoardTest {
@@ -196,6 +227,8 @@ pub struct LeaderBoardTest {
     wpm: u8,
 }
 
+/// returns a vector of leaderboard tests, where each one is the fastest words
+/// per minute that a given user has achieved
 pub fn get_leaderboard(
     _user_id: u32
 ) -> Result<Vec<LeaderBoardTest>>{

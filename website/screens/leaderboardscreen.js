@@ -1,3 +1,17 @@
+/**
+ * @file   This file provides a leaderboard for the user to compare times.
+ * @author Arlo Filley
+ * 
+ * TODO:
+ *      - implement a way for the user to scroll down the tests.
+ *      - display more tests on the screen at once, up to 15
+ *      - store the leaderboard in localstorage as a cache for the most recent results
+ */
+
+/**
+ * this class is a screen which shows the current leaderboard from the
+ * results gotten via the api. 
+ */
 class LeaderboardScreen {
     constructor() {
         this.menu = new Menu();

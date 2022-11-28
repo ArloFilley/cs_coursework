@@ -3,6 +3,8 @@
  * @author Arlo Filley
  */
 
+// these are all of the globally accessible variables that are
+// needed for the site to run correctly
 let canvas, api, screenManager, user;
 
 /**

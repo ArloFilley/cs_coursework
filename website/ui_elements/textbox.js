@@ -1,3 +1,19 @@
+/**
+ * @file   This file provides the textbox class for taking user input
+ * @author Arlo Filley
+ * 
+ * TODO:
+ *      - add all characters a user could press
+ *      - refactor the code displaying the characters. It can become slow after lots of typing
+ *      - password mode, where the charcters are hidden from the user
+ *      - getters and setters
+ */
+
+/**
+ *  This class takes input from the user and displays it some form
+ *  it handles the test input from the user, and the login and sign
+ *  up pages.
+ */
 class Textbox {
     /**
      * Creates a new instance of the Textbox class
@@ -142,10 +158,6 @@ class Textbox {
      * @returns 
      */
     letterTyped(pKey) {
-        if (screenManager.screen.constructor.name === "TestScreen" && screenManager.timer.time === 0) {
-            return;
-        }
-
         if (pKey === "Backspace" && this.letters.length > 0) {
            this.letters.pop();
            this.words = this.words.substring(0, this.words.length-1)

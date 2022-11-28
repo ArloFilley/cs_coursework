@@ -12,34 +12,44 @@
  * username and password. Then find out the user_id of that account through the 
  * necessary api routes.
  */
-class LoginScreen {
+class AccountScreen {
     constructor() {
         this.textboxes = [
             new Textbox(
-                120, 250, 500, 100, 0, true, "#000", false,
+                120, 350, 500, 100, 0, true, "#000", false,
                 "#000", "#000", true
             ),
 
             new Textbox(
-                120, 400, 500, 100, 0, true, "#000", false,
+                120, 500, 500, 100, 0, true, "#000", false,
                 "000", "#000", false
             )
         ]
 
         this.buttons = [
             new Button(
-                100, 200, 500, 100, 0, true, "#000", false,
-                "#000", "#fff", ""
+                100, 300, 500, 100, 0, true, "#000", false,
+                "#000", "#fff", "", true, "#000", "#000", "#fff"  
             ),
 
             new Button(
-                100, 350, 500, 100, 0, true, "#000", false,
-                "#000", "#fff", ""
+                100, 450, 500, 100, 0, true, "#000", false,
+                "#000", "#fff", "", true, "#000", "#000", "#fff"  
             ),
 
             new Button(
-                700, 300, 100, 50, 0, true, "#000", false,
+                900, 300, 100, 50, 0, true, "#000", false,
                 "#000", "#00ff00", "Login"
+            ),
+
+            new Button(
+                900, 400, 100, 50, 0, true, "#000", false,
+                "#000", "#00ff00", "Sign up"
+            ),
+
+            new Button(
+                900, 500, 100, 50, 0, true, "#000", false,
+                "#000", "#00ff00", "Logout"
             ),
         ]
 
@@ -55,6 +65,9 @@ class LoginScreen {
      */
     draw() {
         background("#eeeee4");
+        textSize(100);
+        fill("#000");
+        text("Account", 300, 100);
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].draw();
         }
@@ -63,8 +76,9 @@ class LoginScreen {
             this.textboxes[i].draw();
         }
 
-        text("Username", 110, 175);
-        text("Password", 110, 325);
+        textSize(30);
+        text("Username", 110, 275);
+        text("Password", 110, 425);
 
         if (this.buttons[0].isPressed()) {
             this.textboxes[this.activeTextBox].line = false;
@@ -79,6 +93,15 @@ class LoginScreen {
                 this.textboxes[0].getWords(),
                 this.textboxes[1].getWords()
             )
+            screenManager.setScreen(new StartScreen());
+        } else if (this.buttons[3].isPressed()) {
+            api.createUser(
+                this.textboxes[0].getWords(),
+                this.textboxes[1].getWords()
+            )
+            screenManager.setScreen(new StartScreen());
+        } else if (this.buttons[4].isPressed()) {
+            api.logout();
             screenManager.setScreen(new StartScreen());
         }
         this.menu.draw();

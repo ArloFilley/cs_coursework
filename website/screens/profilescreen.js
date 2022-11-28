@@ -1,3 +1,19 @@
+/**
+ * @file   This file provides the user with their profilescreen, where they can see their own tests
+ * @author Arlo Filley
+ * 
+ * TODO:
+ *      - change button name
+ *      - provide filters for tests
+ *      - implement a way to scroll through tests
+ *      - create a way to have personal bests and track them
+ *      - store tests in localstorage.
+ *      - show user tests even if they are not logged in
+ */
+
+/**
+ * This class displays all of the test data for a given user
+ */
 class ProfileScreen {
     constructor() {
         this.menu = new Menu();

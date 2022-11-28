@@ -1,58 +1,44 @@
+/**
+ * @file   This file provides a way for the user to sign up for an account
+ * @author Arlo Filley
+ * 
+ * TODO:
+ *      - move into an seperated account page with signup and logout
+ *      - make passwords not display plain text
+ */
+
+/**
+ * This class provides the textboxes and methods necessary for a user
+ * to sign up for a new account, which it should then log them into
+ */
 class SignUpScreen {
     constructor() {
         this.textboxes = [
             new Textbox(
-                120,250,
-                500,100,
-                0,
-                true,
-                "#000",
-                false, "#000",
-                "#000",
-                true
+                120, 250, 500, 100,0, true, "#000", false, 
+                "#000", "#000", true
             ),
 
             new Textbox(
-                120,400,
-                500,100,
-                0,
-                true,
-                "#000",
-                false,"000",
-                "#000",
-                false
+                120, 400, 500, 100, 0, true, "#000", false,
+                "000", "#000", false
             )
         ]
 
         this.buttons = [
             new Button(
-                100,200,
-                500,100,
-                0,
-                true,
-                "#000",
-                false,"#000",
-                "#fff",""
+                100, 200, 500, 100, 0, true, "#000", false,
+                "#000", "#fff", ""
             ),
 
             new Button(
-                100,350,
-                500,100,
-                0,
-                true,
-                "#000",
-                false,"#000",
-                "#fff",""
+                100, 350, 500, 100, 0, true, "#000", false,
+                "#000", "#fff", ""
             ),
 
             new Button(
-                700,300,
-                100,50,
-                0,
-                true,
-                "#000",
-                false,"#000",
-                "#00ff00","Sign Up"
+                700, 300, 100, 50, 0, true, "#000", false,
+                "#000", "#00ff00", "Sign Up"
             ),
         ]
 
