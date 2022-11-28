@@ -49,7 +49,6 @@ class Textbox {
         this.backgroundColor = pBackgroundColor;
 
         this.letters = [];
-        this.words = "";
         this.allowedLetters = [
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
             'l', 'm','n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
@@ -61,6 +60,10 @@ class Textbox {
 
         if (this.isTest) {
             this.testContent = user.nextTest;
+            this.currentLine = 0;
+            this.words = [""];
+        } else {
+            this.words = "";
         }
     }
 
@@ -159,15 +162,24 @@ class Textbox {
      */
     letterTyped(pKey) {
         if (pKey === "Backspace" && this.letters.length > 0) {
-           this.letters.pop();
-           this.words = this.words.substring(0, this.words.length-1)
+            this.letters.pop();
+
+            if (this.isTest) {
+                this.words[this.currentLine] = this.words[this.currentLine].substring(0, this.words[this.currentLine].length-1);
+            } else {
+                this.words = this.words.substring(0, this.words.length-1)
+            }
            return;
         }
         
         for (let i = 0; i < this.allowedLetters.length; i++) {
            if (pKey.toLowerCase() === this.allowedLetters[i]) {
                this.letters.push(pKey);
-               this.words += pKey;
+               if (this.isTest) {
+                this.words[this.currentLine] += pKey;
+               } else {
+                this.words += pKey;
+               }
                return;
             }    
         }
@@ -210,7 +222,7 @@ class Textbox {
         fill(this.textColor);
         textSize(23);
         textAlign(LEFT);
-        if (this.words.length == 0 && this.line) {
+        if (this.words.length === 0 && this.line) {
             fill("#000")
             rect(this.x, this.y-15, 1, 30)
         }
@@ -223,40 +235,53 @@ class Textbox {
             let i = this.x;
             let j = this.y;
 
-            // currently this loop just prints out every letter in the array, including any enter characters
-            for (let x = 0; x < this.testContent.length; x++) {
-                if (i > this.x + this.width) i = this.x, j += 30;
-                if (this.testContent[x] === "Enter") { 
-                    i = this.x, j+= 30;
-                } else {
-                    text(this.testContent[x], i, j);
-                    i += 13
-                }
+            if (this.words[this.currentLine].length > this.testContent[this.currentLine].length) {
+                this.currentLine++;
+                this.words.push("");
             }
 
-            // these variables allow me to use the values of x and y while updating them
-            i = this.x;
-            j = this.y;
-
-            // currently this loop just prints out every letter in the array, including any enter characters
-            for (let x = 0; x < this.letters.length; x++) {
-                if (i > this.x + this.width) i = this.x, j += 30;
-                if (this.letters[x] === "Enter") { 
-                    i = this.x, j+= 30;
-                } else {
-                    if (this.letters[x] === this.testContent[x]) {
-                        fill('green');
+            if (this.currentLine > 0) {
+                for (let x = 0; x < this.testContent[this.currentLine-1].length; x++) {
+                    if (x < this.words[this.currentLine-1].length) {
+                        if (this.words[this.currentLine-1][x] === this.testContent[this.currentLine-1][x]) {
+                            fill("#00AA0044");
+                        } else {
+                            fill("#AA000044");
+                        }
                     } else {
-                        fill('red');
+                        fill("#00044");
                     }
-                    text(this.testContent[x], i, j);
-                    i += 13
+                    text(this.testContent[this.currentLine-1][x], i, j);
+                    i += 13;
                 }
-                if (this.letters.length > 0 && x == this.letters.length-1 && this.line) {
-                    fill("black")
-                    rect(i, j-15, 1, 30)
-                }
+                j+= 30;
             }
+            
+            i = this.x;
+
+            for (let x = 0; x < this.testContent[this.currentLine].length; x++) {
+                if (x < this.words[this.currentLine].length) {
+                    if (this.words[this.currentLine][x] === this.testContent[this.currentLine][x]) {
+                        fill("#00AA00");
+                    } else {
+                        fill("#AA0000");
+                    }
+                } else {
+                    fill("#000");
+                }
+                text(this.testContent[this.currentLine][x], i, j);
+                i += 13;
+            }
+
+            i = this.x;
+            j+=30;
+
+            fill("#000");
+            for (let x = this.currentLine + 1; x < this.testContent.length; x++) {
+                text(this.testContent[x], i, j);
+                j += 30;
+            }
+
         } else {
             // these variables allow me to use the values of x and y while updating them
             let i = this.x;

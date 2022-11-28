@@ -278,12 +278,19 @@ class API {
         xhr.open('GET', `https://random-word-api.herokuapp.com/word?number=100`);
         xhr.send();
         xhr.onload = () => {
+            const effectiveWidth = (windowWidth - 200) / 13;
             let textArr = JSON.parse(xhr.response);
+            let finalText = [];
             let text = "";
             for (let i = 0; i < textArr.length; i++) {
-                text += `${textArr[i]} `
+                if (text.length + textArr[i].length < effectiveWidth) {
+                    text += `${textArr[i]} `
+                } else {
+                    finalText.push(text);
+                    text = textArr[i];
+                }
             }
-            user.nextTest = text;
+            user.nextTest = finalText;
         };
     }
 }
