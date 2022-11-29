@@ -71,7 +71,7 @@ class API {
      * Validates all the parameters used for the postTest function which it then calls
      */
     validateTest() {
-        const test = screenManager.screen.textbox.getLetters();
+        const test = screenManager.screen.textbox.getWords();
         const testType = "words";
         let testLength = test.length;
         let testTime = screenManager.screen.timer.getTime();
@@ -79,7 +79,10 @@ class API {
         const quoteId = 0;
         let wpm;
         const userId = Number(user.userId);
-        let test_content = screenManager.screen.textbox.testContent;
+        let test_content = screenManager.screen.textbox.getTestContent();
+
+        console.log(test);
+        console.log(test_content);
 
         let string = "";
         let inaccurateLetters = 0;
@@ -91,7 +94,7 @@ class API {
             }
         }
 
-        const accuracy = (test.length - inaccurateLetters) / test.length * 100;
+        const accuracy = Math.round(((test.length - inaccurateLetters) / test.length) * 100);
 
         // this is the wpm calculation factoring in the time of test
         // it assumes that all words are 5 characters long because on average
@@ -286,8 +289,8 @@ class API {
                 if (text.length + textArr[i].length < effectiveWidth) {
                     text += `${textArr[i]} `
                 } else {
-                    finalText.push(text);
-                    text = textArr[i];
+                    finalText.push(text.substring(0,text.length-1));
+                    text = `${textArr[i]} `;
                 }
             }
             user.nextTest = finalText;

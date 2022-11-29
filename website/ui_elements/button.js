@@ -188,8 +188,17 @@ class Button {
             fill(this.hoverTextColor);
             text(this.label, this.x, this.y, this.width, this.height); 
         } else {
+            if (this.border) {
+                strokeWeight(2);
+                stroke(this.borderColor)
+            } else {
+                noStroke();
+            }
+
             fill(this.backgroundColor);
             rect(this.x, this.y, this.width, this.height);
+
+            noStroke();
             fill(this.textColor);
             text(this.label, this.x, this.y, this.width, this.height); 
         }

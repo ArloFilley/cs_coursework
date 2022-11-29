@@ -186,7 +186,11 @@ class Textbox {
     }
 
     getWords() {
-        return this.words;
+        let text = "";
+        for (let i = 0; i < this.words.length; i++) {
+            text += this.words[i];
+        }
+        return text;
     }
 
     setWords(pWords) {
@@ -199,6 +203,14 @@ class Textbox {
 
     setAllowedLetters(pAllowedLetters) {
         this.allowedLetters = pAllowedLetters;
+    }
+
+    getTestContent() {
+        let text = "";
+        for (let i = 0; i < this.testContent.length; i++) {
+            text += this.testContent[i];
+        }
+        return text;
     }
 
     /**
@@ -235,7 +247,7 @@ class Textbox {
             let i = this.x;
             let j = this.y;
 
-            if (this.words[this.currentLine].length > this.testContent[this.currentLine].length) {
+            if (this.words[this.currentLine].length >= this.testContent[this.currentLine].length) {
                 this.currentLine++;
                 this.words.push("");
             }
@@ -274,7 +286,7 @@ class Textbox {
             }
 
             i = this.x;
-            j+=30;
+            j += 30;
 
             fill("#000");
             for (let x = this.currentLine + 1; x < this.testContent.length; x++) {
