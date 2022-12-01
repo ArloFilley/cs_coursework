@@ -17,10 +17,9 @@ class EndScreen {
     }
     
     draw() {
-        background("#eeeee4");
         textSize(100);
         textAlign(CENTER, CENTER);
-        fill(0);
+        fill(user.colorScheme.text);
         text("Test Complete", 0, 0, windowWidth - 100, windowHeight / 6);
 
         textSize(30);

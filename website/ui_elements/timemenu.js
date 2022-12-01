@@ -15,10 +15,10 @@
 class TimeMenu {
     constructor() {
         this.buttons = [
-            new Button(100, 230,  100, 30, 0, true, "#fff", false, "#000", "#000", "15s"),
-            new Button(100, 260, 100, 30, 0, true, "#fff", false, "#000", "#000", "30s"),
-            new Button(100, 290, 100, 30, 0, true, "#fff", false, "#000", "#000", "45s"),
-            new Button(100, 320, 100, 30, 0, true, "#fff", false, "#000", "#000", "60s"),
+            new Button(100, 230, 100, 30, "15s"),
+            new Button(100, 260, 100, 30, "30s"),
+            new Button(100, 290, 100, 30, "45s"),
+            new Button(100, 320, 100, 30, "60s"),
         ];
 
         this.topButton = this.buttons[0];
@@ -33,19 +33,19 @@ class TimeMenu {
 
             if (this.buttons[0].isPressed() && user.time != 15) {
                 user.time = 15;
-                this.topButton = new Button(100, 230,  100, 30, 0, true, "#fff", false, "#000", "#000", "15s");
+                this.topButton = new Button(100, 230, 100, 30, "15s");
                 this.dropdown = false;
             } else if (this.buttons[1].isPressed()) {
                 user.time = 30;
-                this.topButton = new Button(100, 230,  100, 30, 0, true, "#fff", false, "#000", "#000", "30s");
+                this.topButton = new Button(100, 230,  100, 30, "30s");
                 this.dropdown = false;
             } else if (this.buttons[2].isPressed()) {
                 user.time = 45;
-                this.topButton = new Button(100, 230,  100, 30, 0, true, "#fff", false, "#000", "#000", "45s");
+                this.topButton = new Button(100, 230,  100, 30, "45s");
                 this.dropdown = false;
             } else if (this.buttons[3].isPressed()) {
                 user.time = 60;
-                this.topButton = new Button(100, 230,  100, 30, 0, true, "#fff", false, "#000", "#000", "60s");
+                this.topButton = new Button(100, 230,  100, 30, "60s");
                 this.dropdown = false;
             }
         } else {

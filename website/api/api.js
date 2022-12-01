@@ -81,9 +81,6 @@ class API {
         const userId = Number(user.userId);
         let test_content = screenManager.screen.textbox.getTestContent();
 
-        console.log(test);
-        console.log(test_content);
-
         let string = "";
         let inaccurateLetters = 0;
         for (let letter = 0; letter < test.length; letter++) {
@@ -218,7 +215,11 @@ class API {
         );
 
         xhr.onload = () => {
-            this.login(username,password);
+            if (xhr.status === 500) {
+                alert("Sorry, looks like your username isn't unique");
+            } else {
+                this.login(username,password);
+            }
         };
     }
 
@@ -255,9 +256,14 @@ class API {
         user.userId = 0;
         user.tests = [];
         localStorage.clear();
+        this.getTest();
     }
 
     getUserTests() {
+        if (user.userId === 0) {
+            user.tests = undefined;
+            return;
+        }
         let xhr = new XMLHttpRequest();
         let userId = Number(user.userId);
         xhr.open('GET', `${this.url}get_user_tests/${userId}/`);
@@ -278,7 +284,7 @@ class API {
 
     getTest() {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `https://random-word-api.herokuapp.com/word?number=100`);
+        xhr.open('GET', `${this.url}get_test/`);
         xhr.send();
         xhr.onload = () => {
             const effectiveWidth = (windowWidth - 200) / 13;

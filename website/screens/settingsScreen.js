@@ -14,13 +14,14 @@ class settingsScreen {
 
     draw() {
         textAlign(CENTER, CENTER);
-        background("#eeeee4");
 
         textSize(100);
-        fill("#000");
+        fill(user.colorScheme.text);
         text("Test Settings", 450, 100);
 
         this.menu.draw();
         this.timeMenu.draw();
+        fill("#000");
+        text(`Logged in as ${user.username}`, windowWidth-150, 15);
     }
 }

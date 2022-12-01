@@ -22,35 +22,16 @@ class AccountScreen {
 
             new Textbox(
                 120, 500, 500, 100, 0, true, "#000", false,
-                "000", "#000", false
+                "#000", "#000", false, false, true
             )
         ]
 
         this.buttons = [
-            new Button(
-                100, 300, 500, 100, 0, true, "#000", false,
-                "#000", "#fff", "", true, "#000", "#000", "#fff"  
-            ),
-
-            new Button(
-                100, 450, 500, 100, 0, true, "#000", false,
-                "#000", "#fff", "", true, "#000", "#000", "#fff"  
-            ),
-
-            new Button(
-                900, 300, 100, 50, 0, true, "#000", false,
-                "#000", "#00ff00", "Login"
-            ),
-
-            new Button(
-                900, 400, 100, 50, 0, true, "#000", false,
-                "#000", "#00ff00", "Sign up"
-            ),
-
-            new Button(
-                900, 500, 100, 50, 0, true, "#000", false,
-                "#000", "#00ff00", "Logout"
-            ),
+            new Button(100, 300, 500, 100, "", false, true, "#000", "#000", "#fff", "#000", "#000", "#fff"),
+            new Button(100, 450, 500, 100, "", false, true, "#000", "#000", "#fff", "#000", "#000", "#fff"),
+            new Button(900, 300, 100, 50, "Login"),
+            new Button(900, 400, 100, 50, "Sign up"),
+            new Button(900, 500, 100, 50, "Logout"),
         ]
 
         this.menu = new Menu();
@@ -64,9 +45,8 @@ class AccountScreen {
      * appropriate elements
      */
     draw() {
-        background("#eeeee4");
         textSize(100);
-        fill("#000");
+        fill(user.colorScheme.text);
         text("Account", 300, 100);
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].draw();
@@ -105,6 +85,8 @@ class AccountScreen {
             screenManager.setScreen(new StartScreen());
         }
         this.menu.draw();
+        fill(user.colorScheme.text);
+        text(`Logged in as ${user.username}`, windowWidth-150, 15);
     }
 
     /**

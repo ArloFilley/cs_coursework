@@ -13,11 +13,11 @@
 class Menu {
     constructor() {
         this.buttons = [
-            new Button(0,   0, 100, 30, 0, true, "#fff", false, "#000", "#000", "Account"),
-            new Button(101, 0, 130, 30, 0, true, "#fff", false, "#000", "#000", "Test Data"),
-            new Button(232, 0, 140, 30, 0, true, "#fff", false, "#000", "#000", "Start Test"),
-            new Button(373, 0, 140, 30, 0, true, "#fff", false, "#000", "#000", "Leaderboard"),
-            new Button(514, 0, 180, 30, 0, true, "#fff", false, "#000", "#000", "Test Settings")
+            new Button(0,   0, 100, 30, "Account"),
+            new Button(101, 0, 130, 30, "Test Data"),
+            new Button(232, 0, 140, 30, "Start Test"),
+            new Button(373, 0, 140, 30, "Leaderboard"),
+            new Button(514, 0, 180, 30, "Test Settings")
         ]
     }
 

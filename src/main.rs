@@ -20,6 +20,8 @@ use rocket::{
         json::Json
     }
 };
+use rand::Rng;
+use std::{fs, vec};
 
 // Imports for sql, see sql.rs for more information
 pub mod sql;
@@ -124,6 +126,27 @@ fn leaderboard() -> Json<Vec<LeaderBoardTest>> {
     Json(leaderboard)
 }
 
+/// Returns an array of words as Json
+/// Accessible from http://url/api/get_test
+#[get("/get_test")]
+fn get_test() -> Json<Vec<String>> {
+    let mut word_vec: Vec<&str> = vec![]; 
+    let words = fs::read_to_string("wordlist.txt").unwrap();
+    for word in words.split('\n') {
+        word_vec.push(word.clone());
+    }
+
+    let mut return_list: Vec<String> = vec![];
+
+    let mut rng = rand::thread_rng();
+    for _i in 0..100 {
+        let hi: u32 = rng.gen_range(0..999);
+        return_list.push(word_vec[hi as usize].to_string())
+    }
+
+    Json(return_list.clone())
+}
+
 /// The main function which builds and launches the
 /// webserver with all appropriate routes and fileservers
 #[launch]
@@ -136,7 +159,7 @@ fn rocket() -> Rocket<Build> {
     .mount("/api", routes![
         create_database, create_user,
         post_test, login, get_user_tests, 
-        leaderboard
+        leaderboard, get_test
         ])
     // hosts the fileserver
     .mount("/typing", FileServer::from(relative!("website")))

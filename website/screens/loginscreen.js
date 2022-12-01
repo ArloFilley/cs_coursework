@@ -54,7 +54,6 @@ class LoginScreen {
      * appropriate elements
      */
     draw() {
-        background("#eeeee4");
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].draw();
         }

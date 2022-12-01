@@ -148,7 +148,7 @@ class Timer {
      * This method is called to start the timer
      */
     start() {
-        this.startTime = frameCount; 
+        this.startTime = millis(); 
         // framecount is a special p5 value that counts the number of frames that have passed
         // I am using the amount of frames passed to calculate the time, assuming that the website is running at 60q frames
         // per second
@@ -160,8 +160,10 @@ class Timer {
      * it keeps track of the amount of time passed
      */
     tick() {
-        this.timeElapsed = frameCount - this.startTime;
-        if (this.timeElapsed == this.time * 60) this.end();
+        this.timeElapsed = (millis() - this.startTime) / 1000;
+        if (this.timeElapsed >= this.time) {
+            this.end();
+        };
     }
 
     /**
@@ -198,14 +200,13 @@ class Timer {
 
         // draws a bar that move across the screen to show the time left
         if (this.bar) {
-            fill(this.backgroundColor);
-            rect(this.y, this.x, windowWidth - windowWidth / (this.time * 60) * this.timeElapsed , this.height);
+            fill(user.colorScheme.timerBar);
+            rect(this.y, this.x, windowWidth - windowWidth * (this.timeElapsed / this.time), this.height);
         }
 
         // draws the text in the corner of the screen
         noStroke();
-        fill(this.textColor);
-        let time = (this.time * 60 - this.timeElapsed) / 60
-        text(Math.ceil(time), this.x + this.width / 6, this.y + this.height / 2)
+        fill(user.colorScheme.timerText);
+        text(Math.ceil(this.time - this.timeElapsed), this.x + this.width / 6, this.y + this.height / 2)
     }
 }

@@ -111,7 +111,6 @@ pub fn create_user(
     username: &str,
     password: &str 
 ) -> Result<()> {
-    println!("{} {}",username, password);
     let connection = get_connection();
 
     connection.execute(

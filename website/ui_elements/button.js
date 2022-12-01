@@ -31,13 +31,20 @@ class Button {
     */
     constructor(pX = 100, pY = 100, 
         pWidth = 200, pHeight = 30, 
-        pLayer = 0, pVisible = true,
-        pTextColor = "#fff", 
-        pBorder = false, pBorderColor = "#000", 
-        pBackgroundColor = "#000", 
         pLabel = "Default Button",
-        pHoverBorder = true, pHoverBorderColor = "#000",
-        pHoverTextColor = "#000", pHoverBackgroundColor = "#00ff00"
+
+        pBorder = false,
+        pHoverBorder = true,
+    
+        pTextColor = user.colorScheme.buttonText, 
+        pBorderColor = user.colorScheme.buttonBorder, 
+        pBackgroundColor = user.colorScheme.buttonBG, 
+
+        pHoverTextColor = user.colorScheme.buttonHoverText, 
+        pHoverBorderColor = user.colorScheme.buttonHoverBorder,
+        pHoverBackgroundColor = user.colorScheme.buttonHoverBG,
+
+        pLayer = 0, pVisible = true,
     ) {
         this.x = pX;
         this.y = pY;

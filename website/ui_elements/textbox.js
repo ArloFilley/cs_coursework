@@ -32,10 +32,11 @@ class Textbox {
         pX, pY, 
         pWidth, pHeight, 
         pLayer, pVisible, 
-        pTextColor, 
+        pTextColor = user.colorScheme.text, 
         pBorder, pBorderColor, 
         pBackgroundColor, 
-        pLine, pIsTest
+        pLine, pIsTest,
+        pIsPassword = false
     ) {
         this.x = pX;
         this.y = pY;
@@ -52,7 +53,9 @@ class Textbox {
         this.allowedLetters = [
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
             'l', 'm','n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-            'x', 'y', 'z', '\'', '"', ',', '.', ' '
+            'x', 'y', 'z', 
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+            '\'', '"', ',', '.', ' ', '!', '@', '$', '%', '^', '&', '*', '(', ')',
         ]
 
         this.line = pLine;
@@ -65,6 +68,11 @@ class Textbox {
         } else {
             this.words = "";
         }
+
+        this.isPassword = pIsPassword;
+
+        this.goodColor = user.colorScheme.testGood;
+        this.badColor = user.colorScheme.testBad;
     }
 
     getX() {
@@ -274,12 +282,12 @@ class Textbox {
             for (let x = 0; x < this.testContent[this.currentLine].length; x++) {
                 if (x < this.words[this.currentLine].length) {
                     if (this.words[this.currentLine][x] === this.testContent[this.currentLine][x]) {
-                        fill("#00AA00");
+                        fill(this.goodColor);
                     } else {
-                        fill("#AA0000");
+                        fill(this.badColor);
                     }
                 } else {
-                    fill("#000");
+                    fill(this.textColor);
                 }
                 text(this.testContent[this.currentLine][x], i, j);
                 i += 13;
@@ -288,12 +296,32 @@ class Textbox {
             i = this.x;
             j += 30;
 
-            fill("#000");
+            fill(this.textColor);
             for (let x = this.currentLine + 1; x < this.testContent.length; x++) {
                 text(this.testContent[x], i, j);
                 j += 30;
             }
 
+        } else if (this.isPassword) {
+            // these variables allow me to use the values of x and y while updating them
+            let i = this.x;
+            let j = this.y;
+
+            // currently this loop just prints out every letter in the array, including any enter characters
+            for (let x = 0; x < this.letters.length; x++) {
+                if (i > this.x + this.width) i = this.x, j += 30;
+                if (this.letters[x] === "Enter") { 
+                    i = this.x, j+= 30;
+                } else {
+                    let char = "-";
+                    text(char, i, j);
+                    i += 13
+                }
+                if (this.letters.length > 0 && x == this.letters.length-1 && this.line) {
+                    fill(this.textColor)
+                    rect(i, j-15, 1, 30)
+                }
+            }
         } else {
             // these variables allow me to use the values of x and y while updating them
             let i = this.x;
@@ -309,7 +337,7 @@ class Textbox {
                     i += 13
                 }
                 if (this.letters.length > 0 && x == this.letters.length-1 && this.line) {
-                    fill("black")
+                    fill(this.textColor)
                     rect(i, j-15, 1, 30)
                 }
             }

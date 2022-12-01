@@ -24,5 +24,24 @@ class User {
         this.tests;
         this.lastTest;
         this.nextTest = `satisfy powerful pleasant bells disastrous mean kited is gusted romantic past taste immolate productive leak close show crabby awake handsails finicky betray long-term incompetent wander show manage toys convey hop constitute number send like off ice aboard well-made vast vacuous tramp seed force divergent flower porter fire untidy soggy fetch`;
+
+        this.colorScheme = {
+            background: "#eeeee4",
+            text: "#000",
+
+            timerBar: "#50C5B7",
+            timerText: "#000",
+
+            testGood: "#0A0",
+            testBad: "#A00",
+
+            buttonBG: "#000",
+            buttonText: "#fff",
+            buttonBorder: "#000",
+
+            buttonHoverBG: "#0f0",
+            buttonHoverText: "#000",
+            buttonHoverBorder: "#000"
+        }
     }
 }

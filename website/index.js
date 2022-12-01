@@ -29,8 +29,8 @@ function setup() {
 
     api = new API();
     screenManager = new ScreenManager();
-    screenManager.setScreen(new StartScreen());
     user = new User();
+    screenManager.setScreen(new StartScreen());
 
     api.login();
     api.getTest();
@@ -44,6 +44,7 @@ function setup() {
  * sure that the correct screen is being drawn
 */
 function draw() {
+    background(user.colorScheme.background);
     screenManager.draw();
 }
 

@@ -4,3 +4,4 @@ Cargo.lock
 /NEA_Screenshots
 .DS_Store
 .gitignore
+/.database

@@ -53,7 +53,6 @@ class SignUpScreen {
      * appropriate elements
      */
     draw() {
-        background("#eeeee4");
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].draw();
         }
@@ -62,7 +61,7 @@ class SignUpScreen {
             this.textboxes[i].draw();
         }
 
-        fill("#000");
+        fill(user.colorScheme.text);
         text("Username", 110, 175);
         text("Password", 110, 325);
 
