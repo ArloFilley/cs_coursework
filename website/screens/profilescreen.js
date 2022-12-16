@@ -84,8 +84,8 @@ class ProfileScreen {
         for (let i = user.tests.length-1-offset; i >= user.tests.length-13-offset && i >= 0; i--) {
             this.testButtons.push([
                 new Button(400, j, 100, 30, `${i+1}`, true, true , "#000", "#000", "#fff"), // test # button
-                new Button(500, j, 100, 30, `${user.tests[i].accuracy}`, true, true , "#000", "#000", "#fff"), // accuracy button
-                new Button(600, j, 100, 30, `${user.tests[i].wpm}`, true, true , "#000", "#000", "#fff"), // wpm button
+                new Button(500, j, 100, 30, `${user.tests[i].wpm}`, true, true , "#000", "#000", "#fff"), // accuracy button
+                new Button(600, j, 100, 30, `${user.tests[i].accuracy}`, true, true , "#000", "#000", "#fff"), // wpm button
                 new Button(700, j, 240, 30, `${user.tests[i].test_length}`, true, true , "#000", "#000", "#fff")
             ])
             j+=30;

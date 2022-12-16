@@ -45,8 +45,9 @@ class Timer {
         this.bar = pBar;
         this.startTime;
         this.time = pTime;
-        this.timeElapsed;
+        this.timeElapsed = 0;
         this.ended;
+        this.hasStarted = false;
     }
 
     getX() {
@@ -153,6 +154,7 @@ class Timer {
         // I am using the amount of frames passed to calculate the time, assuming that the website is running at 60q frames
         // per second
         this.timeElapsed = 0;
+        this.hasStarted = true;
     }
 
     /**
@@ -201,12 +203,20 @@ class Timer {
         // draws a bar that move across the screen to show the time left
         if (this.bar) {
             fill(user.colorScheme.timerBar);
-            rect(this.y, this.x, windowWidth - windowWidth * (this.timeElapsed / this.time), this.height);
+            if (this.hasStarted) {
+                rect(this.y, this.x, windowWidth - windowWidth * (this.timeElapsed / this.time), this.height);
+            } else {
+                rect(this.y, this.x, windowWidth, this.height);
+            }
         }
 
         // draws the text in the corner of the screen
         noStroke();
         fill(user.colorScheme.timerText);
-        text(Math.ceil(this.time - this.timeElapsed), this.x + this.width / 6, this.y + this.height / 2)
+        if (this.hasStarted) {
+            text(Math.ceil(this.time - this.timeElapsed), this.x + this.width / 6, this.y + this.height / 2);
+        } else {
+            text("Type A Letter To Start", this.x + this.width / 6, this.y + this.height / 2);
+        }
     }
 }

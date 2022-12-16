@@ -286,7 +286,7 @@ class API {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', `${this.url}get_test/`);
         xhr.send();
-        xhr.onload = () => {
+        xhr.onload = () =>{
             const effectiveWidth = (windowWidth - 200) / 13;
             let textArr = JSON.parse(xhr.response);
             let finalText = [];
