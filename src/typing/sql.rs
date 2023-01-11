@@ -23,7 +23,7 @@ fn get_connection() -> rusqlite::Connection {
 /// Creates the necessary tables inside the database with
 /// correct normalised links between data for later
 /// querying
-pub fn create_database() -> Result<()> {
+fn new_database() -> Result<()> {
     let connection = get_connection();
 
     connection.execute(
@@ -52,6 +52,18 @@ pub fn create_database() -> Result<()> {
     )?;
 
     Ok(())
+}
+
+/// Api route that creates a database if one
+/// does not already exist.
+/// Acessible from http://url/api/create_database
+#[get("/create_database")]
+pub fn create_database() -> String {
+    let database = new_database();
+    match database {
+        Err(why) => format!("Error: {why}"),
+        Ok(_) => format!("Sucessfully created the database")
+    }
 }
 
 /// takes necessary data about a test and creates

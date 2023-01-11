@@ -5,7 +5,7 @@ workers = 4
 max_blocking = 512
 keep_alive = 5
 ident = "Rocket"
-log_level = "normal"
+log_level = "critical"
 temp_dir = "/tmp"
 cli_colors = true
 ## NOTE: Don't (!) use this key! Generate your own!
