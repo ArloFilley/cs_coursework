@@ -26,7 +26,7 @@ pub struct User<'r> {
 pub fn sign_up(user: Json<User<'_>>) {
     create_user(
         user.username, 
-        user.password
+        &sha256::digest(user.password),
     ).expect("Error: Couldn't create new user");
 }
 
@@ -44,7 +44,7 @@ pub fn get_tests(user_id: u32) -> Json<Vec<Test>> {
 /// Accessible from http://url/api/login
 #[get("/login/<username>/<password>")]
 pub fn login(username: &str, password: &str) -> String {
-    let user_id = find_user(username, password).expect("error finding user_id");
+    let user_id = find_user(username, &sha256::digest(password)).expect("error finding user_id");
     user_id.to_string()
 }
 

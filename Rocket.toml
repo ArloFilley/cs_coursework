@@ -5,11 +5,15 @@ workers = 4
 max_blocking = 512
 keep_alive = 5
 ident = "Rocket"
-log_level = "critical"
+log_level = "normal"
 temp_dir = "/tmp"
 cli_colors = true
 ## NOTE: Don't (!) use this key! Generate your own!
-secret_key = "abcdefghijklmnop"
+secret_key = "n@Rz%H4ORaf2u*H@yWtoSwRC0qf%t&yjRhmb30A7Y4IEWGMl50"
+
+[global.tls]
+certs = "/etc/letsencrypt/live/arlofilley.com/fullchain.pem"
+key = "/etc/letsencrypt/live/arlofilley.com/privkey.pem"
 
 [default.limits]
 form = "64 kB"

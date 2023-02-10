@@ -1,21 +1,11 @@
 use rocket::serde::{
-    json::{
-        Json,
-        to_string, from_str
-    },
-    Deserialize,
-    Serialize
+    json::{from_str, to_string, Json},
+    Deserialize, Serialize,
 };
 
 use std::{
-    io::{
-        Write,
-        Read
-    },
-    fs::{
-        File,
-        read_dir,
-    },
+    fs::{read_dir, File},
+    io::{Read, Write},
 };
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -26,7 +16,7 @@ struct Process {
     run_time: String,
     id: String,
     user_id: String,
-    virtual_memory: String
+    virtual_memory: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -37,7 +27,15 @@ struct Disk {
     total_space: String,
     available_space: String,
     usage: String,
-    file_system: String
+    file_system: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(crate = "rocket::serde")]
+struct CPU {
+    core_count: String,
+    cache: String,
+    clock_speed: String,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -57,11 +55,12 @@ pub struct System {
     swap_usage: String,
     disks: Vec<Disk>,
     processes: Vec<Process>,
+    cpu: CPU,
 }
 
 #[post("/servers", data = "<data>")]
 pub fn server(data: Json<System>) {
-    if data.key == "0etnmXPSr95@FNy6A3U9Bw*ZupNIR85zI!hRFGIdj6SW$Tu0q%" {
+    if data.key == "0etnmXPSr95@FNy6A3U9Bw*ZupNIR85zI!hRFGIdj6SW$T" {
         println!("Data From : {}", data.host_name);
     }
 
@@ -88,6 +87,7 @@ pub fn server(data: Json<System>) {
         swap_usage: format!("{}", data.swap_usage),
         disks: data.disks.clone(),
         processes: data.processes.clone(),
+        cpu: data.cpu.clone(),
     };
 
     let string = match to_string(&data) {
@@ -98,10 +98,7 @@ pub fn server(data: Json<System>) {
         Ok(string) => string,
     };
 
-    let write = file.write_all(
-        string
-        .as_bytes()
-    );
+    let write = file.write_all(string.as_bytes());
 
     match write {
         Err(why) => println!("Error {why}"),
@@ -116,7 +113,7 @@ pub fn server_info() -> Json<Vec<System>> {
         Err(why) => {
             println!("Error: {why}");
             read_dir("./server/").unwrap()
-        },
+        }
         Ok(dir) => dir,
     };
     let mut file: File;
@@ -128,9 +125,10 @@ pub fn server_info() -> Json<Vec<System>> {
             Err(ref why) => {
                 println!("Error: {why}");
                 path.unwrap()
-            },
-            Ok(path) => path
-        }.path();
+            }
+            Ok(path) => path,
+        }
+        .path();
 
         file = match File::open(format!("{}", path.display())) {
             Err(why) => {

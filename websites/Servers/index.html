@@ -7,25 +7,40 @@
     <title id="title">Leaderboard</title>
     <link rel="stylesheet" href="index.css">
     <script src="index.js" defer="true"></script>
+    <script src="cpu.js" defer="true"></script>
 </head>
 <body>
-    <div id="SystemDiv"><h1 id="system">Typing Leaderboard</h1></div>
+
     <div id="navbar">
         <div id="allButton">
-            <button id="all">all</button>
+            <button id="allSystemsButton">All Systems</button>
         </div>
-        <div id="systems">
-            <button>Arch</button>
+
+        <h2>Options</h2>
+        <div id="option-buttons">
+            <button id="systeminfo">System</button>
+            <button id="Disks Header">Disks</button>
+            <button id="Processes Header">Processes</button>
+            <button id="CPU Header">CPU</button>
         </div>
-    </div>
-    <div id="navbar">
-        <button id="systeminfo">System</button>
-        <button id="Disks Header">Disks</button>
-        <button id="Processes Header">Processes</button>
+
+        <h2>Systems</h2>
+        <div id="systems"></div>
     </div>
 
-    <div id="systemInfo" align="center"></div>
-    <div id="disks" align="center"></div>
-    <div id="processes" align="center"></div>
+    <div id="SystemName">
+        <h1 id="system">
+            Loading...
+        </h1>
+    </div>
+    
+
+    <div id="tables">
+        <div id="allSystemInfo" align="center"></div>
+        <div id="systemInfo" align="center"></div>
+        <div id="disks" align="center"></div>
+        <div id="processes" align="center"></div>
+        <div id="CPU" align="center"></div>
+    </div>
 </body>
 </html>

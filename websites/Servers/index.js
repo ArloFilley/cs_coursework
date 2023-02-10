@@ -1,33 +1,93 @@
+
 get();
 let disks = false;
 let processes = false;
 let sysinfo = true;
+let allSysInfo = false;
+let cpu = false;
 let json;
 let server = 0;
 
 setInterval(get, 5000);
 function get() {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://arlofilley.com/api/server_info');
+    xhr.open('GET', 'https://arlofilley.com/api/server_info');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.responseType = 'json';
     xhr.send();
     xhr.onload = () => {
         json = xhr.response
-        createElements(json[server]);
+        createElements(json);
         createButtons(json);
     };
 };
 
+function reset_tables() {
+    disks = false;
+    processes = false;
+    sysinfo = false;
+    allSysInfo = false;
+    cpu = false;
+}
+
 function createElements(pJson) {
     let title = document.getElementById(`system`);
-    title.textContent = pJson.host_name;
-    document.title = pJson.host_name;
+    title.textContent = pJson[server].host_name;
+    document.title = pJson[server].host_name;
 
-    createProcesses(pJson);
-    createDisks(pJson);
-    createSystemInfo(pJson);
+    createAllSystemInfo(pJson);
+    createProcesses(pJson[server]);
+    createDisks(pJson[server]);
+    createSystemInfo(pJson[server]);
+    create_cpu_table(pJson[server], cpu);
 };
+
+function createAllSystemInfo(systems) {
+    let div = document.getElementById(`allSystemInfo`)
+
+    
+    while (div.firstChild) {
+        div.removeChild(div.firstChild)
+    }
+
+    if (!allSysInfo) return;
+
+    document.title = "All Systems"
+    let title = document.getElementById('system');
+    title.textContent = "All Systems"
+    
+    let table = document.createElement(`table`);
+    let tableBody = document.createElement(`tbody`);
+    table.appendChild(tableBody);
+    let tr = document.createElement(`tr`);
+    tableBody.appendChild(tr)
+
+    create_table_element(
+        tr,
+        "",
+        ["Name", "OS", "Uptime", "Total Ram", "Used Ram",
+         "Available Ram", "Ram Usage", "Total Swap", "Used Swap", 
+         "Available Swap", "Swap Usage"]
+    );
+
+    tableBody.appendChild(tr);
+    tr = document.createElement(`tr`);
+
+    for (let i = 0; i < systems.length; i++) {
+        let system = systems[i];
+        create_table_element(
+            tr,
+            "",
+            [`${system.host_name}`, `${system.os}`, `${system.uptime}`, `${system.total_ram}`,
+             `${system.used_ram}`, `${system.available_ram}`, `${system.ram_usage}%`, `${system.total_swap}`,
+             `${system.used_swap}`, `${system.available_swap}`, `${system.swap_usage}%`]  
+        )
+        tableBody.appendChild(tr);
+        tr = document.createElement(`tr`);
+    }
+    div.appendChild(table);
+}
+
 
 function createSystemInfo(pJson) {
     let div = document.getElementById(`systemInfo`);
@@ -45,65 +105,23 @@ function createSystemInfo(pJson) {
     let tr = document.createElement('tr');
     tableBody.appendChild(tr);
 
-    let td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Name`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`OS`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Uptime`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Total Ram`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Used Ram`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Available Ram`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Total Swap`));
-    tr.appendChild(td);
-    tableBody.appendChild(tr);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Used Swap`));
-    tr.appendChild(td);
-    tableBody.appendChild(tr);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Available Swap`));
-    tr.appendChild(td);
+    create_table_element(
+        tr,
+        "",
+        ["Name", "OS", "Uptime", "Total Ram", "Used Ram",
+         "Available Ram", "Ram Usage", "Total Swap", "Used Swap", 
+         "Available Swap", "Swap Usage"]
+    );
     tableBody.appendChild(tr);
     tr = document.createElement('tr');
 
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(pJson.host_name));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(pJson.os));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(pJson.uptime));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(pJson.total_ram));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(pJson.used_ram));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(pJson.available_ram));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(pJson.total_swap));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(pJson.used_swap));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(pJson.available_swap));
-    tr.appendChild(td);
+    create_table_element(
+        tr,
+        "",
+        [`${pJson.host_name}`, `${pJson.os}`, `${pJson.uptime}`, `${pJson.total_ram}`,
+         `${pJson.used_ram}`, `${pJson.available_ram}`, `${pJson.ram_usage}%`, `${pJson.total_swap}`,
+         `${pJson.used_swap}`, `${pJson.available_swap}`, `${pJson.swap_usage}%`]  
+    );
     tableBody.appendChild(tr);
     tr = document.createElement('tr');
   
@@ -126,51 +144,24 @@ function createProcesses(pJson) {
     let tr = document.createElement('tr');
     tableBody.appendChild(tr);
 
-    let td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Name`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Memory`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Run Time`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Process ID`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`User ID`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Virtual Memory`));
-    tr.appendChild(td);
+    create_table_element(
+        tr,
+        "",
+        ["Name", "Memory", "Run Time", "Process ID",
+         "User ID", "Virtual Memory"]
+    );
+
     tableBody.appendChild(tr);
     tr = document.createElement('tr');
   
     for (let i = 0; i < pJson.processes.length; i++) {
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.processes[i].name}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.processes[i].memory}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.processes[i].run_time}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.processes[i].id}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.processes[i].user_id}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.processes[i].virtual_memory}`));
-        tr.appendChild(td);
+        let process = pJson.processes[i];
+        create_table_element(
+            tr,
+            "",
+            [`${process.name}`, `${process.memory}`, `${process.run_time}`, `${process.id}`,
+             `${process.user_id}`, `${process.virtual_memory}`]
+        )
 
         tableBody.appendChild(tr);
         tr = document.createElement('tr');
@@ -194,82 +185,73 @@ function createDisks(pJson) {
     let tr = document.createElement('tr');
     tableBody.appendChild(tr);
 
-    let td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Name`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Type`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Total Space`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Available Space`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`Usage`));
-    tr.appendChild(td);
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(`File System`));
-    tr.appendChild(td);
+
+    create_table_element(
+        tr, 
+        "",
+        ["Name", "Type", "Total Space", "Available Space", 
+         "Usage","File System"]
+    );
+    
     tableBody.appendChild(tr);
     tr = document.createElement('tr');
   
     for (let i = 0; i < pJson.disks.length; i++) {
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.disks[i].name}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.disks[i].disk_type}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.disks[i].total_space}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.disks[i].available_space}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.disks[i].usage}`));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(document.createTextNode(`${pJson.disks[i].file_system}`));
-        tr.appendChild(td);
-
+        let disk = pJson.disks[i];
+        create_table_element(
+            tr,
+            "",
+            [`${disk.name}`, `${disk.disk_type}`, `${disk.total_space}`,
+             `${disk.available_space}`, `${disk.usage}%`, `${disk.file_system}`]
+        )
         tableBody.appendChild(tr);
         tr = document.createElement('tr');
     }
     div.appendChild(table);
 };
 
+function create_table_element(tr, string, elements) {
+    if (elements.length > 0) {
+        for (let i = 0; i < elements.length; i++) {
+            let td = document.createElement('td');
+            td.appendChild(document.createTextNode(elements[i]));
+            tr.appendChild(td);
+        }
+    } else {
+        let td = document.createElement('td');
+        td.appendChild(document.createTextNode(string));
+        tr.appendChild(td);
+    }
+}
+
 b = document.getElementById("Processes Header");
 b.addEventListener("click", () => {
+    reset_tables();
     processes = true;
-    disks = false;
-    sysinfo = false;
-    createElements(json[server]);
+    createElements(json);
 });
 
 c = document.getElementById("systeminfo");
 c.addEventListener("click", () => {
-    processes = false;
-    disks = false;
+    reset_tables();
     sysinfo = true;
-    createElements(json[server]);
+    createElements(json);
 });
  let button = document.getElementById
 
 e = document.getElementById("Disks Header");
 e.addEventListener("click", () => {
+    reset_tables();
     disks = true;
-    processes = false;
-    sysinfo  = false;
-    createElements(json[server]);
+    createElements(json);
 });
+
+f = document.getElementById("allSystemsButton");
+f.addEventListener("click", () => {
+    reset_tables();
+    allSysInfo = true;
+    createElements(json);
+})
 
 function createButtons(pJson) {
     let div = document.getElementById("systems");
@@ -282,14 +264,13 @@ function createButtons(pJson) {
         let system = pJson[i];
 
         let button = document.createElement("button");
-        button.textContent = system.host_name.toUpperCase();
+        button.textContent = system.host_name;
         button.id = i;
         button.addEventListener("click", () => {
-            disks = false;
-            processes = false;
+            reset_tables();
             sysinfo = true;
             server = button.id
-            createElements(json[button.id]);
+            createElements(json);
         });
         div.appendChild(button);
     }

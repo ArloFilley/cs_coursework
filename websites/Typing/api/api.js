@@ -16,7 +16,7 @@
 class API {
     
     constructor() {
-        this.url = "http://arlofilley.com/api/";
+        this.url = "https://arlofilley.com/api/";
         // this is the url of the server
         // this may have to change later on
     }
@@ -284,7 +284,7 @@ class API {
 
     getTest() {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${this.url}get_test/`);
+        xhr.open('GET', `${this.url}new_test/`);
         xhr.send();
         xhr.onload = () =>{
             const effectiveWidth = (windowWidth - 200) / 13;
