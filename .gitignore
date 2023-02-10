@@ -5,10 +5,9 @@ Cargo.lock
 .DS_Store
 .gitignore
 /.database
-/websites/Servers
-/websites/BitBurner
 start.sh 
 TODO.md
 /server 
 /servers_old
 Rocket.toml
+/.hidden
