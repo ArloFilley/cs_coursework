@@ -1,13 +1,5 @@
 /target
 Cargo.lock
-/database/database.sqlite
-/NEA_Screenshots
+
 .DS_Store
-.gitignore
-/.database
-start.sh 
-TODO.md
-/server 
-/servers_old
-Rocket.toml
-/.hidden
+.env

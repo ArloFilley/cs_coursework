@@ -45,7 +45,7 @@ mod typing;
 
 use crate::servers::server::{server, server_info};
 use crate::typing::leaderboard::leaderboard;
-use crate::typing::sql::*;
+use crate::typing::sql::Database;
 use crate::typing::test::{create_test, new_test};
 use crate::typing::user::{get_tests, login, sign_up};
 
@@ -54,14 +54,14 @@ use crate::typing::user::{get_tests, login, sign_up};
 /// Test api route that returns hello world.
 /// Acessible from http://url/test
 #[get("/")]
-fn test() -> String {
-    String::from("Hello World!")
+fn test() -> &'static str {
+    "Hello World! I'm A rocket Webserver"
 }
 
 /// The main function which builds and launches the
 /// webserver with all appropriate routes and fileservers
 #[launch]
-fn rocket() -> Rocket<Build> {
+async fn rocket() -> Rocket<Build> {
     rocket::build()
         .attach(CORS)
         // testing only, should return "Hello world"
@@ -71,7 +71,6 @@ fn rocket() -> Rocket<Build> {
         .mount(
             "/api",
             routes![
-                create_database,
                 sign_up,
                 create_test,
                 login,
@@ -83,9 +82,10 @@ fn rocket() -> Rocket<Build> {
         .mount("/api", routes![server, server_info])
         // hosts the fileserver
         .mount("/typing", FileServer::from(relative!("websites/Typing")))
-        .mount("/servers", FileServer::from(relative!("websites/Servers")))
-        .mount(
-            "/BitBurner",
-            FileServer::from(relative!("websites/BitBurner")),
-        )
+        .manage(Database::new().await.unwrap())
+        // .mount("/servers", FileServer::from(relative!("websites/Servers")))
+        //.mount(
+        //    "/BitBurner",
+        //    FileServer::from(relative!("websites/BitBurner")),
+        //)
 }

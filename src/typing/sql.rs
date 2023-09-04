@@ -10,176 +10,138 @@
 //!     - create structure for the input of post test 
 
 // Imports for json handling and rusqlite
-use rusqlite::{Connection, Result};
+use sqlx::sqlite::{SqlitePool, SqlitePoolOptions};
 use rocket::serde::Serialize;
+
+pub struct Database(SqlitePool);
 
 /// gets a connection to the database and returns it as
 /// a rusqlite::connection
-fn get_connection() -> rusqlite::Connection {
-    Connection::open("database/database.sqlite")
-        .expect("Error creating database connection")
-}
+impl Database {
+    pub async fn new() -> Result<Self, sqlx::Error> {
+        let pool = SqlitePoolOptions::new()
+            .max_connections(2)
+            .connect("sqlite:/Users/arlo/code/cs_coursework/database/dev/database.sqlite")
+            .await?;
 
-/// Creates the necessary tables inside the database with
-/// correct normalised links between data for later
-/// querying
-fn new_database() -> Result<()> {
-    let connection = get_connection();
-
-    connection.execute(
-        "CREATE TABLE IF NOT EXISTS users (
-            user_id INTEGER PRIMARY KEY,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
-        )", 
-        ()
-    )?;
-    
-    connection.execute(
-        "CREATE TABLE IF NOT EXISTS tests (
-            test_id INTEGER PRIMARY KEY,
-            test_type TEXT NOT NULL,
-            test_length INTEGER,
-            test_time INTEGER,
-            test_seed INTEGER,
-            quote_id INTEGER,
-            wpm INTEGER,
-            accuracy INTEGER,
-            user_id INTEGER,
-            FOREIGN KEY(user_id) REFERENCES users(user_id)
-        )",
-        ()
-    )?;
-
-    Ok(())
-}
-
-/// Api route that creates a database if one
-/// does not already exist.
-/// Acessible from http://url/api/create_database
-#[get("/create_database")]
-pub fn create_database() -> String {
-    let database = new_database();
-    match database {
-        Err(why) => format!("Error: {why}"),
-        Ok(_) => format!("Sucessfully created the database")
+        Ok(Self(pool))
     }
-}
 
-/// takes necessary data about a test and creates
-/// a database record with the data
-pub fn post_test(
-    test_type: &str, 
-    test_length: u32, 
-    test_time: u32, 
-    test_seed: i64, 
-    quote_id: i32, 
-    wpm: u8, 
-    accuracy: u8, 
-    user_id: u32
-) -> Result<()> {
-    let connection = get_connection();
+    /// Creates the necessary tables inside the database with
+    /// correct normalised links between data for later querying
+    pub async fn new_database(&self) -> Result<(), sqlx::Error> {
+        sqlx::query!("
+            CREATE TABLE IF NOT EXISTS Users (
+                user_id INTEGER PRIMARY KEY,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                secret TEXT NOT NULL
+            )"
+        ).execute(&self.0).await?;
 
-    connection.execute(
-        "INSERT INTO tests (
-            test_type,
-            test_length,
-            test_time,
-            test_seed,
-            quote_id,
-            wpm,
-            accuracy,
-            user_id
-        )
-        VALUES(
-            ?1, 
-            ?2, 
-            ?3, 
-            ?4, 
-            ?5, 
-            ?6, 
-            ?7, 
-            ?8
-        )
-        ", 
-        (
-            test_type, 
-            test_length, 
-            test_time, 
-            test_seed, 
-            quote_id,
-            wpm, 
-            accuracy,
-            user_id
-        )
-    )?;
+        sqlx::query!("
+            CREATE TABLE IF NOT EXISTS Tests (
+                test_id INTEGER PRIMARY KEY,
+                test_type TEXT NOT NULL,
+                test_length INTEGER,
+                test_time INTEGER,
+                test_seed INTEGER,
+                quote_id INTEGER,
+                wpm INTEGER,
+                accuracy INTEGER,
+                user_id INTEGER,
+                FOREIGN KEY(user_id) REFERENCES users(user_id)
+            )"
+        ).execute(&self.0).await?;
 
-    Ok(())
-}
+        Ok(())
+    }
 
-/// takes a username and password and creates a database
-/// entry for a new user
-pub fn create_user(
-    username: &str,
-    password: &str 
-) -> Result<()> {
-    let connection = get_connection();
+    /// takes necessary data about a test and creates
+    /// a database record with the data
+    pub async fn create_test(&self, test_type: &str, test_length: u32, test_time: u32, test_seed: i64, quote_id: i32, wpm: u8, accuracy: u8, user_id: u32) -> Result<(), sqlx::Error> {
+        sqlx::query!("
+            INSERT INTO Tests (test_type, test_length, test_time, test_seed, quote_id, wpm, accuracy, user_id)
+            VALUES(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+            test_type, test_length, test_time, test_seed, quote_id, wpm, accuracy, user_id
+        ).execute(&self.0).await?;
 
-    connection.execute(
-        "
-        INSERT INTO users (
-            username,
-            password
-        )
-        VALUES (
-            ?1, 
-            ?2
-        )
-        ",
- (
-            username, 
-            password
-        )
-    )?;
+        Ok(())
+    }
 
-    Ok(())
-}
+    /// takes a username and password and creates a database
+    /// entry for a new user
+    pub async fn create_user(&self, username: &str, password: &str) -> Result<(), sqlx::Error> {
+        sqlx::query!("
+            INSERT INTO Users (username, password)
+            VALUES (?1, ?2)", 
+            username, password
+        ).execute(&self.0).await?;
 
-/// struct which can be deserialised
-/// from json to get the user_id
-#[derive(Debug)]
-pub struct User {
-    user_id: u32,
-}
+        Ok(())
+    }
 
-/// takes a username and password as inputs and returns the
-/// user_id of the user if one exists
-pub fn find_user(
-    username: &str,
-    password: &str
-) -> Result<u32> {
-    let mut user_id: u32 = 0;
-    let connection = get_connection();
-    let mut statement = connection.prepare(
-        "SELECT user_id
-        FROM users
-        WHERE username=:username AND password=:password",
-    )?;
+    /// takes a username and password as inputs and returns the
+    /// user_id and secret of the user if one exists
+    pub async fn find_user(&self, username: &str, password: &str) -> Result<Option<(u32, String)>, sqlx::Error> {
+        let user = sqlx::query!("
+            SELECT user_id, secret
+            FROM Users
+            WHERE username=:username AND password=:password",
+            username, password
+        ).fetch_all(&self.0).await?;
 
-    let iter = statement
-    .query_map(
-        &[(":username", username), (":password", password)], |row| {
-            Ok( User {
-                user_id: row.get(0)?
+        let user_id = user[0].user_id.unwrap() as u32;
+        let secret = user[0].secret.clone();
+
+        Ok(Some((user_id, secret)))
+    }
+
+    /// returns all the tests that a given user_id has
+    /// completed from the database
+    pub async fn get_user_tests(&self, user_id: u32, secret: &str) -> Result<Vec<Test>, sqlx::Error> {
+        let tests = sqlx::query!("
+            SELECT test_type, test_length, test_time, test_seed, quote_id, wpm, accuracy
+            FROM tests
+            INNER JOIN users ON users.user_id = tests.user_id
+            WHERE users.user_id=:user_id AND users.secret=:secret",
+            user_id, secret
+        ).fetch_all(&self.0).await?;
+
+        let user_tests = tests.iter()
+            .map(|test| Test { 
+                test_type: test.test_type.clone(), 
+                test_length: test.test_length.unwrap() as u32, 
+                test_time: test.test_time.unwrap() as u32, 
+                test_seed: test.test_seed.unwrap(), 
+                quote_id: test.quote_id.unwrap() as i32, 
+                wpm: test.wpm.unwrap() as u8, 
+                accuracy: test.accuracy.unwrap() as u8
             })
-        }
-    )?;
+            .collect();
 
-    for i in iter {
-        user_id = i.unwrap().user_id;
+        Ok(user_tests)
     }
+    /// returns a vector of leaderboard tests, where each one is the fastest words
+    /// per minute that a given user has achieved
+    pub async fn get_leaderboard(&self, _user_id: u32) -> Result<Vec<LeaderBoardTest>, sqlx::Error> {
+        let tests = sqlx::query!(
+            "SELECT users.username, tests.wpm
+            FROM tests
+            INNER JOIN users ON users.user_id = tests.user_id
+            GROUP BY users.username
+            ORDER BY tests.wpm DESC",
+        ).fetch_all(&self.0).await?;
 
-    Ok(user_id)
+        let leaderboard_tests = tests.iter()
+            .map(|test| LeaderBoardTest { 
+                username: test.username.clone(), 
+                wpm: test.wpm.unwrap() as u8
+            })
+            .collect();
+
+        Ok(leaderboard_tests)
+    }
 }
 
 /// struct representing data that needs to be sent
@@ -196,39 +158,6 @@ pub struct Test {
     accuracy: u8,
 }
 
-/// returns all the tests that a given user_id has
-/// completed from the database
-pub fn get_user_tests(
-    user_id: u32
-) -> Result<Vec<Test>> {
-    let connection = get_connection();
-    let mut statement = connection.prepare(
-        "SELECT test_type, test_length, test_time, test_seed, quote_id, wpm, accuracy
-        FROM tests
-        WHERE user_id=:user_id",
-    )?;
-
-    let test_iter = statement
-        .query_map(&[(":user_id", &user_id.to_string())], |row| {
-            Ok( Test {
-                test_type: row.get(0)?,
-                test_length: row.get(1)?,
-                test_time: row.get(2)?,
-                test_seed: row.get(3)?,
-                quote_id: row.get(4)?,
-                wpm: row.get(5)?,
-                accuracy: row.get(6)?
-            })
-        })?;
-
-    let mut tests: Vec<Test> = vec![];
-    for test in test_iter {
-        tests.push(test.unwrap());
-    }
-
-    Ok(tests)
-}
-
 /// struct that represents all the data that gets sent to the user
 /// when they make a leaderboard request
 #[derive(Serialize)]
@@ -238,32 +167,3 @@ pub struct LeaderBoardTest {
     wpm: u8,
 }
 
-/// returns a vector of leaderboard tests, where each one is the fastest words
-/// per minute that a given user has achieved
-pub fn get_leaderboard(
-    _user_id: u32
-) -> Result<Vec<LeaderBoardTest>>{
-    let connection = get_connection();
-    let mut statement = connection.prepare(
-        "SELECT users.username, MAX(tests.wpm)
-        FROM tests
-        INNER JOIN users ON users.user_id = tests.user_id
-        GROUP BY users.username
-        ORDER BY tests.wpm DESC",
-    )?;
-
-    let test_iter = statement
-        .query_map((), |row| {
-            Ok( LeaderBoardTest {
-                username: row.get(0)?,
-                wpm: row.get(1)?
-            })
-        })?;
-
-    let mut tests: Vec<LeaderBoardTest> = vec![];
-    for test in test_iter {
-        tests.push(test.unwrap());
-    }
-
-    Ok(tests)
-}
