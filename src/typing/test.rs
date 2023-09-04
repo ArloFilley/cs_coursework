@@ -1,7 +1,7 @@
-use crate::typing::sql::post_test;
-use rocket::serde::{
-    Deserialize,
-    json::Json
+use crate::typing::sql::Database;
+use rocket::{
+    serde::{ Deserialize, json::Json },
+    State
 };
 use rand::{
     Rng, 
@@ -30,17 +30,11 @@ pub struct PostTest<'r> {
 /// Api Route that accepts test data and posts it to the database
 /// Acessible from http://url/api/post_test
 #[post("/post_test", data = "<test>")]
-pub fn create_test(test: Json<PostTest<'_>>) {
-    post_test(
-        test.test_type, 
-        test.test_length, 
-        test.test_time, 
-        test.test_seed, 
-        test.quote_id, 
-        test.wpm, 
-        test.accuracy, 
-        test.user_id
-    ).expect("error in posting test to tests table");
+pub async fn create_test(test: Json<PostTest<'_>>, database: &State<Database>) {
+    match database.create_test(test.test_type, test.test_length, test.test_time, test.test_seed, test.quote_id, test.wpm, test.accuracy, test.user_id).await {
+        Err(why) => { println!("A database error occured creating a test, {why}"); }
+        Ok(()) => { println!("Successfully created test for {}", test.user_id); }
+    }
 }
 
 /// Returns an array of words as Json
@@ -56,9 +50,9 @@ pub fn new_test() -> Json<Vec<String>> {
     let mut return_list: Vec<String> = vec![];
 
     let mut rng: ThreadRng = rand::thread_rng();
-    for _i in 0..100 {
-        let hi: u32 = rng.gen_range(0..999);
-        return_list.push(word_vec[hi as usize].to_string())
+    for _ in 0..100 {
+        let word = rng.gen_range(0..999);
+        return_list.push(word_vec[word].to_string())
     }
 
     Json(return_list.clone())

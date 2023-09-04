@@ -19,12 +19,8 @@ pub struct User<'r> {
 #[post("/create_user", data = "<user>")]
 pub async fn sign_up(user: Json<User<'_>>, database: &State<Database>) {
     match database.create_user( user.username, &sha256::digest(user.password) ).await {
-        Err(why) => { 
-            println!("A database error occured during signup, {}", why); 
-        }
-        Ok(()) => {
-            println!("Succesfully Signed up user {}", user.username);
-        }
+        Err(why) => { println!("A database error occured during signup, {why}"); }
+        Ok(()) => { println!("Succesfully Signed up user {}", user.username); }
     }
 }
 
