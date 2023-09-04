@@ -13,6 +13,7 @@
 use sqlx::sqlite::{SqlitePool, SqlitePoolOptions};
 use rocket::serde::Serialize;
 
+/// Contains the database connection pool
 pub struct Database(SqlitePool);
 
 /// gets a connection to the database and returns it as
@@ -71,11 +72,11 @@ impl Database {
 
     /// takes a username and password and creates a database
     /// entry for a new user
-    pub async fn create_user(&self, username: &str, password: &str) -> Result<(), sqlx::Error> {
+    pub async fn create_user(&self, username: &str, password: &str, secret: &str) -> Result<(), sqlx::Error> {
         sqlx::query!("
-            INSERT INTO Users (username, password)
-            VALUES (?1, ?2)", 
-            username, password
+            INSERT INTO Users (username, password, secret)
+            VALUES (?1, ?2, ?3)", 
+            username, password, secret
         ).execute(&self.0).await?;
 
         Ok(())
@@ -87,12 +88,12 @@ impl Database {
         let user = sqlx::query!("
             SELECT user_id, secret
             FROM Users
-            WHERE username=:username AND password=:password",
+            WHERE username=? AND password=?",
             username, password
-        ).fetch_all(&self.0).await?;
+        ).fetch_one(&self.0).await?;
 
-        let user_id = user[0].user_id.unwrap() as u32;
-        let secret = user[0].secret.clone();
+        let user_id = user.user_id.unwrap() as u32;
+        let secret = user.secret.clone();
 
         Ok(Some((user_id, secret)))
     }
@@ -104,9 +105,11 @@ impl Database {
             SELECT test_type, test_length, test_time, test_seed, quote_id, wpm, accuracy
             FROM tests
             INNER JOIN users ON users.user_id = tests.user_id
-            WHERE users.user_id=:user_id AND users.secret=:secret",
+            WHERE users.user_id=? AND users.secret=?",
             user_id, secret
         ).fetch_all(&self.0).await?;
+
+        println!("{}", tests.len());
 
         let user_tests = tests.iter()
             .map(|test| Test { 

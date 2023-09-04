@@ -16,8 +16,9 @@
 class User {
     constructor() {
         this.username = "not logged in";
-        this.password = "there";
         this.userId = 0;
+        this.secret = "";
+
         this.leaderboard;
         this.time = 15;
 

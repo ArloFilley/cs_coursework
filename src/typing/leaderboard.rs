@@ -1,4 +1,4 @@
-use rocket::{ serde::json::Json, State, Data };
+use rocket::{ serde::json::Json, State };
 use crate::typing::sql::{
     Database,
     LeaderBoardTest

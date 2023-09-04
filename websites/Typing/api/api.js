@@ -16,7 +16,8 @@
 class API {
     
     constructor() {
-        this.url = "https://arlofilley.com/api/";
+        // this.url = "https://arlofilley.com/api/";
+        this.url = "../api";
         // this is the url of the server
         // this may have to change later on
     }
@@ -33,16 +34,7 @@ class API {
      * @param {int} accuracy 
      * @param {int} userId 
      */
-    postTest(
-        pTestType, 
-        pTestLength, 
-        pTestTime, 
-        pTestSeed, 
-        pQuoteId, 
-        pWpm, 
-        pAccuracy, 
-        pUserId
-    ) {
+    postTest(pTestType, pTestLength, pTestTime, pTestSeed, pQuoteId, pWpm, pAccuracy, pUserId) {
         const data = {
             'test_type': pTestType,
             'test_length': pTestLength,
@@ -57,7 +49,7 @@ class API {
         const xhr = new XMLHttpRequest();
         xhr.open(
             "POST", 
-            this.url+"post_test"
+            `${this.url}/post_test/`
         );
 
         xhr.send(
@@ -174,16 +166,7 @@ class API {
 
         // there will be other tests here in later iterations but for now these tests should suffice
 
-        this.postTest(
-            testType, 
-            testLength, 
-            testTime, 
-            testSeed, 
-            quoteId, 
-            wpm, 
-            accuracy, 
-            userId
-        );
+        this.postTest(testType, testLength, testTime, testSeed, quoteId, wpm, accuracy, userId);
     }
 
     /**
@@ -194,59 +177,73 @@ class API {
      * @param {String} password 
      * @returns
      */
-    createUser(
-        username,
-        password
-    ) {
-        console.log(username, password);
+    createUser( username, password ) {
+        console.log( username, password );
         const user = {
             username: username,
             password: password
         };
 
         const xhr = new XMLHttpRequest(); 
-        xhr.open(
-            "POST",
-            `${this.url}create_user/`
-        );
+        xhr.open( "POST", `${this.url}/create_user/` );
 
-        xhr.send(
-            JSON.stringify(user)
-        );
+        xhr.send( JSON.stringify(user) );
 
         xhr.onload = () => {
             if (xhr.status === 500) {
                 alert("Sorry, looks like your username isn't unique");
+                console.error("Sorry, looks like your username isn't unique")
             } else {
-                this.login(username,password);
+                this.login(username, password);
             }
         };
     }
 
-    login(pUsername, pPassword) {
-        if (localStorage.userId === null || localStorage.userId === 0 || localStorage.userId === undefined) {
-            let xhr = new XMLHttpRequest();
-                xhr.open('GET', `${this.url}login/${pUsername}/${pPassword}`);
-                xhr.send();
-                xhr.onload = () => {
-                    user.userId = Number(xhr.response);
-                    if (user.userId > 0) {
-                        user.username = pUsername
-                        localStorage.setItem("userId", user.userId);
-                        localStorage.setItem("username", pUsername);
-                        localStorage.setItem("password", pPassword);
-                    } else {
-                        user.username = "no one";
-                        user.password = "none";
-                        user.userId = 0;
-                        user.tests = [];
-                    } 
-                };
-        } else if (localStorage.userId > 0) {
-            user.userId = localStorage.userId;
-            user.username = localStorage.username;
-            user.password = localStorage.password;
+
+    /**
+     * takes a validated name and password and sends
+     * a post request to make a user with the given
+     * username and password
+     * @param {String} username 
+     * @param {String} password 
+     * @param {boolean} initial
+     * @returns
+     */
+    login(pUsername, pPassword, initial = false) {
+        // Variable Validation
+        if (pUsername == undefined || pPassword == undefined) {
+            return
         }
+        
+        // If Local Storage has the information we need there is no need to make a request to the server
+        if (localStorage.getItem("username") == pUsername) {
+            user.userId = localStorage.getItem("userId");
+            user.secret = localStorage.getItem("secret");
+            user.username = localStorage.getItem("username");
+
+            return
+        }
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${this.url}/login/${pUsername}/${pPassword}`);
+        xhr.send();
+        xhr.onload = () => {
+            let response = JSON.parse(xhr.response);
+
+            // If there is an error with the login we need 
+            if (xhr.response == null) {
+                alert("Error Logging in, maybe check your password");
+                return 
+            }
+
+            user.userId = response.user_id;
+            user.username = pUsername
+            user.secret = response.secret;
+
+            localStorage.setItem("userId", user.userId);
+            localStorage.setItem("username", pUsername);
+            localStorage.setItem("secret", user.secret);
+        };
     }
 
     logout() {
@@ -265,8 +262,8 @@ class API {
             return;
         }
         let xhr = new XMLHttpRequest();
-        let userId = Number(user.userId);
-        xhr.open('GET', `${this.url}get_user_tests/${userId}/`);
+
+        xhr.open('GET', `${this.url}/get_tests/${user.userId}/${user.secret}`);
         xhr.send();
         xhr.onload = () => {
             user.tests = JSON.parse(xhr.response);
@@ -275,7 +272,7 @@ class API {
 
     getLeaderBoard() {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${this.url}leaderboard/`);
+        xhr.open('GET', `${this.url}/leaderboard/`);
         xhr.send();
         xhr.onload = () => {
             user.leaderboard = JSON.parse(xhr.response);
@@ -284,7 +281,7 @@ class API {
 
     getTest() {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', `${this.url}new_test/`);
+        xhr.open('GET', `${this.url}/new_test/`);
         xhr.send();
         xhr.onload = () =>{
             const effectiveWidth = (windowWidth - 200) / 13;
