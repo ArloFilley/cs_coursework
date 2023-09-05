@@ -27,6 +27,9 @@ class Textbox {
      * @param {bool} pBorder 
      * @param {hexcode} pBorderColor 
      * @param {hexcode} pBackgroundColor 
+     * @param {bool} pLine
+     * @param {bool} pIsTest
+     * @param {bool} pIsPassword
      */
     constructor(
         pX, pY, 
@@ -73,6 +76,7 @@ class Textbox {
 
         this.goodColor = user.colorScheme.testGood;
         this.badColor = user.colorScheme.testBad;
+        this.textColor = user.colorScheme.text;
     }
 
     getX() {
@@ -271,7 +275,9 @@ class Textbox {
                     } else {
                         fill("#00044");
                     }
+
                     text(this.testContent[this.currentLine-1][x], i, j);
+
                     i += 13;
                 }
                 j+= 30;
@@ -289,9 +295,17 @@ class Textbox {
                 } else {
                     fill(this.textColor);
                 }
+
                 text(this.testContent[this.currentLine][x], i, j);
+
+                if (this.letters.length > 0 && x == this.letters.length && this.line) {
+                    fill(this.textColor)
+                    rect(i, j-15, 1, 30)
+                }
                 i += 13;
             }
+
+           
 
             i = this.x;
             j += 30;
@@ -300,7 +314,7 @@ class Textbox {
             for (let x = this.currentLine + 1; x < this.testContent.length; x++) {
                 text(this.testContent[x], i, j);
                 j += 30;
-            }
+            }            
 
         } else if (this.isPassword) {
             // these variables allow me to use the values of x and y while updating them
@@ -342,5 +356,9 @@ class Textbox {
                 }
             }
         }
+    }
+
+    draw_line(line, y) {
+        
     }
 }

@@ -10,8 +10,10 @@
 //!     - create structure for the input of post test 
 
 // Imports for json handling and rusqlite
-use sqlx::sqlite::{SqlitePool, SqlitePoolOptions};
-use rocket::serde::Serialize;
+use sqlx::sqlite::{ SqlitePool, SqlitePoolOptions };
+use rocket::serde::{ Serialize, json::Json };
+
+use crate::typing::test::PostTest;
 
 /// Contains the database connection pool
 pub struct Database(SqlitePool);
@@ -60,11 +62,23 @@ impl Database {
 
     /// takes necessary data about a test and creates
     /// a database record with the data
-    pub async fn create_test(&self, test_type: &str, test_length: u32, test_time: u32, test_seed: i64, quote_id: i32, wpm: u8, accuracy: u8, user_id: u32) -> Result<(), sqlx::Error> {
+    pub async fn create_test(&self, test: Json<PostTest<'_>>) -> Result<(), sqlx::Error> {
+        // Test to see whether the secret is correct
+        let user = sqlx::query!("
+            Select secret
+            From Users
+            Where user_id=?", 
+            test.user_id
+        ).fetch_one(&self.0).await?;
+
+        if user.secret != test.secret {
+            return Err(sqlx::Error::RowNotFound)
+        }
+
         sqlx::query!("
             INSERT INTO Tests (test_type, test_length, test_time, test_seed, quote_id, wpm, accuracy, user_id)
             VALUES(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
-            test_type, test_length, test_time, test_seed, quote_id, wpm, accuracy, user_id
+            test.test_type, test.test_length, test.test_time, test.test_seed, test.quote_id, test.wpm, test.accuracy, test.user_id
         ).execute(&self.0).await?;
 
         Ok(())

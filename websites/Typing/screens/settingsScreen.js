@@ -17,9 +17,12 @@ class settingsScreen {
 
         textSize(100);
         fill(user.colorScheme.text);
-        text("Test Settings", 450, 100);
+        text("Test Settings", windowWidth / 2, 100);
 
         this.menu.draw();
+
+        fill(user.colorScheme.text);
+        text("Test Duration", windowWidth / 2 - 250, 265)
         this.timeMenu.draw();
         fill("#000");
         text(`Logged in as ${user.username}`, windowWidth-150, 15);

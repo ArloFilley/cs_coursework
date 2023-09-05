@@ -179,6 +179,7 @@ class Button {
             return;
         }
         textSize(20);
+        textAlign(CENTER, CENTER);
 
         if (mouseX > this.x && mouseX < this.x + this.width && mouseY > this.y && mouseY < this.y + this.height) {
 

@@ -15,12 +15,7 @@
  */
 class API {
     
-    constructor() {
-        // this.url = "https://arlofilley.com/api/";
-        this.url = "../api";
-        // this is the url of the server
-        // this may have to change later on
-    }
+    constructor() { this.url = "../api"; }
 
     /**
      * This takes the validated data and makes a post
@@ -43,7 +38,8 @@ class API {
             'quote_id': pQuoteId,
             'wpm': pWpm,
             'accuracy': pAccuracy,
-            'user_id': pUserId
+            'user_id': pUserId,
+            'secret': user.secret
         }
 
         const xhr = new XMLHttpRequest();
@@ -210,17 +206,17 @@ class API {
      * @returns
      */
     login(pUsername, pPassword, initial = false) {
-        // Variable Validation
-        if (pUsername == undefined || pPassword == undefined) {
-            return
-        }
-        
         // If Local Storage has the information we need there is no need to make a request to the server
-        if (localStorage.getItem("username") == pUsername) {
+        if (localStorage.getItem("username") === pUsername || (initial && localStorage.length === 3) ) {
             user.userId = localStorage.getItem("userId");
             user.secret = localStorage.getItem("secret");
             user.username = localStorage.getItem("username");
 
+            return
+        }
+
+        // Variable Validation
+        if (pUsername == undefined || pPassword == undefined) {
             return
         }
 
@@ -231,7 +227,7 @@ class API {
             let response = JSON.parse(xhr.response);
 
             // If there is an error with the login we need 
-            if (xhr.response == null) {
+            if (xhr.response === null) {
                 alert("Error Logging in, maybe check your password");
                 return 
             }
@@ -249,7 +245,7 @@ class API {
     logout() {
         user = new User();
         user.username = "no one";
-        user.password = "none";
+        user.password = "";
         user.userId = 0;
         user.tests = [];
         localStorage.clear();

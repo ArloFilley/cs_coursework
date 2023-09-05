@@ -32,7 +32,7 @@ function setup() {
     user = new User();
     screenManager.setScreen(new StartScreen());
 
-    api.login();
+    api.login(null, null, true);
     api.getTest();
     textFont(roboto);
 }

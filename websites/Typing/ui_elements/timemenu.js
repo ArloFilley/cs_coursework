@@ -15,13 +15,14 @@
 class TimeMenu {
     constructor() {
         this.buttons = [
-            new Button(100, 230, 100, 30, "15s"),
-            new Button(100, 260, 100, 30, "30s"),
-            new Button(100, 290, 100, 30, "45s"),
-            new Button(100, 320, 100, 30, "60s"),
+            new Button(900, 250, 100, 30, "15s"),
+            new Button(900, 280, 100, 30, "30s"),
+            new Button(900, 310, 100, 30, "45s"),
+            new Button(900, 340, 100, 30, "60s"),
         ];
 
         this.topButton = this.buttons[0];
+        this.dropDownButton = new Button(1000, 250, 30, 30, "v")
         this.dropdown = false;
     }
 
@@ -33,29 +34,28 @@ class TimeMenu {
 
             if (this.buttons[0].isPressed() && user.time != 15) {
                 user.time = 15;
-                this.topButton = new Button(100, 230, 100, 30, "15s");
+                this.topButton = new Button(900, 250, 100, 30, "15s");
                 this.dropdown = false;
             } else if (this.buttons[1].isPressed()) {
                 user.time = 30;
-                this.topButton = new Button(100, 230,  100, 30, "30s");
+                this.topButton = new Button(900, 250,  100, 30, "30s");
                 this.dropdown = false;
             } else if (this.buttons[2].isPressed()) {
                 user.time = 45;
-                this.topButton = new Button(100, 230,  100, 30, "45s");
+                this.topButton = new Button(900, 250,  100, 30, "45s");
                 this.dropdown = false;
             } else if (this.buttons[3].isPressed()) {
                 user.time = 60;
-                this.topButton = new Button(100, 230,  100, 30, "60s");
+                this.topButton = new Button(900, 250,  100, 30, "60s");
                 this.dropdown = false;
             }
         } else {
             this.topButton.draw();
         }
 
-        if (this.topButton.isPressed()) {
+        this.dropDownButton.draw();
+        if (this.dropDownButton.isPressed()) {
             this.dropdown = true;
-        } else if (mouseIsPressed) {
-            this.dropdown = false;
-        }  
+        } else if (mouseIsPressed) { this.dropdown = false };
     }
 }

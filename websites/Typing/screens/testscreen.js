@@ -14,9 +14,13 @@
  */
 class TestScreen {
     constructor() {
-        this.textbox = new Textbox(100,100,windowWidth - 200,windowHeight,0,true,"#000", false, "#000", "#000", true, true);
+        this.textbox = new Textbox(
+            100, windowHeight / 2 - 100,
+            windowWidth - 500,windowHeight,
+            0, true, "#000", false, "#000", "#000", true, true);
         this.timer = new Timer(0,0,windowWidth,50,0,true,"#fff", true, "#000", "#666", user.time, true);
         this.timerStarted = false;
+        this.stopButton = new Button(0,50,200,50, "Stop Test");
     }
 
     draw() {
@@ -24,6 +28,10 @@ class TestScreen {
         this.timer.draw();
         if (this.timerStarted) {
             this.timer.tick();
+        }
+        this.stopButton.draw();
+        if (this.stopButton.isPressed()) {
+            screenManager.setScreen(new StartScreen())
         }
     }
 
