@@ -1,0 +1,2 @@
+#/bin/bash
+docker run -p 8000:8000 -v /Users/arlo/Code/CS-Coursework/database/dev/database.sqlite:/app/database/dev/database.sqlite -v /Users/arlo/Code/CS-Coursework/public:/app/public "typing-website:Dockerfile" \
