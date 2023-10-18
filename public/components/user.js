@@ -22,14 +22,21 @@ class UserShower {
 
         this.button.draw();
 
-        imageMode(CENTER);
-
-
-        tint(255, 0, 255, 126);
-        image(accountIcon, this.x + this.height / 2, this.y + this.width / 2);
+        if (user.secret !== undefined) {
+            text(user.username, this.x + this.height / 2, this.y + this.width / 2)
+        } else {
+            imageMode(CENTER);
+            if (this.button.isHovered()) {
+                tint(0);
+            } else {
+                tint(255);
+            }
+            image(accountIcon, this.x + this.height / 2, this.y + this.width / 2);
+        }
+        
 
         if (this.button.isPressed()) {
-            screenManager.setScreen(new AccountScreen());
+            screenManager.setScreen(new OpenEveningScreen());
         }
     }
 }

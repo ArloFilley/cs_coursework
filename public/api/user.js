@@ -31,7 +31,7 @@ class User {
             testBad: "#A00",
 
             buttonBG: "#12202f",
-            buttonText: "#fff",
+            buttonText: "#FFF",
             buttonBorder: "#000",
 
             buttonHoverBG: "#FFF",

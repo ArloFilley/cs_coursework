@@ -14,7 +14,7 @@ let canvas, api, screenManager, user;
 */
 function preload() {
     roboto = loadFont('./assets/fonts/RobotoMono-Medium.ttf');  
-    accountIcon = loadImage('./assets/icons/account_circle.svg');
+    accountIcon = loadImage('./assets/icons/account.png');
 } 
 
 /**
@@ -31,7 +31,7 @@ function setup() {
     api = new API();
     screenManager = new ScreenManager();
     user = new User();
-    screenManager.setScreen(new StartScreen());
+    screenManager.setScreen(new OpenEveningScreen());
 
     api.login(null, null, true);
     api.getTest();

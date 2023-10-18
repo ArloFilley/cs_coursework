@@ -19,14 +19,21 @@ class EndScreen {
     draw() {
         textSize(100);
         textAlign(CENTER, CENTER);
-        fill(user.colorScheme.text);
-        text("Test Complete", 0, 0, windowWidth - 100, windowHeight / 6);
+        
+        fill(user.colorScheme.testGood)
+        text("Test Complete!", 0, 100, windowWidth, 110);
+        // text("Test Complete", 0, 0, windowWidth - 100, windowHeight / 6);
 
+        fill(user.colorScheme.text);
         textSize(30);
-        text(`${user.lastTest.wpm} words per minute`, windowWidth / 2, 200);
-        text(`${user.lastTest.accuracy}% accuracy`, windowWidth / 2, 240);
-        text(`${user.lastTest.test_length} characters typed`, windowWidth / 2, 280);
-        text(`${user.lastTest.test_time}s`, windowWidth / 2, 320);
+        text("Your Stats:", windowWidth / 2, 310);
+        text(`${user.lastTest.wpm} words per minute`, windowWidth / 2, 350);
+        text(`${user.lastTest.accuracy}% accuracy`, windowWidth / 2, 390);
+        text(`${user.lastTest.test_length} characters typed`, windowWidth / 2, 430);
+        text(`${user.lastTest.test_time}s`, windowWidth / 2, 470);
+
+        fill(user.colorScheme.buttonText);
+        text("Check the leaderboard to see how you compare to others", windowWidth / 2, 700);
         this.menu.draw();
     }
 

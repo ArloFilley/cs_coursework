@@ -15,7 +15,6 @@ class Menu {
         this.numButtons = 5;
         this.user = new UserShower((windowWidth / this.numButtons) * 0, 0, windowWidth / this.numButtons, 50);
         this.buttons = [
-            // new Button((windowWidth / this.numButtons) * 0, 0, windowWidth / 5, 50, "Account"),
             new Button((windowWidth / this.numButtons) * 1, 0, windowWidth / this.numButtons, 50, "Test Data"),
             new Button((windowWidth / this.numButtons) * 2, 0, windowWidth / this.numButtons, 50, "Start Test"),
             new Button((windowWidth / this.numButtons) * 3, 0, windowWidth / this.numButtons, 50, "Leaderboard"),

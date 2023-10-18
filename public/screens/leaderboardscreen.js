@@ -22,7 +22,7 @@ class LeaderboardScreen {
             // new Button(1150, 390, 240, 120, "down"),
         // ]
         this.offset = 0;
-        this.scroll_bar_button = new Button(1200, 200, 20, 20, "")
+        this.scroll_bar_button = new Button(1200, 200, 40, 40, "")
     }
 
     draw() {
@@ -59,6 +59,7 @@ class LeaderboardScreen {
         if (this.scroll_bar_button.y > 690 - this.scroll_bar_button.height) {
             this.scroll_bar_button.y = 690 - this.scroll_bar_button.height;
         }
+
         this.scroll_bar_button.draw();
 
         if (this.testButtons !== undefined && this.testButtons.length > 1) {

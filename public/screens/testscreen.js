@@ -31,7 +31,7 @@ class TestScreen {
         }
         this.stopButton.draw();
         if (this.stopButton.isPressed()) {
-            screenManager.setScreen(new StartScreen())
+            screenManager.setScreen(new OpenEveningScreen())
         }
     }
 

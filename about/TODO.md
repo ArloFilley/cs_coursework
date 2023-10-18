@@ -18,7 +18,7 @@
 -[x] Scrollbars
 -[ ] Scrollbars shouldn't appear if there's not enought content
 -[ ] Scrollbar update
--[ ] Account Component
+-[x] Account Component
 -[ ] Username gets cut off if too long
 -[ ] Test caret doesn't display properley
 

@@ -54,7 +54,7 @@ use crate::typing::user::{get_tests, login, sign_up};
 /// Test api route that returns hello world.
 /// Acessible from http://url/test
 #[get("/")]
-fn test() -> &'static str {
+fn test_handler() -> &'static str {
     "Hello World! I'm A rocket Webserver"
 }
 
@@ -63,29 +63,16 @@ fn test() -> &'static str {
 #[launch]
 async fn rocket() -> Rocket<Build> {
     rocket::build()
-        // .attach(CORS)
         // testing only, should return "Hello world"
-        .mount("/test", routes![test])
+        .mount("/test", routes![test_handler])
         // hosts the api routes necessary for the website
         // to interact with the database
-        .mount(
-            "/api",
-            routes![
-                sign_up,
-                create_test,
-                login,
-                get_tests,
-                leaderboard,
-                new_test,
-            ],
-        )
-        .mount("/api", routes![server, server_info])
+        .mount("/api", routes![
+            sign_up, login,
+            new_test, create_test,
+            get_tests, leaderboard,
+        ])
         // hosts the fileserver
-        .mount("/typing", FileServer::from(relative!("websites/Typing")))
-        .manage(Database::new().await.unwrap())
-        // .mount("/servers", FileServer::from(relative!("websites/Servers")))
-        //.mount(
-        //    "/BitBurner",
-        //    FileServer::from(relative!("websites/BitBurner")),
-        //)
+        .mount("/", FileServer::from("public"))
+        .manage(Database::new().await.expect("unable to open database file"))
 }

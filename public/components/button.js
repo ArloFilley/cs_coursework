@@ -181,7 +181,7 @@ class Button {
         textSize(20);
         textAlign(CENTER, CENTER);
 
-        if (mouseX > this.x && mouseX < this.x + this.width && mouseY > this.y && mouseY < this.y + this.height) {
+        if (this.isHovered()) {
 
             if (this.hoverBorder) {
                 strokeWeight(2);
@@ -211,5 +211,9 @@ class Button {
             text(this.label, this.x, this.y, this.width, this.height); 
         }
         noStroke();
+    }
+
+    isHovered() {
+        return (mouseX > this.x && mouseX < this.x + this.width && mouseY > this.y && mouseY < this.y + this.height)
     }
 }
