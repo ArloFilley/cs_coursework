@@ -32,6 +32,10 @@ class LeaderboardScreen {
         text("Leaderboard", 0, 100, windowWidth, 120);
         this.menu.draw();
 
+        if (user.leaderboard == null) {
+            return;
+        }
+
         textSize(20);
         fill(user.colorScheme.text);
         if (user.leaderboard != undefined) {
@@ -90,7 +94,7 @@ class LeaderboardScreen {
             new Button(900, 270, 240, 30, "words per minute"), // accuracy button
         ]];
         let j = 300;
-        for (let i = 0 + offset; i < user.leaderboard.length && i <= 12+offset; i++) {
+        for (let i = 0 + offset; i < user.leaderboard.length && i <= 12 + offset; i++) {
             this.testButtons.push([
                 new Button(400, j, 100, 30, `${i+1}`,                          true, true, "#000", "#000", "#fff"), // test # button
                 new Button(500, j, 400, 30, `${user.leaderboard[i].username}`, true, true, "#000", "#000", "#fff"), // accuracy button
