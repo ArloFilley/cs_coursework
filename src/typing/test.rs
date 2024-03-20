@@ -17,23 +17,25 @@ use std::{
 #[derive(Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct PostTest<'r> {
-    test_type: &'r str,
-    test_length: u32,
-    test_time: u32,
-    test_seed: i64,
-    quote_id: i32,
-    wpm: u8,
-    accuracy: u8,
-    user_id: u32
+    pub test_type: &'r str,
+    pub test_length: u32,
+    pub test_time: u32,
+    pub test_seed: i64,
+    pub quote_id: i32,
+    pub wpm: u8,
+    pub accuracy: u8,
+    pub user_id: u32,
+    pub secret: &'r str
 }
 
 /// Api Route that accepts test data and posts it to the database
 /// Acessible from http://url/api/post_test
 #[post("/post_test", data = "<test>")]
 pub async fn create_test(test: Json<PostTest<'_>>, database: &State<Database>) {
-    match database.create_test(test.test_type, test.test_length, test.test_time, test.test_seed, test.quote_id, test.wpm, test.accuracy, test.user_id).await {
+    let user_id = test.user_id;
+    match database.create_test(test).await {
         Err(why) => { println!("A database error occured creating a test, {why}"); }
-        Ok(()) => { println!("Successfully created test for {}", test.user_id); }
+        Ok(()) => { println!("Successfully created test for {user_id}"); }
     }
 }
 

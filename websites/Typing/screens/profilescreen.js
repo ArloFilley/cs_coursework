@@ -19,11 +19,12 @@ class ProfileScreen {
         this.menu = new Menu();
         api.getUserTests();
         this.testButtons;
-        this.buttons = [
-            new Button(950, 270, 240, 120, "up"),
-            new Button(950, 390, 240, 120, "down"),
-        ]
+        // this.buttons = [
+        //     new Button(950, 270, 240, 120, "up"),
+        //     new Button(950, 390, 240, 120, "down"),
+        // ]
         this.offset = 0;
+        this.scroll_bar_button = new Button(1200, 200, 20, 20, "")
     }
 
     draw() {
@@ -49,21 +50,6 @@ class ProfileScreen {
                 this.testButtons[i][2].draw()
                 this.testButtons[i][3].draw()
             }
-            if (this.buttons[0].isPressed()) {
-                if (this.offset > 0) {
-                    this.offset--;
-                }
-                this.createTestButtons(this.offset);
-            } else if (this.buttons[1].isPressed()) {
-                if (user.tests.length - 13 - this.offset > 0) {
-                    this.offset++;
-                }
-                this.createTestButtons(this.offset);
-            }
-
-            for (let i = 0; i < this.buttons.length; i++) {
-                this.buttons[i].draw();
-            }
         } else {
             fill(user.colorScheme.text);
             text("Looks Like You Don't have any tests :(", windowWidth / 2, 300);
@@ -71,22 +57,54 @@ class ProfileScreen {
         
         fill(user.colorScheme.text);
         text(`Logged in as ${user.username}`, windowWidth-150, 15);
+        
+        if (user.tests === undefined) {
+            return;
+        }
+
+        fill(user.colorScheme.testBad);
+        rect(1200, 270, 20, 420);
+
+        fill(user.colorScheme.testGood);
+        rect(1200, 270, 20, 420 / user.tests.length * (this.offset + 1));
+        this.scroll_bar_button.height = (user.tests.length)
+
+        if (this.scroll_bar_button.isPressed()) {
+            this.scroll_bar_button.y = mouseY - this.scroll_bar_button.height / 2;
+        }
+
+
+        // the furthest up the scrollbar can go is the top
+        if (this.scroll_bar_button.y < 270) {
+            this.scroll_bar_button.y = 270;
+        }
+
+        if (this.scroll_bar_button.y > 690 - this.scroll_bar_button.height) {
+            this.scroll_bar_button.y = 690 - this.scroll_bar_button.height;
+        }
+        this.scroll_bar_button.draw();
+
+        this.offset = Number((
+            // number of pixels from top of screen / total range of options, put to a whole integer to produce the correct offset
+            (this.scroll_bar_button.y - 270) / ((420 - this.scroll_bar_button.height)  / (user.tests.length - 13))
+        ).toFixed(0));
+        this.createTestButtons(this.offset);        
     }
 
     createTestButtons(offset = 0) {
         this.testButtons = [[
-            new Button(400, 270, 100, 30, "test #"), // test # button
-            new Button(500, 270, 100, 30, "wpm"), // wpm button
-            new Button(600, 270, 100, 30, "accuracy"), // accuracy button
-            new Button(700, 270, 240, 30, "characters typed")
+            new Button(600, 270, 100, 30, "test #"), // test # button
+            new Button(700, 270, 100, 30, "wpm"), // wpm button
+            new Button(800, 270, 100, 30, "accuracy"), // accuracy button
+            new Button(900, 270, 240, 30, "characters typed")
         ]];
         let j = 300;
         for (let i = user.tests.length-1-offset; i >= user.tests.length-13-offset && i >= 0; i--) {
             this.testButtons.push([
-                new Button(400, j, 100, 30, `${i+1}`, true, true , "#000", "#000", "#fff"), // test # button
-                new Button(500, j, 100, 30, `${user.tests[i].wpm}`, true, true , "#000", "#000", "#fff"), // accuracy button
-                new Button(600, j, 100, 30, `${user.tests[i].accuracy}`, true, true , "#000", "#000", "#fff"), // wpm button
-                new Button(700, j, 240, 30, `${user.tests[i].test_length}`, true, true , "#000", "#000", "#fff")
+                new Button(600, j, 100, 30, `${i+1}`, true, true , "#000", "#000", "#fff"), // test # button
+                new Button(700, j, 100, 30, `${user.tests[i].wpm}`, true, true , "#000", "#000", "#fff"), // accuracy button
+                new Button(800, j, 100, 30, `${user.tests[i].accuracy}`, true, true , "#000", "#000", "#fff"), // wpm button
+                new Button(900, j, 240, 30, `${user.tests[i].test_length}`, true, true , "#000", "#000", "#fff")
             ])
             j+=30;
         }

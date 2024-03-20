@@ -7,6 +7,9 @@
 -[ ] Make js api asynchronous
 -[ ] Hash passwords on front end so server plaintext password is never sent over the internet
 -[ ] Use secret to uniquely identify
--[ ] Scrollbars
+-[x] Scrollbars
 -[ ] Change Color Scheme
 -[ ] Be able to view others accounts
+-[ ] Username gets cut off if too long
+-[ ] Validate username length
+-[ ] Test caret doesn't keep up

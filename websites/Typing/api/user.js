@@ -17,7 +17,7 @@ class User {
     constructor() {
         this.username = "not logged in";
         this.userId = 0;
-        this.secret = "";
+        this.secret;
 
         this.leaderboard;
         this.time = 15;
@@ -27,8 +27,8 @@ class User {
         this.nextTest = `satisfy powerful pleasant bells disastrous mean kited is gusted romantic past taste immolate productive leak close show crabby awake handsails finicky betray long-term incompetent wander show manage toys convey hop constitute number send like off ice aboard well-made vast vacuous tramp seed force divergent flower porter fire untidy soggy fetch`;
 
         this.colorScheme = {
-            background: "#eeeee4",
-            text: "#000",
+            background: "#160C1C",
+            text: "#FBB",
 
             timerBar: "#50C5B7",
             timerText: "#000",
@@ -40,7 +40,7 @@ class User {
             buttonText: "#fff",
             buttonBorder: "#000",
 
-            buttonHoverBG: "#0f0",
+            buttonHoverBG: "#FBB",
             buttonHoverText: "#000",
             buttonHoverBorder: "#000"
         }
