@@ -24,7 +24,7 @@ impl Database {
     pub async fn new() -> Result<Self, sqlx::Error> {
         let pool = SqlitePoolOptions::new()
             .max_connections(2)
-            .connect("sqlite:/Users/arlo/code/cs_coursework/database/dev/database.sqlite")
+            .connect("sqlite:/PATH/TO/YOUR/database.sqlite")
             .await?;
 
         Ok(Self(pool))
