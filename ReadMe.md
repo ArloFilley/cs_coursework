@@ -38,4 +38,14 @@ This project is a web server built using the Rocket framework in Rust. It provid
      - Create test: `POST /api/post_test`
      - New test: `GET /api/new_test`
 
-    
+## Dependencies
+- **Rocket**: Web framework for Rust.
+- **Serde**: Serialization and deserialization library for Rust.
+- **Rusqlite**: SQLite database driver for Rust.
+- **Rand**: Random number generation library for Rust.
+
+## Contributors
+- [Arlo Filley](https://github.com/ArloFilley)
+
+## License
+This project is licensed under the [MIT License](LICENSE).
