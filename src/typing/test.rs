@@ -46,7 +46,7 @@ pub fn new_test() -> Json<Vec<String>> {
     let mut word_vec: Vec<&str> = vec![]; 
     let words: String = fs::read_to_string("wordlist.txt").unwrap();
     for word in words.split('\n') {
-        word_vec.push(word.clone());
+        word_vec.push(word);
     }
 
     let mut return_list: Vec<String> = vec![];

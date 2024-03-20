@@ -83,9 +83,4 @@ async fn rocket() -> Rocket<Build> {
         // hosts the fileserver
         .mount("/typing", FileServer::from(relative!("websites/Typing")))
         .manage(Database::new().await.unwrap())
-        // .mount("/servers", FileServer::from(relative!("websites/Servers")))
-        //.mount(
-        //    "/BitBurner",
-        //    FileServer::from(relative!("websites/BitBurner")),
-        //)
 }
