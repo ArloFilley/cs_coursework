@@ -1,22 +1,24 @@
+# Leaderboard
+
 This API endpoint retrieves the highest test data from each user and returns it as a JSON array.  
 
-# Endpoint
+## Endpoint
 
 ```
 GET /api/leaderboard
 ```
 
-# Request Parameters
+## Request Parameters
 
 This endpoint does not require any request parameters.
 
-# Example Request
+## Example Request
 
 ```bash
 curl -X GET "https://example.com/api/leaderboard"
 ```
 
-# Response
+## Response
 
 ```json
 [
