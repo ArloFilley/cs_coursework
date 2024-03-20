@@ -32,7 +32,7 @@ impl Database {
 
     /// Creates the necessary tables inside the database with
     /// correct normalised links between data for later querying
-    pub async fn new_database(&self) -> Result<(), sqlx::Error> {
+    pub async fn _new_database(&self) -> Result<(), sqlx::Error> {
         sqlx::query!("
             CREATE TABLE IF NOT EXISTS Users (
                 user_id INTEGER PRIMARY KEY,
@@ -183,4 +183,3 @@ pub struct LeaderBoardTest {
     username: String,
     wpm: u8,
 }
-

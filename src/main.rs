@@ -6,9 +6,9 @@
 //!     - move structures into a different file
 //!     - find a way to make logging in more secure (password hashes?)
 
-use rocket::fairing::{Fairing, Info, Kind};
-use rocket::http::Header;
-use rocket::{Request, Response};
+// use rocket::fairing::{Fairing, Info, Kind};
+// use rocket::http::Header;
+// use rocket::{Request, Response};
 
 // pub struct CORS;
 
@@ -40,10 +40,8 @@ use rocket::{
     Build, Rocket,
 };
 
-mod servers;
 mod typing;
 
-use crate::servers::server::{server, server_info};
 use crate::typing::leaderboard::leaderboard;
 use crate::typing::sql::Database;
 use crate::typing::test::{create_test, new_test};
@@ -79,7 +77,6 @@ async fn rocket() -> Rocket<Build> {
                 new_test,
             ],
         )
-        .mount("/api", routes![server, server_info])
         // hosts the fileserver
         .mount("/typing", FileServer::from(relative!("websites/Typing")))
         .manage(Database::new().await.unwrap())
