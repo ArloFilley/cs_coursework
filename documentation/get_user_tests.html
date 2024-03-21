@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="github-markdown.css">
+    </head>
+    <body class="markdown-body">
+        <style>
+            .markdown-body {
+                box-sizing: border-box;
+                min-width: 200px;
+                max-width: 980px;
+                margin: 0 auto;
+                padding: 45px;
+            }
+
+            @media (max-width: 767px) {
+                .markdown-body {
+                    padding: 15px;
+                }
+            }
+        </style>
+        <div class="markdown-heading"><h1 class="heading-element">Get User Tests</h1><a id="user-content-get-user-tests" class="anchor" aria-label="Permalink: Get User Tests" href="#get-user-tests"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <p>Retrieves tests associated with a specific user from the database.</p>
+        <div class="markdown-heading"><h2 class="heading-element">Endpoint</h2><a id="user-content-endpoint" class="anchor" aria-label="Permalink: Endpoint" href="#endpoint"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <div class="highlight highlight-source-js"><pre><span class="pl-c1">GET</span> <span class="pl-c1">/</span><span class="pl-s1">api</span><span class="pl-c1">/</span><span class="pl-s1">get_tests</span><span class="pl-c1">/</span><span class="pl-c1">&lt;</span><span class="pl-ent">user_id</span><span class="pl-c1">&gt;</span>/<span class="pl-c1">&lt;</span><span class="pl-ent">secret</span><span class="pl-c1">&gt;</span></pre></div>
+        <div class="markdown-heading"><h2 class="heading-element">Parameters</h2><a id="user-content-parameters" class="anchor" aria-label="Permalink: Parameters" href="#parameters"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <table>
+        <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>user_id</td>
+        <td>integer</td>
+        <td>User ID of the user whose tests need to be retrieved</td>
+        </tr>
+        <tr>
+        <td>secret</td>
+        <td>String</td>
+        <td>Secret key for authentication</td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="markdown-heading"><h2 class="heading-element">Example Request</h2><a id="user-content-example-request" class="anchor" aria-label="Permalink: Example Request" href="#example-request"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <div class="highlight highlight-source-shell"><pre>curl -X GET <span class="pl-s"><span class="pl-pds">"</span>https://example.com/api/get_tests/123/your_secret_key_here<span class="pl-pds">"</span></span></pre></div>
+        <div class="markdown-heading"><h2 class="heading-element">Example Response</h2><a id="user-content-example-response" class="anchor" aria-label="Permalink: Example Response" href="#example-response"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <div class="highlight highlight-source-json"><pre>{
+        <span class="pl-ent">"test_type"</span>: <span class="pl-s"><span class="pl-pds">"</span>words<span class="pl-pds">"</span></span>,
+        <span class="pl-ent">"test_length"</span>: <span class="pl-c1">100</span>,
+        <span class="pl-ent">"test_time"</span>: <span class="pl-c1">300</span>,
+        <span class="pl-ent">"test_seed"</span>: <span class="pl-c1">987654321</span>,
+        <span class="pl-ent">"quote_id"</span>: <span class="pl-c1">123</span>,
+        <span class="pl-ent">"wpm"</span>: <span class="pl-c1">65</span>,
+        <span class="pl-ent">"accuracy"</span>: <span class="pl-c1">98</span>
+        <br>}</pre></div>
+    </body>
+</html>

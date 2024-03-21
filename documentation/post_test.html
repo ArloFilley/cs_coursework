@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="github-markdown.css">
+    </head>
+    <body class="markdown-body">
+        <style>
+            .markdown-body {
+                box-sizing: border-box;
+                min-width: 200px;
+                max-width: 980px;
+                margin: 0 auto;
+                padding: 45px;
+            }
+
+            @media (max-width: 767px) {
+                .markdown-body {
+                    padding: 15px;
+                }
+            }
+        </style>
+        <p>Post Test Data  This API endpoint allows you to post test data, recording the results of a test taken by a user.</p>
+        <div class="markdown-heading"><h1 class="heading-element">Endpoint</h1><a id="user-content-endpoint" class="anchor" aria-label="Permalink: Endpoint" href="#endpoint"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <pre><code>POST /api/post_test
+        </code></pre>
+        <div class="markdown-heading"><h1 class="heading-element">Request Parameters</h1><a id="user-content-request-parameters" class="anchor" aria-label="Permalink: Request Parameters" href="#request-parameters"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <table>
+        <thead>
+        <tr>
+        <th>Parameter</th>
+        <th align="center">Type</th>
+        <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>testType</td>
+        <td align="center">String</td>
+        <td>Type of the test (e.g., "typing", "multiple choice")</td>
+        </tr>
+        <tr>
+        <td>testLength</td>
+        <td align="center">Integer</td>
+        <td>Length of the test in number of items or questions</td>
+        </tr>
+        <tr>
+        <td>testTime</td>
+        <td align="center">Integer</td>
+        <td>Duration of the test in seconds</td>
+        </tr>
+        <tr>
+        <td>testSeed</td>
+        <td align="center">String</td>
+        <td>Seed for generating randomized test content</td>
+        </tr>
+        <tr>
+        <td>quoteId</td>
+        <td align="center">String</td>
+        <td>Identifier for a specific quote, if applicable</td>
+        </tr>
+        <tr>
+        <td>wpm</td>
+        <td align="center">Integer</td>
+        <td>Words per minute (typing speed)</td>
+        </tr>
+        <tr>
+        <td>accuracy</td>
+        <td align="center">Integer</td>
+        <td>Accuracy of responses (e.g., percentage)</td>
+        </tr>
+        <tr>
+        <td>userId</td>
+        <td align="center">String</td>
+        <td>Identifier of the user taking the test</td>
+        </tr>
+        <tr>
+        <td>secret</td>
+        <td align="center">String</td>
+        <td>Secret key for authentication and authorization</td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="markdown-heading"><h1 class="heading-element">Example Request</h1><a id="user-content-example-request" class="anchor" aria-label="Permalink: Example Request" href="#example-request"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <div class="highlight highlight-source-shell"><pre>curl -X POST <span class="pl-s"><span class="pl-pds">"</span>https://example.com/api/post_test<span class="pl-pds">"</span></span> \
+            -H <span class="pl-s"><span class="pl-pds">"</span>Content-Type: application/json<span class="pl-pds">"</span></span> <span class="pl-cce">\ </span>
+            -d <span class="pl-s"><span class="pl-pds">'</span>{   </span>
+        <span class="pl-s">		"testType": "typing",   </span>
+        <span class="pl-s">		"testLength": 100,   </span>
+        <span class="pl-s">		"testTime": 600,   </span>
+        <span class="pl-s">		"testSeed": "random_seed_123",   </span>
+        <span class="pl-s">		"quoteId": "quote_456",   </span>
+        <span class="pl-s">		"wpm": 65.5,   </span>
+        <span class="pl-s">		"accuracy": 98.2,   </span>
+        <span class="pl-s">		"userId": "user_789",   </span>
+        <span class="pl-s">		"secret": "your_secret_key_here" </span>
+        <span class="pl-s">	}<span class="pl-pds">'</span></span></pre></div>
+        <div class="markdown-heading"><h1 class="heading-element">Example Response</h1><a id="user-content-example-response" class="anchor" aria-label="Permalink: Example Response" href="#example-response"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <p>Upon successful submission, you will receive a JSON response with the following structure:</p>
+        <div class="highlight highlight-source-json"><pre>{
+            <span class="pl-ent">"status"</span>: <span class="pl-s"><span class="pl-pds">"</span>success<span class="pl-pds">"</span></span>,   
+            <span class="pl-ent">"message"</span>: <span class="pl-s"><span class="pl-pds">"</span>Test results successfully recorded<span class="pl-pds">"</span></span>,   
+            <span class="pl-ent">"testId"</span>: <span class="pl-s"><span class="pl-pds">"</span>test_123456789<span class="pl-pds">"</span></span> 
+        }</pre></div>
+        <ul>
+        <li>
+        <code>status</code>: Indicates the status of the request (either "success" or "error").</li>
+        <li>
+        <code>message</code>: Describes the outcome of the request.</li>
+        <li>
+        <code>testId</code>: Unique identifier assigned to the recorded test data.</li>
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="github-markdown.css">
+    </head>
+    <body class="markdown-body">
+        <style>
+            .markdown-body {
+                box-sizing: border-box;
+                min-width: 200px;
+                max-width: 980px;
+                margin: 0 auto;
+                padding: 45px;
+            }
+
+            @media (max-width: 767px) {
+                .markdown-body {
+                    padding: 15px;
+                }
+            }
+        </style>
+        <div class="markdown-heading"><h1 class="heading-element">Create User</h1><a id="user-content-create-user" class="anchor" aria-label="Permalink: Create User" href="#create-user"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <p>Creates a new user in the database.
+        Endpoint</p>
+        <div class="highlight highlight-source-js"><pre><span class="pl-c1">POST</span> <span class="pl-c1">/</span><span class="pl-s1">api</span><span class="pl-c1">/</span><span class="pl-s1">create_user</span></pre></div>
+        <div class="markdown-heading"><h2 class="heading-element">Request Body</h2><a id="user-content-request-body" class="anchor" aria-label="Permalink: Request Body" href="#request-body"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <div class="highlight highlight-source-json"><pre>{
+        <span class="pl-ent">"username"</span>: <span class="pl-s"><span class="pl-pds">"</span>example_user<span class="pl-pds">"</span></span>,
+        <span class="pl-ent">"password"</span>: <span class="pl-s"><span class="pl-pds">"</span>example_password<span class="pl-pds">"</span></span>
+        <br>}</pre></div>
+        <div class="markdown-heading"><h2 class="heading-element">Example Request</h2><a id="user-content-example-request" class="anchor" aria-label="Permalink: Example Request" href="#example-request"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <div class="highlight highlight-source-shell"><pre>curl -X POST <span class="pl-s"><span class="pl-pds">"</span>https://example.com/api/create_user<span class="pl-pds">"</span></span> \
+        -H <span class="pl-s"><span class="pl-pds">"</span>Content-Type: application/json<span class="pl-pds">"</span></span> \
+        -d <span class="pl-s"><span class="pl-pds">'</span>{"username": "example_user", "password": "example_password"}<span class="pl-pds">'</span></span></pre></div>
+    </body>
+</html>

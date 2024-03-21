@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="github-markdown.css">
+    </head>
+    <body class="markdown-body">
+        <style>
+            .markdown-body {
+                box-sizing: border-box;
+                min-width: 200px;
+                max-width: 980px;
+                margin: 0 auto;
+                padding: 45px;
+            }
+
+            @media (max-width: 767px) {
+                .markdown-body {
+                    padding: 15px;
+                }
+            }
+        </style>
+        <div class="markdown-heading"><h1 class="heading-element">Login</h1><a id="user-content-login" class="anchor" aria-label="Permalink: Login" href="#login"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <p>Authenticates a user and returns their user ID along with a secret key.
+        Endpoint</p>
+        <div class="highlight highlight-source-js"><pre><span class="pl-c1">GET</span> <span class="pl-c1">/</span><span class="pl-s1">api</span><span class="pl-c1">/</span><span class="pl-s1">login</span><span class="pl-c1">/</span><span class="pl-c1">&lt;</span><span class="pl-ent">username</span><span class="pl-c1">&gt;</span>/<span class="pl-c1">&lt;</span><span class="pl-ent">password</span><span class="pl-c1">&gt;</span></pre></div>
+        <div class="markdown-heading"><h2 class="heading-element">Parameters</h2><a id="user-content-parameters" class="anchor" aria-label="Permalink: Parameters" href="#parameters"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <table>
+        <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>username</td>
+        <td>String</td>
+        <td>Username of the user</td>
+        </tr>
+        <tr>
+        <td>password</td>
+        <td>String</td>
+        <td>Password of the user</td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="markdown-heading"><h2 class="heading-element">Example Request</h2><a id="user-content-example-request" class="anchor" aria-label="Permalink: Example Request" href="#example-request"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <div class="highlight highlight-source-shell"><pre>curl -X GET <span class="pl-s"><span class="pl-pds">"</span>https://example.com/api/login/example_user/example_password<span class="pl-pds">"</span></span></pre></div>
+        <div class="markdown-heading"><h2 class="heading-element">Example Response</h2><a id="user-content-example-response" class="anchor" aria-label="Permalink: Example Response" href="#example-response"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+        <div class="highlight highlight-source-json"><pre>{
+        <span class="pl-ent">"user_id"</span>: <span class="pl-c1">123</span>,
+        <span class="pl-ent">"secret"</span>: <span class="pl-s"><span class="pl-pds">"</span>random_secret_key<span class="pl-pds">"</span></span>
+        }</pre></div>
+    </body>
+</html>
