@@ -4,4 +4,4 @@
 - [Get User Tests](./get_user_tests.md)
 - [Leaderboard](./leaderboard.md)
 - [Login](./login.md)
-- [Post Test](./post_test.md)
+- [Post Test](./create_test.md)
