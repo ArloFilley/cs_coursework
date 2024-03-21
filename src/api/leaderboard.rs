@@ -1,8 +1,5 @@
-use rocket::{ serde::json::Json, State };
-use crate::typing::sql::{
-    Database,
-    LeaderBoardTest
-};
+use crate::api::sql::{Database, LeaderBoardTest};
+use rocket::{serde::json::Json, State};
 
 type LeaderBoardTests = Vec<LeaderBoardTest>;
 
@@ -10,15 +7,14 @@ type LeaderBoardTests = Vec<LeaderBoardTest>;
 /// a json array
 /// Acessible from http://url/api/leaderboard
 #[get("/leaderboard")]
-pub async fn leaderboard( database: &State<Database> ) -> Option<Json<LeaderBoardTests>> {
+pub async fn leaderboard(database: &State<Database>) -> Option<Json<LeaderBoardTests>> {
     let leaderboard = match database.get_leaderboard(0).await {
-        Err(why) => { 
+        Err(why) => {
             println!("Error getting leaderboard, {why}");
-            return None
+            return None;
         }
-        Ok(leaderboard) => { leaderboard }
+        Ok(leaderboard) => leaderboard,
     };
 
     Some(Json(leaderboard))
 }
-

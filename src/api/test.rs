@@ -1,16 +1,10 @@
-use crate::typing::sql::Database;
+use crate::api::sql::Database;
+use rand::{rngs::ThreadRng, Rng};
 use rocket::{
-    serde::{ Deserialize, json::Json },
-    State
+    serde::{json::Json, Deserialize},
+    State,
 };
-use rand::{
-    Rng, 
-    rngs::ThreadRng
-};
-use std::{
-    fs, 
-    vec,
-};
+use std::{fs, vec};
 
 /// the datascructure that the webserver will recieve
 /// when a post is made to the http://url/api/post_test route
@@ -25,7 +19,7 @@ pub struct PostTest<'r> {
     pub wpm: u8,
     pub accuracy: u8,
     pub user_id: u32,
-    pub secret: &'r str
+    pub secret: &'r str,
 }
 
 /// Api Route that accepts test data and posts it to the database
@@ -34,8 +28,12 @@ pub struct PostTest<'r> {
 pub async fn create_test(test: Json<PostTest<'_>>, database: &State<Database>) {
     let user_id = test.user_id;
     match database.create_test(test).await {
-        Err(why) => { println!("A database error occured creating a test, {why}"); }
-        Ok(()) => { println!("Successfully created test for {user_id}"); }
+        Err(why) => {
+            println!("A database error occured creating a test, {why}");
+        }
+        Ok(()) => {
+            println!("Successfully created test for {user_id}");
+        }
     }
 }
 
@@ -43,7 +41,7 @@ pub async fn create_test(test: Json<PostTest<'_>>, database: &State<Database>) {
 /// Accessible from http://url/api/get_test
 #[get("/new_test")]
 pub fn new_test() -> Json<Vec<String>> {
-    let mut word_vec: Vec<&str> = vec![]; 
+    let mut word_vec: Vec<&str> = vec![];
     let words: String = fs::read_to_string("wordlist.txt").unwrap();
     for word in words.split('\n') {
         word_vec.push(word);

@@ -40,12 +40,17 @@ use rocket::{
     Build, Rocket,
 };
 
-mod typing;
+mod api;
+mod catchers;
 
-use crate::typing::leaderboard::leaderboard;
-use crate::typing::sql::Database;
-use crate::typing::test::{create_test, new_test};
-use crate::typing::user::{get_tests, login, sign_up};
+use crate::api::leaderboard::leaderboard;
+use crate::api::sql::Database;
+use crate::api::test::{create_test, new_test};
+use crate::api::user::{get_tests, login, sign_up};
+
+use catchers::not_found::api_not_found;
+use catchers::not_found::frontend_not_found;
+use catchers::not_found::documentation_not_found;
 
 // Imports for sql, see sql.rs for more information
 
@@ -66,6 +71,8 @@ async fn rocket() -> Rocket<Build> {
         .mount("/test", routes![test])
         // hosts the api routes necessary for the website
         // to interact with the database
+        .mount("/api/documentation", FileServer::from(relative!("documentation")))
+        .register("/api/documentation", catchers![documentation_not_found])
         .mount(
             "/api",
             routes![
@@ -77,7 +84,11 @@ async fn rocket() -> Rocket<Build> {
                 new_test,
             ],
         )
+        .register("/api", catchers![api_not_found])
+        
+
         // hosts the fileserver
-        .mount("/typing", FileServer::from(relative!("websites/Typing")))
+        .mount("/typing", FileServer::from(relative!("public")))
+        .register("/typing", catchers![frontend_not_found])
         .manage(Database::new().await.unwrap())
 }
